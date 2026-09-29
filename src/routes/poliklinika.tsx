@@ -59,7 +59,7 @@ const SPECIALTY_ICONS: Record<string, string> = {
 
 const BENEFITS = [
   { icon: Users, title: "Более 100 врачей", text: "Опытные специалисты для взрослых и детей." },
-  { icon: Microscope, title: "Полная диагностика", text: "Лаборатория, КТ, МРТ и рентген." },
+  { icon: Microscope, title: "Полная диагностика", text: "Лаборатория, КТ и рентген." },
   { icon: Clock, title: "Онлайн-запись 24/7", text: "Выберите врача и удобное время онлайн." },
   { icon: ClipboardCheck, title: "Процедурный кабинет", text: "Манипуляции и лечение в одной клинике." },
   { icon: Activity, title: "Травматолог 24/7", text: "Помощь при травмах круглосуточно." },

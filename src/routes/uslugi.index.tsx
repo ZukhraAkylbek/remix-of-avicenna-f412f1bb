@@ -63,7 +63,7 @@ const POPULAR = [
   {
     title: "КТ диагностика",
     text: "Высокоточная диагностика на современном оборудовании",
-    image: "/assets/svc-mrt.jpg",
+    image: "/assets/svc-uzi.jpg",
     tone: "pastel-sky",
   },
   {
