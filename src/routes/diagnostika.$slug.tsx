@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import { DiagnosticsIcon } from "@/components/DiagnosticsIcon";
+import { DiagnosticsDocument, diagnosticDocuments } from "@/components/DiagnosticsDocument";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -25,11 +26,16 @@ export const Route = createFileRoute("/diagnostika/$slug")({
     const item = await context.queryClient.ensureQueryData(
       diagnosticsItemQueryOptions(params.slug),
     );
-    if (!item) throw notFound();
+    if (!item && !diagnosticDocuments.some((document) => document.slug === params.slug)) throw notFound();
     return { item };
   },
   head: ({ loaderData, params }) => {
-    if (!loaderData) {
+    const document = diagnosticDocuments.find((entry) => entry.slug === params.slug);
+    if (document) {
+      const title = `${document.title} в Бишкеке — клиника «Авиценна»`;
+      return { meta: [{ title }, { name: "description", content: document.blocks.find((block) => block.type === "paragraph")?.text ?? title }], links: [{ rel: "canonical", href: absoluteUrl(`/diagnostika/${params.slug}`) || `/diagnostika/${params.slug}` }] };
+    }
+    if (!loaderData?.item) {
       return {
         meta: [{ title: "Исследование не найдено" }, { name: "robots", content: "noindex" }],
       };
@@ -108,6 +114,7 @@ const DEFAULT_SCHEDULE = [
 function DiagnosticsItemPage() {
   const { slug } = Route.useParams();
   const { data: item } = useSuspenseQuery(diagnosticsItemQueryOptions(slug));
+  if (diagnosticDocuments.some((document) => document.slug === slug)) return <div className="min-h-screen bg-background"><SiteHeader /><Breadcrumbs items={[{ label: "Диагностика", href: "/diagnostika" }, { label: diagnosticDocuments.find((document) => document.slug === slug)!.title }]} /><main><DiagnosticsDocument slug={slug} /></main><SiteFooter /></div>;
   if (!item) return <Fallback title="Исследование не найдено" />;
 
   const kinds = parsePairs(item.kinds).length
