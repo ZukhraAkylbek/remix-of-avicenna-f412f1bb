@@ -161,7 +161,7 @@ export function SiteFooter() {
                 rel="noopener noreferrer"
                 className="hover:text-brand-green-light inline-flex items-center gap-1.5 transition-colors"
               >
-                Корпус — мебельная фабрика
+                Кокомерен — медицинская техника и реагенты
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="14"
@@ -178,6 +178,9 @@ export function SiteFooter() {
                   <path d="M7 17 17 7" />
                 </svg>
               </a>
+            </li>
+            <li>
+              <span>Corpus — производство мебели</span>
             </li>
           </ul>
         </div>

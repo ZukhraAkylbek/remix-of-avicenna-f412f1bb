@@ -2,60 +2,61 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   Activity,
   ArrowRight,
+  Baby,
+  Bone,
+  Brain,
   BriefcaseMedical,
   Check,
   ClipboardCheck,
   Clock,
+  Ear,
   HeartPulse,
+  Hospital,
+  Mars,
   MapPin,
   Microscope,
   Plus,
   ShieldCheck,
   Stethoscope,
   Users,
+  Venus,
+  type LucideIcon,
 } from "lucide-react";
 import { useState } from "react";
 
 import doctorPatientHeroAsset from "@/assets/chat/doctor-patient-hero.webp";
-import terapevtIcon from "@/assets/specialty-icons/terapevt.png";
-import pediatrIcon from "@/assets/specialty-icons/pediatr.png";
-import kardiologIcon from "@/assets/specialty-icons/kardiolog.png";
-import nevrologIcon from "@/assets/specialty-icons/nevrolog.png";
-import gastroenterologIcon from "@/assets/specialty-icons/gastroenterolog.png";
-import ginekologIcon from "@/assets/specialty-icons/ginekolog.png";
-import urologIcon from "@/assets/specialty-icons/urolog.png";
-import hirurgIcon from "@/assets/specialty-icons/hirurg.png";
-import travmatologIcon from "@/assets/specialty-icons/travmatolog.png";
-import mammologIcon from "@/assets/specialty-icons/mammolog.png";
-import pulmonologIcon from "@/assets/specialty-icons/pulmonolog.png";
-import dermatologIcon from "@/assets/specialty-icons/dermatolog.png";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { absoluteUrl, faqPageJsonLd } from "@/lib/clinic";
-import { DOCTOR_CATEGORIES } from "@/lib/clinic-doctors";
 import { BOOKING_URL } from "@/lib/site-config";
 
 const TITLE = "Поликлиника в Бишкеке — врачи и диагностика | Авиценна";
 const DESCRIPTION =
   "Поликлиника «Авиценна» в Бишкеке: консультации врачей, диагностика, анализы и комплексное наблюдение для взрослых и детей.";
 
-const SPECIALTY_ICONS: Record<string, string> = {
-  uzi: kardiologIcon,
-  onkologiya: mammologIcon,
-  rentgen: pulmonologIcon,
-  endoskopiya: gastroenterologIcon,
-  ginekologiya: ginekologIcon,
-  urologiya: urologIcon,
-  travmatologiya: travmatologIcon,
-  hirurgiya: hirurgIcon,
-  nevrologiya: nevrologIcon,
-  pediatriya: pediatrIcon,
-  terapiya: terapevtIcon,
-  uzkie: dermatologIcon,
-};
+const POLYCLINIC_SPECIALISTS: Array<{ name: string; category: string; icon: LucideIcon }> = [
+  { name: "Терапевты и семейные врачи", category: "terapiya", icon: Stethoscope },
+  { name: "Педиатры", category: "pediatriya", icon: Baby },
+  { name: "Кардиологи", category: "uzkie", icon: HeartPulse },
+  { name: "Неврологи", category: "nevrologiya", icon: Brain },
+  { name: "Гастроэнтерологи", category: "uzkie", icon: Activity },
+  { name: "Эндокринологи", category: "uzkie", icon: Microscope },
+  { name: "Гинекологи", category: "ginekologiya", icon: Venus },
+  { name: "Урологи", category: "urologiya", icon: Mars },
+  { name: "Хирурги", category: "hirurgiya", icon: BriefcaseMedical },
+  { name: "Травматологи-ортопеды", category: "travmatologiya", icon: Bone },
+  { name: "ЛОР-врачи", category: "uzkie", icon: Ear },
+  { name: "Проктологи", category: "hirurgiya", icon: Hospital },
+  { name: "Маммологи", category: "onkologiya", icon: HeartPulse },
+  { name: "Флебологи", category: "uzkie", icon: Activity },
+  { name: "Пульмонологи", category: "uzkie", icon: Stethoscope },
+  { name: "Дерматологи", category: "uzkie", icon: ShieldCheck },
+  { name: "Гематологи", category: "uzkie", icon: Microscope },
+  { name: "Другие профильные специалисты", category: "uzkie", icon: Users },
+];
 
 const BENEFITS = [
   { icon: Users, title: "Более 100 врачей", text: "Опытные специалисты для взрослых и детей." },
@@ -177,22 +178,20 @@ function PolyclinicPage() {
             <div className="mt-7 grid gap-5 lg:grid-cols-[280px_1fr]">
               <img src="/assets/checkup-doctors.jpg" alt="Врачи поликлиники «Авиценна»" className="hidden h-full max-h-[560px] w-full rounded-2xl object-cover lg:block" />
               <div className="grid gap-3 sm:grid-cols-2">
-                {DOCTOR_CATEGORIES.map((item, index) => (
-                  <Reveal key={item.slug} delay={index * 20}>
-                    <Link to="/vrachi" search={{ category: item.slug }} hash="vrachi" className="border-about-line hover:border-about-teal group flex h-full items-center gap-3 rounded-2xl border bg-about-canvas p-4 transition-colors">
-                      <span className="bg-about-icon grid size-10 shrink-0 place-items-center overflow-hidden rounded-full p-1">
-                        <img src={SPECIALTY_ICONS[item.slug] ?? terapevtIcon} alt="" className="h-full w-full object-contain" loading="lazy" />
+                {POLYCLINIC_SPECIALISTS.map((item, index) => {
+                  const Icon = item.icon;
+                  return (
+                  <Reveal key={item.name} delay={index * 20}>
+                    <Link to="/vrachi" search={{ category: item.category }} hash="vrachi" className="border-about-line hover:border-about-teal group flex h-full items-center gap-3 rounded-2xl border bg-about-canvas p-4 transition-colors">
+                      <span className="bg-about-icon text-about-teal grid size-10 shrink-0 place-items-center rounded-full">
+                        <Icon className="size-5" aria-hidden="true" />
                       </span>
                       <span className="text-about-ink min-w-0 flex-1 text-[13px] font-semibold sm:text-sm">{item.name}</span>
                       <Plus className="text-about-teal size-5 shrink-0 transition-transform group-hover:rotate-90" aria-hidden="true" />
                     </Link>
                   </Reveal>
-                ))}
-                <Link to="/vrachi" className="border-about-line hover:border-about-teal group flex items-center gap-3 rounded-2xl border bg-about-canvas p-4 transition-colors">
-                  <span className="bg-about-icon text-about-teal grid size-10 shrink-0 place-items-center rounded-full"><Users className="size-5" /></span>
-                  <span className="text-about-ink min-w-0 flex-1 text-[13px] font-semibold sm:text-sm">Другие специалисты</span>
-                  <Plus className="text-about-teal size-5 shrink-0 transition-transform group-hover:rotate-90" />
-                </Link>
+                  );
+                })}
               </div>
             </div>
           </div>
