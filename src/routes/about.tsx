@@ -12,8 +12,6 @@ import {
 
 import archiveTeam from "@/assets/about-archive-team.jpg.asset.json";
 import archiveFounder from "@/assets/about-archive-founder.jpg.asset.json";
-import labTeam from "@/assets/about-lab-team.jpg.asset.json";
-import receptionTeam from "@/assets/about-reception-team.jpg.asset.json";
 import teamToday from "@/assets/about-team-today.jpg.asset.json";
 import clinicExterior from "@/assets/about-clinic-exterior.jpg";
 import founderPortrait from "@/assets/founder-zhypar.png";
