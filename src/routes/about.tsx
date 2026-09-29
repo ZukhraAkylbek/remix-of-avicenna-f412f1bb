@@ -18,7 +18,7 @@ import founderPortrait from "@/assets/founder-zhypar.png";
 import receptionPhoto from "@/assets/about-reception.jpg";
 import expresslabLogo from "@/assets/partners/expresslab-logo.svg";
 import kokomerenLogo from "@/assets/partners/kokomeren-logo.png";
-import corpusLogo from "@/assets/partners/corpus-logo.jpg.asset.json";
+import corpusLogo from "@/assets/partners/corpus-logo-cropped.jpg.asset.json";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -82,8 +82,8 @@ const PARTNERS = [
     text: "Производство мебели.",
     logo: corpusLogo.url,
     alt: "Логотип мебельной компании Corpus",
-    href: "https://kokomeren.kg/",
-    action: "Подробнее",
+    href: "",
+    action: "Производство мебели",
   },
 ] satisfies Array<{ title: string; text: string; logo: string; alt: string; href: string; action: string }>;
 
@@ -256,7 +256,7 @@ function AboutPage() {
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {PARTNERS.map(({ title, text, logo, alt, href, action }, index) => (
                 <Reveal key={title} delay={index * 35} className="h-full">
-                  <a href={href} target="_blank" rel="noopener noreferrer" aria-label={`${title} — ${action}`} className="border-about-line bg-card hover:border-about-teal focus-visible:ring-about-teal group flex h-full flex-col rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2">
+                  <div className="border-about-line bg-card group flex h-full flex-col rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-about-teal hover:shadow-sm">
                     <div className="bg-card flex h-20 items-center justify-center">
                       <img src={logo} alt={alt} loading="lazy" className="max-h-full max-w-[220px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]" />
                     </div>
@@ -265,7 +265,7 @@ function AboutPage() {
                       <p className="text-about-copy mt-1.5 flex-1 text-sm leading-relaxed">{text}</p>
                       <span className="text-about-teal mt-4 inline-flex items-center gap-1 text-sm font-semibold">{action}<ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" /></span>
                     </div>
-                  </a>
+                  </div>
                 </Reveal>
               ))}
             </div>
