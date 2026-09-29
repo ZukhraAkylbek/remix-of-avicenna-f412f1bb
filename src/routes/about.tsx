@@ -211,22 +211,30 @@ function AboutPage() {
         <section className="py-10 sm:py-12">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <SectionTitle>Как создавалась «Авиценна»</SectionTitle>
-            <div className="relative mt-8 space-y-8 before:bg-about-line before:absolute before:top-4 before:bottom-4 before:left-3 before:w-px lg:before:left-1/2">
-              {STORY.map(({ year, title, text, image, alt, caption }, index) => (
-                <Reveal key={year} delay={index * 35} className="relative pl-10 lg:pl-0">
-                  <span className="border-about-teal bg-about-canvas absolute top-5 left-[6px] z-10 size-[13px] rounded-full border-[3px] lg:left-1/2 lg:-translate-x-1/2" aria-hidden="true" />
-                  <article className={`border-about-line bg-card overflow-hidden rounded-2xl border lg:w-[calc(50%-2.5rem)] ${index % 2 ? "lg:ml-auto" : ""}`}>
-                    <div className="aspect-[16/9] overflow-hidden">
-                      <img src={image} alt={alt} loading="lazy" className="size-full object-cover" />
-                    </div>
-                    <div className="p-5 sm:p-6">
-                      <span className="text-about-teal text-sm font-bold">{year}</span>
-                      <h3 className="text-about-ink mt-1 text-xl font-bold">{title}</h3>
-                      <p className="text-about-copy mt-2 text-sm leading-relaxed">{text}</p>
-                      <p className="text-about-copy mt-4 text-xs">{caption}</p>
-                    </div>
-                  </article>
-                </Reveal>
+            <p className="text-about-copy mt-3 max-w-2xl leading-relaxed">
+              История сети — от первого кабинета до многопрофильной клиники. Лента движется сама, наведите курсор, чтобы остановить.
+            </p>
+          </div>
+          <div className="group marquee-mask mt-8 overflow-hidden">
+            <div className="marquee-track flex w-max gap-5 pr-5">
+              {[...STORY, ...STORY].map(({ year, title, text, image, alt, caption }, index) => (
+                <article
+                  key={`${year}-${index}`}
+                  aria-hidden={index >= STORY.length}
+                  className="border-about-line bg-card flex w-72 shrink-0 flex-col overflow-hidden rounded-2xl border sm:w-80"
+                >
+                  <div className="relative aspect-[16/9] overflow-hidden">
+                    <img src={image} alt={alt} loading="lazy" className="size-full object-cover" />
+                    <span className="bg-about-canvas/90 text-about-teal absolute top-3 left-3 rounded-full px-3 py-1 text-sm font-bold">
+                      {year}
+                    </span>
+                  </div>
+                  <div className="flex flex-1 flex-col p-5">
+                    <h3 className="text-about-ink text-lg font-bold">{title}</h3>
+                    <p className="text-about-copy mt-2 flex-1 text-sm leading-relaxed">{text}</p>
+                    <p className="text-about-copy mt-4 text-xs">{caption}</p>
+                  </div>
+                </article>
               ))}
             </div>
           </div>
