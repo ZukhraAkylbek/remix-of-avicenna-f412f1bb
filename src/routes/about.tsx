@@ -18,6 +18,7 @@ import founderPortrait from "@/assets/founder-zhypar.png";
 import receptionPhoto from "@/assets/about-reception.jpg";
 import expresslabLogo from "@/assets/partners/expresslab-logo.svg";
 import kokomerenLogo from "@/assets/partners/kokomeren-logo.png";
+import corpusLogo from "@/assets/partners/corpus-logo.jpg.asset.json";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -43,8 +44,8 @@ const STORY = [
   },
   {
     year: "2005",
-    title: "Расширение сети",
-    text: "Начал работу холдинг «Кокомерен», объединивший клинику и мебельную фабрику «Корпус».",
+    title: "Расширение направлений",
+    text: "В холдинге появились новые направления: поставка медицинской техники и производство мебели.",
     image: clinicExterior,
     alt: "Здание медицинского центра «Авиценна» сегодня",
     caption: "Современный снимок клиники",
@@ -69,12 +70,20 @@ const PARTNERS = [
     action: "На сайт лаборатории",
   },
   {
-    title: "Корпус — мебельная фабрика",
-    text: "Производство мебели, в том числе медицинской.",
+    title: "Кокомерен",
+    text: "Продажа медицинской техники и лабораторных реагентов.",
     logo: kokomerenLogo,
-    alt: "Логотип мебельной фабрики «Корпус»",
+    alt: "Логотип компании «Кокомерен»",
     href: "https://kokomeren.kg/",
-    action: "На сайт фабрики",
+    action: "На сайт компании",
+  },
+  {
+    title: "Corpus",
+    text: "Производство мебели.",
+    logo: corpusLogo.url,
+    alt: "Логотип мебельной компании Corpus",
+    href: "https://kokomeren.kg/",
+    action: "Подробнее",
   },
 ] satisfies Array<{ title: string; text: string; logo: string; alt: string; href: string; action: string }>;
 
@@ -171,7 +180,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 
 function AboutPage() {
   return (
-    <div className="bg-about-canvas min-h-screen">
+    <div className="bg-about-canvas min-h-screen font-sans">
       <SiteHeader breadcrumb="О нас" />
       <Breadcrumbs items={[{ label: "О нас" }]} />
 
@@ -191,11 +200,11 @@ function AboutPage() {
 
           <div className="relative mx-auto flex min-h-[440px] max-w-7xl items-start px-4 pt-10 sm:px-6 sm:pt-12 lg:min-h-[460px] lg:items-center lg:pt-0">
             <Reveal className="relative z-10 max-w-2xl pb-56 lg:pb-0">
-              <p className="font-serif-editorial text-about-ink text-4xl leading-[1.13] italic sm:text-5xl lg:text-[3.2rem]">
+              <p className="font-display text-about-ink text-4xl leading-[1.13] font-extrabold sm:text-5xl lg:text-[3.2rem]">
                 Мы заботимся о Вас
                 <br />с 2000 года
               </p>
-              <h1 className="font-serif-editorial text-about-ink mt-3 text-2xl leading-tight font-normal italic sm:text-3xl lg:text-[2.25rem]">
+              <h1 className="font-display text-about-ink mt-3 text-2xl leading-tight font-extrabold sm:text-3xl lg:text-[2.25rem]">
                 Биринчи байлык – ден соолук
               </h1>
               <p className="text-about-copy mt-5 max-w-xl text-base leading-relaxed sm:text-lg">
@@ -244,7 +253,7 @@ function AboutPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <SectionTitle>Больше, чем сеть клиник</SectionTitle>
             <p className="text-about-copy mt-3 max-w-2xl leading-relaxed">Разные направления работы объединены одной целью — заботой о здоровье людей.</p>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {PARTNERS.map(({ title, text, logo, alt, href, action }, index) => (
                 <Reveal key={title} delay={index * 35} className="h-full">
                   <a href={href} target="_blank" rel="noopener noreferrer" aria-label={`${title} — ${action}`} className="border-about-line bg-card hover:border-about-teal focus-visible:ring-about-teal group flex h-full flex-col rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2">
@@ -281,7 +290,7 @@ function AboutPage() {
                 <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[0.9fr_auto_1.1fr] lg:items-center lg:p-10">
                   <div>
                     <Award className="text-about-teal size-8" strokeWidth={1.5} aria-hidden="true" />
-                    <h2 className="font-serif-editorial text-about-ink mt-4 text-3xl leading-tight font-normal italic sm:text-4xl">
+                    <h2 className="font-display text-about-ink mt-4 text-3xl leading-tight font-extrabold sm:text-4xl">
                       «Главное — ден соолук!»
                     </h2>
                     <p className="text-about-ink mt-6 text-lg font-bold">
