@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import { DiagnosticsIcon } from "@/components/DiagnosticsIcon";
+import { DiagnosticsDocument, diagnosticDocuments } from "@/components/DiagnosticsDocument";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -22,6 +23,7 @@ import { BOOKING_URL } from "@/lib/site-config";
 
 export const Route = createFileRoute("/diagnostika/$slug")({
   loader: async ({ params, context }) => {
+    if (diagnosticDocuments.some((document) => document.slug === params.slug)) return { item: null };
     const item = await context.queryClient.ensureQueryData(
       diagnosticsItemQueryOptions(params.slug),
     );
@@ -29,7 +31,12 @@ export const Route = createFileRoute("/diagnostika/$slug")({
     return { item };
   },
   head: ({ loaderData, params }) => {
-    if (!loaderData) {
+    const document = diagnosticDocuments.find((entry) => entry.slug === params.slug);
+    if (document) {
+      const title = `${document.title} в Бишкеке — клиника «Авиценна»`;
+      return { meta: [{ title }, { name: "description", content: document.blocks.find((block) => block.type === "paragraph")?.text ?? title }], links: [{ rel: "canonical", href: absoluteUrl(`/diagnostika/${params.slug}`) || `/diagnostika/${params.slug}` }] };
+    }
+    if (!loaderData?.item) {
       return {
         meta: [{ title: "Исследование не найдено" }, { name: "robots", content: "noindex" }],
       };
@@ -56,8 +63,15 @@ export const Route = createFileRoute("/diagnostika/$slug")({
   },
   errorComponent: () => <Fallback title="Не удалось загрузить исследование" />,
   notFoundComponent: () => <Fallback title="Исследование не найдено" />,
-  component: DiagnosticsItemPage,
+  component: DiagnosticsRoutePage,
 });
+
+function DiagnosticsRoutePage() {
+  const { slug } = Route.useParams();
+  const document = diagnosticDocuments.find((entry) => entry.slug === slug);
+  if (document) return <div className="min-h-screen bg-background"><SiteHeader /><Breadcrumbs items={[{ label: "Диагностика", href: "/diagnostika" }, { label: document.title }]} /><main><DiagnosticsDocument slug={slug} /></main><SiteFooter /></div>;
+  return <DiagnosticsItemPage />;
+}
 
 function Fallback({ title }: { title: string }) {
   return (

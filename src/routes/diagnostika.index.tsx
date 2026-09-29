@@ -4,6 +4,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, CalendarCheck } from "lucide-react";
 
 import { DiagnosticsIcon } from "@/components/DiagnosticsIcon";
+import { diagnosticDocuments } from "@/components/DiagnosticsDocument";
 import { Reveal } from "@/components/Reveal";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -14,9 +15,9 @@ import { diagnosticsPageQueryOptions } from "@/lib/diagnostics.queries";
 import { BOOKING_URL } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
-const TITLE = "Диагностика в Бишкеке — УЗИ, МРТ, КТ, анализы | Авиценна";
+const TITLE = "Диагностика в Бишкеке — УЗИ, КТ, анализы | Авиценна";
 const DESCRIPTION =
-  "Диагностика в клинике «Авиценна» в Бишкеке: УЗИ, МРТ, КТ, рентген, ЭКГ, лабораторные анализы и эндоскопия. Оборудование экспертного класса, заключение в день исследования.";
+  "Диагностика в клинике «Авиценна» в Бишкеке: УЗИ, КТ, рентген, ЭКГ, лабораторные анализы и эндоскопия. Выберите нужное исследование и уточните условия проведения.";
 
 export const Route = createFileRoute("/diagnostika/")({
   loader: ({ context }) => {
@@ -60,7 +61,7 @@ function PageShell({ children }: { children: React.ReactNode }) {
 
 function DiagnosticsPage() {
   const { data } = useSuspenseQuery(diagnosticsPageQueryOptions());
-  const { sections, categories, symptoms, items } = data;
+  const { sections, categories, symptoms } = data;
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const section = (key: string) => sections.find((s) => s.key === key) ?? null;
@@ -70,10 +71,12 @@ function DiagnosticsPage() {
   const advantages = section("advantages");
   const cta = section("cta");
 
-  const filtered = useMemo(
-    () => (activeCategory ? items.filter((i) => i.category_key === activeCategory) : items),
-    [items, activeCategory],
-  );
+  const documentCategories: Record<string, string> = {
+    kt: "xray", rentgen: "xray", uzi: "uzi", ekg: "funk", holter: "funk",
+    "ehokg-doppler": "funk", endoskopiya: "endo", "dyhatelny-test": "funk",
+    "laboratornaya-diagnostika": "lab", spirometriya: "funk", videokolposkopiya: "funk",
+  };
+  const filtered = useMemo(() => diagnosticDocuments.filter((item) => !activeCategory || documentCategories[item.slug] === activeCategory), [activeCategory]);
 
   const bookingUrl = hero?.primary_url || BOOKING_URL;
 
@@ -133,15 +136,6 @@ function DiagnosticsPage() {
           </section>
         )}
 
-        {navigator && (
-          <SymptomNavigator
-            title={navigator.title}
-            subtitle={navigator.subtitle}
-            note={navigator.body}
-            symptoms={symptoms}
-          />
-        )}
-
         {catalog && (
           <section id="catalog" className="border-border border-b">
             <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12 lg:py-16">
@@ -188,7 +182,7 @@ function DiagnosticsPage() {
 
               <div className="mt-8 grid auto-rows-fr gap-4 sm:mt-10 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
                 {filtered.map((item) => (
-                  <Reveal key={item.id} className="h-full">
+                  <Reveal key={item.slug} className="h-full">
                     <Link
                       to="/diagnostika/$slug"
                       params={{ slug: item.slug }}
@@ -201,33 +195,18 @@ function DiagnosticsPage() {
                             title={item.title}
                             className="size-10 rounded-xl sm:size-12 sm:rounded-2xl"
                           />
-                          {item.image_url && (
-                            <img
-                              src={item.image_url}
-                              alt={item.title}
-                              loading="lazy"
-                              className="bg-surface-soft size-10 shrink-0 rounded-xl object-contain p-1 transition-transform duration-300 group-hover:scale-105 sm:size-12 sm:rounded-2xl"
-                            />
-                          )}
                         </div>
-                        {item.badge && (
-                          <span className="bg-surface-red text-foreground rounded-full px-2.5 py-1 text-[11px] font-extrabold sm:px-3 sm:text-[12px]">
-                            {item.badge}
-                          </span>
-                        )}
                       </div>
                       <h3 className="text-foreground relative mt-4 text-[18px] leading-tight font-extrabold tracking-tight sm:mt-5 sm:text-[21px]">
                         {item.title}
                       </h3>
-                      {item.subtitle && (
-                        <p className="text-muted-foreground relative mt-2 text-[14px] leading-snug font-medium sm:text-[15px]">
-                          {item.subtitle}
-                        </p>
-                      )}
+                      <p className="text-muted-foreground relative mt-2 line-clamp-3 text-[14px] leading-snug font-medium sm:text-[15px]">
+                        {item.blocks.find((block) => block.type === "paragraph")?.text}
+                      </p>
 
                       <div className="relative mt-auto flex items-end justify-between gap-3 pt-5 sm:pt-6">
                         <span className="text-primary text-[14px] font-extrabold sm:text-[15px]">
-                          {item.price ?? "Уточните стоимость"}
+                        Подробнее
                         </span>
                         <span className="bg-primary/10 text-primary grid size-8 shrink-0 place-items-center rounded-full transition-transform group-hover:translate-x-1">
                           <ArrowRight className="size-4" />
@@ -246,6 +225,15 @@ function DiagnosticsPage() {
               )}
             </div>
           </section>
+        )}
+
+        {navigator && (
+          <SymptomNavigator
+            title={navigator.title}
+            subtitle={navigator.subtitle}
+            note={navigator.body}
+            symptoms={symptoms}
+          />
         )}
 
         {advantages && (
