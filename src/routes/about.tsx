@@ -1,20 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Activity,
+  ArrowUpRight,
   Award,
-  Bed,
   Building2,
-  CalendarDays,
-  FlaskConical,
   HeartHandshake,
+  Hospital,
   Microscope,
-  Scissors,
   ShieldCheck,
   Stethoscope,
-  Users,
   type LucideIcon,
 } from "lucide-react";
 
+import archiveTeam from "@/assets/about-archive-team.jpg.asset.json";
+import archiveFounder from "@/assets/about-archive-founder.jpg.asset.json";
+import labTeam from "@/assets/about-lab-team.jpg.asset.json";
+import receptionTeam from "@/assets/about-reception-team.jpg.asset.json";
+import teamToday from "@/assets/about-team-today.jpg.asset.json";
 import clinicExterior from "@/assets/about-clinic-exterior.jpg";
 import founderPortrait from "@/assets/founder-zhypar.png";
 import receptionPhoto from "@/assets/about-reception.jpg";
@@ -26,36 +28,77 @@ import { absoluteUrl } from "@/lib/clinic";
 
 const STORY = [
   {
-    icon: CalendarDays,
-    title: "2000 год",
-    text: "Открыт первый медицинский центр «Авиценна» в Бишкеке.",
+    year: "2000",
+    title: "Начало истории",
+    text: "В Бишкеке открылся первый медицинский центр «Авиценна». Так началась наша история заботы о пациентах.",
+    image: archiveTeam.url,
+    alt: "Архивный снимок команды медиков",
+    caption: "Из архива клиники · точная дата снимка не указана",
+  },
+  {
+    year: "2001",
+    title: "Первые годы работы",
+    text: "В основе «Авиценны» с первых лет — внимательное отношение к человеку и преданность медицинскому делу.",
+    image: archiveFounder.url,
+    alt: "Архивный портрет основательницы клиники",
+    caption: "Из архива клиники · точная дата снимка не указана",
+  },
+  {
+    year: "2005",
+    title: "Расширение сети",
+    text: "Основан «Кокомерен» — второй медицинский центр сети.",
+    image: clinicExterior,
+    alt: "Здание медицинского центра «Авиценна» сегодня",
+    caption: "Современный снимок клиники",
+  },
+  {
+    year: "Сегодня",
+    title: "Продолжаем заботиться",
+    text: "В сети работают более 100 специалистов; доступны диагностика, хирургия и круглосуточный стационар.",
+    image: teamToday.url,
+    alt: "Современная команда врачей «Авиценны»",
+    caption: "Команда «Авиценны» сегодня",
+  },
+];
+
+const HOLDING = [
+  {
+    icon: Microscope,
+    title: "Экспресс Плюс",
+    text: "Лабораторная диагностика и анализы.",
+    image: labTeam.url,
+    alt: "Команда лаборатории «Экспресс Плюс»",
+    href: "https://expresslab.kg/",
+    action: "На сайт лаборатории",
+  },
+  {
+    icon: Hospital,
+    title: "Кокомерен",
+    text: "Медицинский центр сети.",
+    image: receptionTeam.url,
+    alt: "Сотрудники медицинского центра у стойки регистрации",
+    href: "https://kokomeren.kg/",
+    action: "На сайт центра",
   },
   {
     icon: Building2,
-    title: "2005 год",
-    text: "Основан «Кокомерен» — второй филиал сети медицинских центров.",
+    title: "Корпус",
+    text: "Ещё одно направление холдинга.",
+    image: null,
+    alt: "",
+    href: "http://corpus.kg/",
+    action: "На сайт направления",
   },
   {
-    icon: Users,
-    title: "100+",
-    text: "Высококвалифицированных специалистов.",
+    icon: Stethoscope,
+    title: "Производство медицинской мебели",
+    text: "Уточните информацию о направлении у нашей команды.",
+    image: null,
+    alt: "",
+    href: "https://wa.me/996707909001?text=Здравствуйте!%20Расскажите%20о%20производстве%20медицинской%20мебели.",
+    action: "Уточнить в WhatsApp",
   },
-  {
-    icon: Bed,
-    title: "Круглосуточный терапевтический стационар",
-    text: "В том числе палаты интенсивной терапии.",
-  },
-  {
-    icon: FlaskConical,
-    title: "Собственная лаборатория «Экспресс Плюс»",
-    text: "Современные методы диагностики.",
-  },
-  {
-    icon: Scissors,
-    title: "Хирургическое отделение",
-    text: "Современные методики и опытные специалисты.",
-  },
-] satisfies Array<{ icon: LucideIcon; title: string; text: string }>;
+] satisfies Array<{ icon: LucideIcon; title: string; text: string; image: string | null; alt: string; href: string; action: string }>;
 
 const ADVANTAGES = [
   {
@@ -190,20 +233,46 @@ function AboutPage() {
         <section className="py-10 sm:py-12">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <SectionTitle>Как создавалась «Авиценна»</SectionTitle>
-            <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-6">
-              {STORY.map(({ icon: Icon, title, text }, index) => (
-                <Reveal key={title} delay={index * 35} className="h-full">
-                  <article className="border-about-line bg-card flex h-full min-h-40 flex-col rounded-2xl border p-4">
-                    <span className="bg-about-icon text-about-teal grid size-10 shrink-0 place-items-center rounded-full">
-                      <Icon className="size-5" strokeWidth={1.6} aria-hidden="true" />
-                    </span>
-                    <h3 className="text-about-ink mt-4 text-base leading-snug font-bold break-words">
-                      {title}
-                    </h3>
-                    <p className="text-about-copy mt-1.5 text-sm leading-relaxed break-words hyphens-auto">
-                      {text}
-                    </p>
+            <div className="relative mt-8 space-y-8 before:bg-about-line before:absolute before:top-4 before:bottom-4 before:left-3 before:w-px lg:before:left-1/2">
+              {STORY.map(({ year, title, text, image, alt, caption }, index) => (
+                <Reveal key={year} delay={index * 35} className="relative pl-10 lg:pl-0">
+                  <span className="border-about-teal bg-about-canvas absolute top-5 left-[6px] z-10 size-[13px] rounded-full border-[3px] lg:left-1/2 lg:-translate-x-1/2" aria-hidden="true" />
+                  <article className={`border-about-line bg-card overflow-hidden rounded-2xl border lg:w-[calc(50%-2.5rem)] ${index % 2 ? "lg:ml-auto" : ""}`}>
+                    <div className="aspect-[16/9] overflow-hidden">
+                      <img src={image} alt={alt} loading="lazy" className="size-full object-cover" />
+                    </div>
+                    <div className="p-5 sm:p-6">
+                      <span className="text-about-teal text-sm font-bold">{year}</span>
+                      <h3 className="text-about-ink mt-1 text-xl font-bold">{title}</h3>
+                      <p className="text-about-copy mt-2 text-sm leading-relaxed">{text}</p>
+                      <p className="text-about-copy mt-4 text-xs">{caption}</p>
+                    </div>
                   </article>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-about-mint py-10 sm:py-12">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6">
+            <SectionTitle>Больше, чем сеть клиник</SectionTitle>
+            <p className="text-about-copy mt-3 max-w-2xl leading-relaxed">Разные направления работы объединены одной целью — заботой о здоровье людей.</p>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {HOLDING.map(({ icon: Icon, title, text, image, alt, href, action }, index) => (
+                <Reveal key={title} delay={index * 35} className="h-full">
+                  <a href={href} target="_blank" rel="noopener noreferrer" aria-label={`${title} — ${action}`} className="border-about-line bg-card hover:border-about-teal focus-visible:ring-about-teal group flex h-full flex-col overflow-hidden rounded-2xl border transition-colors focus-visible:outline-none focus-visible:ring-2">
+                    {image ? (
+                      <div className="aspect-[16/10] overflow-hidden"><img src={image} alt={alt} loading="lazy" className="size-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" /></div>
+                    ) : (
+                      <div className="bg-about-icon text-about-teal flex aspect-[16/10] items-center justify-center"><Icon className="size-14" strokeWidth={1.25} aria-hidden="true" /></div>
+                    )}
+                    <div className="flex flex-1 flex-col p-5">
+                      <h3 className="text-about-ink text-lg font-bold">{title}</h3>
+                      <p className="text-about-copy mt-2 flex-1 text-sm leading-relaxed">{text}</p>
+                      <span className="text-about-teal mt-5 inline-flex items-center gap-1 text-sm font-semibold">{action}<ArrowUpRight className="size-4" aria-hidden="true" /></span>
+                    </div>
+                  </a>
                 </Reveal>
               ))}
             </div>
