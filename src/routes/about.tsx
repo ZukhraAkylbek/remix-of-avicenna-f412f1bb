@@ -61,44 +61,24 @@ const STORY = [
   },
 ];
 
-const HOLDING = [
+const PARTNERS = [
   {
-    icon: Microscope,
     title: "Экспресс Плюс",
     text: "Лабораторная диагностика и анализы.",
-    image: labTeam.url,
-    alt: "Команда лаборатории «Экспресс Плюс»",
+    logo: expresslabLogo,
+    alt: "Логотип лаборатории «Экспресс Плюс»",
     href: "https://expresslab.kg/",
     action: "На сайт лаборатории",
   },
   {
-    icon: Hospital,
-    title: "Кокомерен",
-    text: "Медицинский центр сети.",
-    image: receptionTeam.url,
-    alt: "Сотрудники медицинского центра у стойки регистрации",
+    title: "Корпус — мебельная фабрика",
+    text: "Производство мебели, в том числе медицинской.",
+    logo: kokomerenLogo,
+    alt: "Логотип мебельной фабрики «Корпус»",
     href: "https://kokomeren.kg/",
-    action: "На сайт центра",
+    action: "На сайт фабрики",
   },
-  {
-    icon: Building2,
-    title: "Корпус",
-    text: "Ещё одно направление холдинга.",
-    image: null,
-    alt: "",
-    href: "http://corpus.kg/",
-    action: "На сайт направления",
-  },
-  {
-    icon: Stethoscope,
-    title: "Производство медицинской мебели",
-    text: "Уточните информацию о направлении у нашей команды.",
-    image: null,
-    alt: "",
-    href: "https://wa.me/996707909001?text=Здравствуйте!%20Расскажите%20о%20производстве%20медицинской%20мебели.",
-    action: "Уточнить в WhatsApp",
-  },
-] satisfies Array<{ icon: LucideIcon; title: string; text: string; image: string | null; alt: string; href: string; action: string }>;
+] satisfies Array<{ title: string; text: string; logo: string; alt: string; href: string; action: string }>;
 
 const ADVANTAGES = [
   {
