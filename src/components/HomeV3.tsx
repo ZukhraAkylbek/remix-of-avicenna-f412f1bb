@@ -1,4 +1,4 @@
-import { ArrowRight, ClipboardCheck, Award, Waves, MapPin, Star, Stethoscope, TrendingUp } from "lucide-react";
+import { ArrowRight, ClipboardCheck, Award, Waves, MapPin, Star, Stethoscope, TrendingUp, Brain, Droplets, Ribbon, Flower2, HeartPulse, Ear, Microscope, type LucideIcon } from "lucide-react";
 import { useRef, useState } from "react";
 
 import aboutHeroAsset from "@/assets/chat/about-hero.webp";
@@ -65,13 +65,18 @@ function SpecialtyMarquee() {
           <div className={`${manual ? "" : "marquee-track-quarter"} flex w-max`}>
             {[0, 1, 2, 3].map((copy) => (
               <div key={copy} className="flex shrink-0 gap-3 pr-3" aria-hidden={copy > 0}>
-                {SPECIALTY_PILLS.map((name) => (
+                {SPECIALTY_PILLS.map((item) => (
                   <Link
-                    key={`${copy}-${name}`}
+                    key={`${copy}-${item.name}`}
                     to="/napravleniya"
-                    className="bg-brand-green text-brand-white hover:bg-brand-green-dark flex shrink-0 items-center justify-center rounded-full px-8 py-3.5 text-base font-extrabold whitespace-nowrap transition-colors"
+                    className="bg-background border-border hover:border-brand-green group flex h-[150px] w-[230px] shrink-0 flex-col justify-between rounded-2xl border p-5 transition-colors"
                   >
-                    {name}
+                    <span className="bg-brand-green/10 text-brand-green grid size-14 shrink-0 place-items-center rounded-full transition-transform group-hover:scale-105">
+                      <item.icon className="size-7" aria-hidden="true" />
+                    </span>
+                    <span className="text-foreground text-lg font-extrabold leading-snug">
+                      {item.name}
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -153,14 +158,14 @@ const ROUTE_CARDS = [
 ];
 
 
-const SPECIALTY_PILLS = [
-  "Неврология",
-  "Урология",
-  "Маммология",
-  "Гинекология",
-  "Кардиология",
-  "Лор",
-  "Эндокринология",
+const SPECIALTY_PILLS: Array<{ name: string; icon: LucideIcon }> = [
+  { name: "Неврология", icon: Brain },
+  { name: "Урология", icon: Droplets },
+  { name: "Маммология", icon: Ribbon },
+  { name: "Гинекология", icon: Flower2 },
+  { name: "Кардиология", icon: HeartPulse },
+  { name: "Лор", icon: Ear },
+  { name: "Эндокринология", icon: Microscope },
 ];
 
 const REVIEWS = [
