@@ -238,19 +238,17 @@ function AboutPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <SectionTitle>Больше, чем сеть клиник</SectionTitle>
             <p className="text-about-copy mt-3 max-w-2xl leading-relaxed">Разные направления работы объединены одной целью — заботой о здоровье людей.</p>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {HOLDING.map(({ icon: Icon, title, text, image, alt, href, action }, index) => (
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {PARTNERS.map(({ title, text, logo, alt, href, action }, index) => (
                 <Reveal key={title} delay={index * 35} className="h-full">
-                  <a href={href} target="_blank" rel="noopener noreferrer" aria-label={`${title} — ${action}`} className="border-about-line bg-card hover:border-about-teal focus-visible:ring-about-teal group flex h-full flex-col overflow-hidden rounded-2xl border transition-colors focus-visible:outline-none focus-visible:ring-2">
-                    {image ? (
-                      <div className="aspect-[16/10] overflow-hidden"><img src={image} alt={alt} loading="lazy" className="size-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" /></div>
-                    ) : (
-                      <div className="bg-about-icon text-about-teal flex aspect-[16/10] items-center justify-center"><Icon className="size-14" strokeWidth={1.25} aria-hidden="true" /></div>
-                    )}
-                    <div className="flex flex-1 flex-col p-5">
-                      <h3 className="text-about-ink text-lg font-bold">{title}</h3>
-                      <p className="text-about-copy mt-2 flex-1 text-sm leading-relaxed">{text}</p>
-                      <span className="text-about-teal mt-5 inline-flex items-center gap-1 text-sm font-semibold">{action}<ArrowUpRight className="size-4" aria-hidden="true" /></span>
+                  <a href={href} target="_blank" rel="noopener noreferrer" aria-label={`${title} — ${action}`} className="border-about-line bg-card hover:border-about-teal focus-visible:ring-about-teal group flex h-full flex-col rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2">
+                    <div className="bg-card flex h-20 items-center justify-center">
+                      <img src={logo} alt={alt} loading="lazy" className="max-h-full max-w-[220px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]" />
+                    </div>
+                    <div className="mt-4 flex flex-1 flex-col border-t border-about-line pt-4">
+                      <h3 className="text-about-ink text-base font-bold">{title}</h3>
+                      <p className="text-about-copy mt-1.5 flex-1 text-sm leading-relaxed">{text}</p>
+                      <span className="text-about-teal mt-4 inline-flex items-center gap-1 text-sm font-semibold">{action}<ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" /></span>
                     </div>
                   </a>
                 </Reveal>
