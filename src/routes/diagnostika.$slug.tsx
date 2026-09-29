@@ -23,10 +23,11 @@ import { BOOKING_URL } from "@/lib/site-config";
 
 export const Route = createFileRoute("/diagnostika/$slug")({
   loader: async ({ params, context }) => {
+    if (diagnosticDocuments.some((document) => document.slug === params.slug)) return { item: null };
     const item = await context.queryClient.ensureQueryData(
       diagnosticsItemQueryOptions(params.slug),
     );
-    if (!item && !diagnosticDocuments.some((document) => document.slug === params.slug)) throw notFound();
+    if (!item) throw notFound();
     return { item };
   },
   head: ({ loaderData, params }) => {
@@ -62,8 +63,15 @@ export const Route = createFileRoute("/diagnostika/$slug")({
   },
   errorComponent: () => <Fallback title="Не удалось загрузить исследование" />,
   notFoundComponent: () => <Fallback title="Исследование не найдено" />,
-  component: DiagnosticsItemPage,
+  component: DiagnosticsRoutePage,
 });
+
+function DiagnosticsRoutePage() {
+  const { slug } = Route.useParams();
+  const document = diagnosticDocuments.find((entry) => entry.slug === slug);
+  if (document) return <div className="min-h-screen bg-background"><SiteHeader /><Breadcrumbs items={[{ label: "Диагностика", href: "/diagnostika" }, { label: document.title }]} /><main><DiagnosticsDocument slug={slug} /></main><SiteFooter /></div>;
+  return <DiagnosticsItemPage />;
+}
 
 function Fallback({ title }: { title: string }) {
   return (
@@ -114,7 +122,6 @@ const DEFAULT_SCHEDULE = [
 function DiagnosticsItemPage() {
   const { slug } = Route.useParams();
   const { data: item } = useSuspenseQuery(diagnosticsItemQueryOptions(slug));
-  if (diagnosticDocuments.some((document) => document.slug === slug)) return <div className="min-h-screen bg-background"><SiteHeader /><Breadcrumbs items={[{ label: "Диагностика", href: "/diagnostika" }, { label: diagnosticDocuments.find((document) => document.slug === slug)!.title }]} /><main><DiagnosticsDocument slug={slug} /></main><SiteFooter /></div>;
   if (!item) return <Fallback title="Исследование не найдено" />;
 
   const kinds = parsePairs(item.kinds).length
