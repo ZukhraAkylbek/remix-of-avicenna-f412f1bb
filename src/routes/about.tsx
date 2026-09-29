@@ -3,9 +3,7 @@ import {
   Activity,
   ArrowUpRight,
   Award,
-  Building2,
   HeartHandshake,
-  Hospital,
   Microscope,
   ShieldCheck,
   Stethoscope,
@@ -20,6 +18,8 @@ import teamToday from "@/assets/about-team-today.jpg.asset.json";
 import clinicExterior from "@/assets/about-clinic-exterior.jpg";
 import founderPortrait from "@/assets/founder-zhypar.png";
 import receptionPhoto from "@/assets/about-reception.jpg";
+import expresslabLogo from "@/assets/partners/expresslab-logo.svg";
+import kokomerenLogo from "@/assets/partners/kokomeren-logo.png";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
 import { SiteFooter } from "@/components/SiteFooter";
