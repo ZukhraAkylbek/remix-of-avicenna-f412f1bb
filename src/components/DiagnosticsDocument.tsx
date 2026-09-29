@@ -13,10 +13,11 @@ function renderBlocks(blocks: DocumentBlock[]) {
 
   for (let index = 0; index < blocks.length;) {
     const block = blocks[index];
+    if (!block) break;
 
     if (block.type === "heading" && block.text.toLowerCase().includes("график работы")) {
       let end = index + 1;
-      while (end < blocks.length && blocks[end].type !== "heading") end++;
+      while (end < blocks.length && blocks[end]?.type !== "heading") end++;
       sections.push(
         <section key={index} className="border-about-line bg-about-mint mt-10 rounded-2xl border p-5 sm:p-7">
           <div className="flex items-center gap-3">
@@ -40,11 +41,14 @@ function renderBlocks(blocks: DocumentBlock[]) {
 
     if (block.type === "heading" && block.text === "Часто задаваемые вопросы") {
       let end = index + 1;
-      while (end < blocks.length && blocks[end].type !== "heading") end++;
+      while (end < blocks.length && blocks[end]?.type !== "heading") end++;
       const answers: { title: string; text: string[] }[] = [];
       for (const item of blocks.slice(index + 1, end)) {
         if (item.type === "question") answers.push({ title: item.text, text: [] });
-        else if (answers.length) answers[answers.length - 1].text.push(item.text);
+        else {
+          const answer = answers.at(-1);
+          if (answer) answer.text.push(item.text);
+        }
       }
       sections.push(
         <section key={index} className="mt-12">
