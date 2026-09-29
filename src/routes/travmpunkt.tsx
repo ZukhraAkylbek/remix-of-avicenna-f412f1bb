@@ -18,16 +18,17 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SiteHeader } from "@/components/SiteHeader";
 import { CLINIC, absoluteUrl, faqPageJsonLd } from "@/lib/clinic";
-import { BOOKING_URL } from "@/lib/site-config";
 import { CLINIC_DOCTORS, experienceLabel, type ClinicDoctor } from "@/lib/clinic-doctors";
 import { FaqList } from "./hirurgiya.index";
 
 const TITLE = "Травмпункт 24/7 в Бишкеке — круглосуточно | Авиценна";
 const DESCRIPTION =
-  "Круглосуточный травмпункт «Авиценна» в Бишкеке: переломы, вывихи, раны, ожоги. Рентген, гипс, ПХО и операции на месте. Без записи, ул. Жукеева-Пудовкина, 124.";
+  "Круглосуточный травмпункт «Авиценна» в Бишкеке: переломы, вывихи, раны, ожоги. Без записи, ул. Жукеева-Пудовкина, 124. Уточните возможность помощи до приезда в WhatsApp.";
+
+const WHATSAPP_TRAUMA_URL = `https://wa.me/996707909001?text=${encodeURIComponent("Здравствуйте! Хочу уточнить, можно ли обратиться в травмпункт с моей ситуацией.")}`;
 
 const HERO_POINTS = [
-  "Срочная помощь при любых видах повреждений",
+  "Срочная помощь при травмах и повреждениях",
   "Врачи с большим опытом",
   "Современное диагностическое оборудование",
   "Собственная лаборатория",
@@ -50,7 +51,7 @@ const HELP_AT = [
   { title: "Ушибы и гематомы", text: "Осмотр, обезболивание и лечение ушибов и гематом." },
   {
     title: "Другие повреждения",
-    text: "Любые травматические повреждения — днём и ночью, без записи.",
+    text: "Другие травматические повреждения — днём и ночью, без записи. Возможность помощи уточните перед приездом.",
   },
 ];
 
@@ -82,7 +83,7 @@ const FAQ_ITEMS = [
   },
   {
     title: "Нужно ли записываться в травмпункт?",
-    text: "Нет, травмпункт работает круглосуточно и принимает без записи. Приходите сразу после травмы — чем раньше начато лечение, тем быстрее восстановление. При необходимости можно предварительно позвонить.",
+    text: "Нет, травмпункт работает круглосуточно и принимает без записи. Если сомневаетесь, подходит ли ваш случай для травмпункта, уточните это перед приездом в WhatsApp или по телефону.",
   },
 ];
 
@@ -132,7 +133,7 @@ function TraumaPage() {
                 Травмпункт в Бишкеке
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-relaxed text-about-copy sm:text-lg">
-                Срочная медицинская помощь при травмах и повреждениях любой степени — планово и
+                Срочная медицинская помощь при травмах и повреждениях — планово и
                 экстренно, днём и ночью. Чем раньше вы обратитесь, тем быстрее и полноценнее
                 восстановление.
               </p>
@@ -148,12 +149,12 @@ function TraumaPage() {
               </ul>
               <div className="mt-7 flex flex-wrap gap-2 sm:gap-3">
                 <a
-                  href={BOOKING_URL}
+                  href={WHATSAPP_TRAUMA_URL}
                   target="_blank"
                   rel="noreferrer"
                   className="rounded-md bg-brand-green px-5 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 sm:px-6"
                 >
-                  Записаться на приём
+                  Уточнить перед приездом
                 </a>
                 <a
                   href={`tel:${CLINIC.phones[0]}`}
@@ -179,13 +180,33 @@ function TraumaPage() {
           </div>
         </section>
 
+        <section className="border-b border-about-line bg-about-canvas py-10 sm:py-12">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6">
+            <TraumaHeading
+              icon={<AlertTriangle className="size-5" aria-hidden="true" />}
+              title="Когда нужна другая помощь"
+              description="Травмпункт оказывает помощь при травмах. Перед приездом уточните в WhatsApp, смогут ли помочь именно в вашей ситуации."
+            />
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-2xl border border-about-line bg-white p-4">
+                <h3 className="font-bold text-about-ink">Не связано с травмой</h3>
+                <p className="mt-2 text-sm leading-relaxed text-about-copy">При жалобах без травмы обратитесь в поликлинику или уточните, какой специалист вам нужен.</p>
+              </div>
+              <div className="rounded-2xl border border-about-line bg-white p-4">
+                <h3 className="font-bold text-about-ink">Угроза жизни</h3>
+                <p className="mt-2 text-sm leading-relaxed text-about-copy">При потере сознания, сильном кровотечении или затруднении дыхания не ждите ответа в WhatsApp — вызовите скорую помощь по номеру <a href="tel:103" className="font-bold text-about-teal underline">103</a>.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Помощь при */}
         <section className="py-10 sm:py-12">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <TraumaHeading
               icon={<AlertTriangle className="size-5" aria-hidden="true" />}
               title="Специалисты оказывают помощь при"
-              description="Принимаем пациентов с травмами различной степени тяжести — быстро и профессионально, круглосуточно."
+              description="Оказываем помощь при травмах круглосуточно. Если сомневаетесь, уточните возможность приёма до приезда."
             />
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {HELP_AT.map((item) => (
@@ -304,17 +325,16 @@ function TraumaPage() {
                   Травма не ждёт — и мы тоже
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm leading-relaxed text-about-copy sm:text-base">
-                  Травмпункт «Авиценны» открыт круглосуточно: приходите без записи или позвоните —
-                  подскажем, как добраться и что делать до приезда.
+                  Травмпункт «Авиценны» открыт круглосуточно. Уточните перед приездом, смогут ли помочь с вашей травмой.
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2 sm:gap-3">
                   <a
-                    href={BOOKING_URL}
+                    href={WHATSAPP_TRAUMA_URL}
                     target="_blank"
                     rel="noreferrer"
                     className="rounded-md bg-brand-green px-5 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 sm:px-6"
                   >
-                    Записаться на приём
+                    Уточнить перед приездом
                   </a>
                   <a
                     href={`tel:${CLINIC.phones[0]}`}
