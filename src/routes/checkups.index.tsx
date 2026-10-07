@@ -283,7 +283,7 @@ function CheckupsPage() {
                 type="button"
                 variant="outline"
                 onClick={() => setMiniListOpen(true)}
-                className="border-about-line bg-about-mint hover:border-brand-green hover:bg-about-mint h-auto min-h-56 items-stretch justify-between whitespace-normal rounded-2xl p-5 text-left shadow-none lg:col-span-4"
+                className="border-about-line bg-about-mint hover:border-brand-green hover:bg-about-mint h-auto sm:min-h-56 items-stretch justify-between whitespace-normal rounded-2xl p-5 text-left shadow-none lg:col-span-4"
               >
                 <span className="flex w-full flex-col">
                   <span className="bg-background text-about-teal grid size-11 place-items-center rounded-full"><Sparkles className="size-5" /></span>
@@ -293,7 +293,7 @@ function CheckupsPage() {
                 </span>
               </Button>
 
-              <Button asChild variant="outline" className="border-about-line bg-about-icon hover:border-brand-green hover:bg-about-icon h-auto min-h-56 items-stretch justify-between whitespace-normal rounded-2xl p-5 text-left shadow-none lg:col-span-4">
+              <Button asChild variant="outline" className="border-about-line bg-about-icon hover:border-brand-green hover:bg-about-icon h-auto sm:min-h-56 items-stretch justify-between whitespace-normal rounded-2xl p-5 text-left shadow-none lg:col-span-4">
                 <Link to="/checkups/personal">
                   <span className="flex w-full flex-col">
                     <span className="bg-brand-green text-brand-white grid size-11 place-items-center rounded-full"><SlidersHorizontal className="size-5" /></span>
@@ -307,20 +307,6 @@ function CheckupsPage() {
           </div>
         </section>
 
-        <section className="bg-about-mint border-about-line border-y">
-          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
-            <div className="border-about-line bg-about-canvas grid gap-6 rounded-2xl border p-5 sm:p-7 lg:grid-cols-[auto_1fr_auto] lg:items-center">
-              <span className="bg-about-icon text-about-teal grid size-14 place-items-center rounded-full"><Building2 className="size-7" /></span>
-              <div>
-                <h2 className="text-about-ink text-2xl font-extrabold">Корпоративные чекапы</h2>
-                <p className="text-about-copy mt-2 max-w-2xl text-sm leading-relaxed">Программы профилактического обследования сотрудников с удобной организацией для компаний.</p>
-              </div>
-              <Button asChild variant="outline" className="border-about-teal text-about-ink hover:bg-about-icon">
-                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Обсудить программу</a>
-              </Button>
-            </div>
-          </div>
-        </section>
 
         <section className="bg-about-mint border-about-line border-y">
           <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
@@ -344,10 +330,16 @@ function CheckupsPage() {
             <div>
               <h2 className="text-2xl font-extrabold sm:text-2xl">Хотите подобрать чекап?</h2>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed opacity-80">Оставьте заявку — администратор поможет выбрать программу и удобное время.</p>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed opacity-80">Подберём и корпоративную программу для сотрудников.</p>
             </div>
-            <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark mt-5 shrink-0 lg:mt-0">
-              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer"><CalendarCheck className="size-4" />Оставить заявку</a>
-            </Button>
+            <div className="flex flex-wrap gap-3 mt-5 shrink-0 lg:mt-0">
+              <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark">
+                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer"><CalendarCheck className="size-4" />Оставить заявку</a>
+              </Button>
+              <Button asChild variant="outline" className="border-brand-white/40 text-brand-white bg-transparent hover:bg-transparent hover:text-brand-white">
+                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Корпоративный чекап</a>
+              </Button>
+            </div>
           </div>
         </section>
       </main>
@@ -451,7 +443,7 @@ function ProgramGroup({
   onSelect: (program: ProgramDetail) => void;
 }) {
   return (
-    <article className={`${className} border-about-line relative min-h-64 overflow-hidden rounded-2xl border p-5`}>
+    <article className={`${className} border-about-line relative sm:min-h-64 overflow-hidden rounded-2xl border p-5`}>
       <img src={image} alt="" className="absolute inset-y-0 right-0 h-full w-[42%] object-cover object-top opacity-90" loading="lazy" />
       <div className="relative flex h-full max-w-[64%] flex-col">
         <span className="bg-background/80 text-about-teal grid size-11 place-items-center rounded-full"><Icon className="size-5" /></span>
