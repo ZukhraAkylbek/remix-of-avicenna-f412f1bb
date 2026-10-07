@@ -96,16 +96,17 @@ function ReviewCard({
   review,
   className,
 }: {
-  review: { text: string; src: string };
+  review: { text: string; src: string; rating?: number | null };
   className?: string;
 }) {
+  const rating = Math.max(0, Math.min(5, review.rating ?? 5));
   return (
     <figure
       className={`bg-background border-border flex h-[200px] w-[320px] flex-col rounded-2xl border p-5 lg:w-[360px] ${className ?? ""}`}
     >
       <div className="text-brand-green flex gap-1">
         {[0, 1, 2, 3, 4].map((i) => (
-          <Star key={i} className="size-4 fill-current" />
+          <Star key={i} className={`size-4 ${i < rating ? "fill-current" : "opacity-30"}`} />
         ))}
       </div>
       <blockquote className="text-foreground mt-3 line-clamp-4 text-[15px] leading-relaxed">
@@ -261,7 +262,18 @@ const OFFER_CARDS = [
   },
 ];
 
-function OffersMarquee() {
+type OfferItem = {
+  tag: string | null;
+  title: string;
+  description: string | null;
+  price?: string | null;
+  oldPrice?: string | null;
+  href: string;
+  image: string;
+  tone: string | null;
+};
+
+function OffersMarquee({ items }: { items: OfferItem[] }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [manual, setManual] = useState(false);
 
