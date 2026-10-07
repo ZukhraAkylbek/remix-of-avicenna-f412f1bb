@@ -325,11 +325,13 @@ function OfferCard({
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           loading="lazy"
         />
-        <span
-          className={`${item.tagTone} text-brand-white absolute top-4 left-4 rounded-full px-3.5 py-1.5 text-[11px] font-extrabold tracking-[0.12em] uppercase`}
-        >
-          {item.tag}
-        </span>
+        {item.tag ? (
+          <span
+            className={`${tagToneOf(item.tag)} text-brand-white absolute top-4 left-4 rounded-full px-3.5 py-1.5 text-[11px] font-extrabold tracking-[0.12em] uppercase`}
+          >
+            {item.tag}
+          </span>
+        ) : null}
       </div>
 
       <div className="flex flex-1 flex-col p-5">
@@ -346,7 +348,7 @@ function OfferCard({
           <ArrowRight className="size-4" />
         </span>
       </div>
-    </Link>
+    </SmartLink>
   );
 }
 
