@@ -337,7 +337,7 @@ function SurgeryPage() {
                 <Reveal key={direction.slug} delay={index * 35}>
                    <Link to="/hirurgiya/$slug" params={{ slug: direction.slug }} className="border-about-line hover:border-about-teal group flex items-center gap-4 rounded-2xl border bg-about-canvas p-4 transition-colors">
                      <DiagnosticsIcon icon={direction.icon} title={direction.title} className="bg-about-icon text-about-teal size-11 rounded-full" />
-                     <div className="min-w-0 flex-1"><h2 className="text-about-ink text-base font-bold">{direction.title}</h2><p className="text-about-copy mt-1 text-sm leading-snug">{direction.subtitle || "Диагностика и современные методы лечения."}</p></div>
+                     <div className="min-w-0 flex-1"><h2 className="text-about-ink text-base font-bold">{direction.title}</h2><p className="text-about-copy mt-1 text-sm leading-snug">Диагностика и современные методы лечения.</p></div>
                      <ArrowRight className="text-about-teal size-5 shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                   </Link>
                 </Reveal>
