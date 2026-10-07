@@ -347,6 +347,8 @@ export type Database = {
       doctors: {
         Row: {
           bio: string | null
+          branch: string | null
+          category: string | null
           created_at: string
           education: string | null
           experience_years: number | null
@@ -355,6 +357,7 @@ export type Database = {
           is_active: boolean
           job_title: string | null
           photo_url: string | null
+          price: string | null
           slug: string
           sort_order: number
           specialty_id: string | null
@@ -362,6 +365,8 @@ export type Database = {
         }
         Insert: {
           bio?: string | null
+          branch?: string | null
+          category?: string | null
           created_at?: string
           education?: string | null
           experience_years?: number | null
@@ -370,6 +375,7 @@ export type Database = {
           is_active?: boolean
           job_title?: string | null
           photo_url?: string | null
+          price?: string | null
           slug: string
           sort_order?: number
           specialty_id?: string | null
@@ -377,6 +383,8 @@ export type Database = {
         }
         Update: {
           bio?: string | null
+          branch?: string | null
+          category?: string | null
           created_at?: string
           education?: string | null
           experience_years?: number | null
@@ -385,6 +393,7 @@ export type Database = {
           is_active?: boolean
           job_title?: string | null
           photo_url?: string | null
+          price?: string | null
           slug?: string
           sort_order?: number
           specialty_id?: string | null
