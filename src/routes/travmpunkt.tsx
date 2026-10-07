@@ -169,7 +169,7 @@ function TraumaPage() {
                 ул. Жукеева-Пудовкина, 124 — приём без записи
               </p>
             </div>
-            <div className="relative">
+            <div className="relative hidden lg:block">
               <img
                 src="/assets/svc-priem.jpg"
                 alt="Травмпункт клиники Авиценна"

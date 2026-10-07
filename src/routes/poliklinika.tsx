@@ -217,15 +217,10 @@ function PolyclinicPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <PolyclinicHeading title="Современная диагностика" description="Все необходимые исследования можно пройти в клинике." />
             <div className="mt-5 grid gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-              <img src="/assets/uslugi-hero.jpg" alt="Диагностическое оборудование клиники" className="h-60 w-full rounded-2xl object-cover" />
+              <img src="/assets/uslugi-hero.jpg" alt="Диагностическое оборудование клиники" className="hidden lg:block h-60 w-full rounded-2xl object-cover" />
               <div className="grid gap-3 sm:grid-cols-2">
                 {DIAGNOSTICS.map((item, index) => <div key={item.title} className="border-about-line bg-about-canvas flex gap-3 rounded-2xl border p-4"><span className="bg-about-icon text-about-teal grid size-10 shrink-0 place-items-center rounded-full"><Microscope className="size-5" /></span><div><h3 className="text-about-ink text-sm font-bold">{item.title}</h3><p className="text-about-copy mt-1 text-[13px] leading-relaxed">{item.text}</p></div></div>)}
               </div>
-            </div>
-            <div className="border-about-line bg-about-canvas mt-5 flex flex-wrap items-center gap-5 rounded-2xl border p-4 sm:p-6">
-              <span className="bg-about-icon text-about-teal grid size-11 shrink-0 place-items-center rounded-full"><BriefcaseMedical className="size-5" /></span>
-              <div className="min-w-0 flex-1"><h2 className="text-about-ink text-xl font-extrabold sm:text-2xl">Не знаете, к какому специалисту обратиться?</h2><p className="text-about-copy mt-1 text-[13px] sm:text-sm">Администратор поможет выбрать врача и удобное время приёма.</p></div>
-              <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark shadow-none"><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на приём</a></Button>
             </div>
           </div>
         </section>
@@ -237,7 +232,7 @@ function PolyclinicPage() {
         <section className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div><h2 className="text-about-ink text-2xl font-extrabold sm:text-3xl">Забота о вашем здоровье</h2><p className="text-about-copy mt-3 max-w-xl text-sm leading-relaxed sm:text-base">Запишитесь на консультацию — администратор поможет выбрать специалиста и удобное время.</p><Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark mt-6 shadow-none"><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на консультацию</a></Button></div>
-            <img src={doctorPatientHeroAsset} alt="Врач консультирует пациента" className="h-60 w-full rounded-2xl object-cover" />
+            <img src={doctorPatientHeroAsset} alt="Врач консультирует пациента" className="hidden lg:block h-60 w-full rounded-2xl object-cover" />
           </div>
         </section>
       </main>

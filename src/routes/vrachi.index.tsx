@@ -557,44 +557,6 @@ function DoctorsPage() {
           </div>
         </section>
 
-        {/* CTA banner */}
-        <section className="bg-about-canvas py-8 sm:py-10">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <div className="border-about-line bg-about-mint relative overflow-hidden rounded-3xl border p-6 sm:p-10">
-              <span
-                className="bg-about-icon pointer-events-none absolute -top-16 -right-16 size-56 rounded-full opacity-60"
-                aria-hidden="true"
-              />
-              <div className="relative flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:gap-10">
-                <span className="bg-about-icon text-about-teal grid size-14 shrink-0 place-items-center rounded-full text-2xl font-extrabold">
-                  ?
-                </span>
-                <div className="min-w-0 flex-1">
-                  <h2 className="text-about-ink text-2xl font-extrabold leading-tight sm:text-2xl">
-                    Не знаете, к какому врачу обратиться?
-                  </h2>
-                  <p className="text-about-copy mt-2 max-w-lg text-sm leading-relaxed sm:text-base">
-                    Позвоните нам — поможем подобрать специалиста. Запись доступна 24/7.
-                  </p>
-                  <a
-                    href={`tel:${CLINIC.phones[0]}`}
-                    className="text-about-teal mt-2 inline-block text-base font-bold hover:underline sm:text-lg"
-                  >
-                    {CLINIC.phones[0]}
-                  </a>
-                </div>
-                <Button
-                  asChild
-                  className="bg-brand-green text-brand-white hover:bg-brand-green-dark h-12 w-full shrink-0 rounded-xl px-8 text-base font-semibold shadow-none transition-transform active:scale-95 sm:w-auto"
-                >
-                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                    Записаться
-                  </a>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* FAQ */}
         <section id="faq" className="bg-about-mint py-8 sm:py-10">
@@ -639,7 +601,7 @@ function DoctorsPage() {
               src={heroImage}
               alt="Консультация врача в клинике «Авиценна»"
               loading="lazy"
-              className="h-60 w-full rounded-2xl object-cover"
+              className="hidden lg:block h-60 w-full rounded-2xl object-cover"
             />
           </div>
         </section>
