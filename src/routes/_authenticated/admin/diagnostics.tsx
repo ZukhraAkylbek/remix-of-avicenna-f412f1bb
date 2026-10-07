@@ -22,6 +22,7 @@ import { PairRows } from "@/components/admin/PairRows";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE_IMAGES_BUCKET } from "@/lib/site-content";
 import { cn } from "@/lib/utils";
+import { compressImage } from "@/lib/compress-image";
 import { useSiteRefresh } from "@/lib/admin-refresh";
 
 export const Route = createFileRoute("/_authenticated/admin/diagnostics")({
@@ -128,6 +129,8 @@ function AdminDiagnostics() {
   const [itemDraft, setItemDraft] = useState<Partial<ItemRow> | null>(null);
   const [order, setOrder] = useState<SectionRow[]>([]);
   const [dragId, setDragId] = useState<string | null>(null);
+  const [itemDragId, setItemDragId] = useState<string | null>(null);
+  const [itemOrder, setItemOrder] = useState<NonNullable<typeof items>>([]);
   const [uploading, setUploading] = useState(false);
   const itemFileRef = useRef<HTMLInputElement>(null);
   const heroFileRef = useRef<HTMLInputElement>(null);
@@ -189,6 +192,10 @@ function AdminDiagnostics() {
   useEffect(() => {
     if (sections) setOrder(sections);
   }, [sections]);
+
+  useEffect(() => {
+    if (items) setItemOrder(items);
+  }, [items]);
 
   const persistOrder = useMutation({
     mutationFn: async (rows: SectionRow[]) => {
@@ -423,17 +430,13 @@ function AdminDiagnostics() {
   async function uploadImage(file: File, target: "item" | "hero") {
     setUploading(true);
     try {
-      const ext = file.name.split(".").pop() ?? "jpg";
-      const path = `diagnostics/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const blob = await compressImage(file);
+      const path = `diagnostics/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
       const { error } = await supabase.storage
         .from(SITE_IMAGES_BUCKET)
-        .upload(path, file, { upsert: false, contentType: file.type });
+        .upload(path, blob, { upsert: false, contentType: "image/webp" });
       if (error) throw new Error(error.message);
-      const { data, error: signError } = await supabase.storage
-        .from(SITE_IMAGES_BUCKET)
-        .createSignedUrl(path, 60 * 60 * 24 * 3650);
-      if (signError) throw new Error(signError.message);
-      const url = data?.signedUrl ?? null;
+      const url = supabase.storage.from(SITE_IMAGES_BUCKET).getPublicUrl(path).data.publicUrl;
       if (target === "item") setItemDraft((prev) => (prev ? { ...prev, image_url: url } : prev));
       else setSectionDraft((prev) => (prev ? { ...prev, image_url: url } : prev));
       toast.success("Изображение загружено");
@@ -460,13 +463,20 @@ function AdminDiagnostics() {
     persistOrder.mutate(next);
   }
 
-  function swapItems(index: number, direction: -1 | 1) {
-    if (!items) return;
-    const a = items[index];
-    const b = items[index + direction];
-    if (!a || !b) return;
-    moveItem.mutate({ id: a.id, sort_order: b.sort_order });
-    moveItem.mutate({ id: b.id, sort_order: a.sort_order });
+  function handleItemDrop(targetId: string) {
+    if (!itemDragId || itemDragId === targetId) return;
+    const next = [...itemOrder];
+    const from = next.findIndex((r) => r.id === itemDragId);
+    const to = next.findIndex((r) => r.id === targetId);
+    setItemDragId(null);
+    if (from < 0 || to < 0) return;
+    const [moved] = next.splice(from, 1);
+    if (!moved) return;
+    next.splice(to, 0, moved);
+    setItemOrder(next);
+    next.forEach((row, i) => {
+      if (row.sort_order !== i + 1) moveItem.mutate({ id: row.id, sort_order: i + 1 });
+    });
   }
 
   return (
@@ -641,11 +651,19 @@ function AdminDiagnostics() {
           description="Каждое исследование — отдельная страница /diagnostika/slug с иконкой или фото, ценой и SEO."
         >
           <ul className="space-y-2">
-            {(items ?? []).map((row, index) => (
+            {itemOrder.map((row) => (
               <li
                 key={row.id}
-                className="border-admin-line bg-card grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-xl border px-3 py-2.5"
+                draggable
+                onDragStart={() => setItemDragId(row.id)}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={() => handleItemDrop(row.id)}
+                className={cn(
+                  "border-admin-line bg-card grid grid-cols-[auto_auto_minmax(0,1fr)_auto] items-center gap-3 rounded-xl border px-3 py-2.5",
+                  itemDragId === row.id && "opacity-50",
+                )}
               >
+                <GripVertical className="text-admin-muted size-4 cursor-grab" />
                 <DiagnosticsIcon
                   icon={row.icon}
                   imageUrl={row.image_url}
@@ -663,26 +681,6 @@ function AdminDiagnostics() {
                   </p>
                 </button>
                 <div className="flex shrink-0 items-center gap-1">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="rounded-xl"
-                    aria-label="Выше"
-                    disabled={index === 0}
-                    onClick={() => swapItems(index, -1)}
-                  >
-                    ↑
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="rounded-xl"
-                    aria-label="Ниже"
-                    disabled={index === (items?.length ?? 0) - 1}
-                    onClick={() => swapItems(index, 1)}
-                  >
-                    ↓
-                  </Button>
                   <Button
                     variant="ghost"
                     size="icon"

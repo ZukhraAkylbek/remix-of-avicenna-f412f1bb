@@ -24,10 +24,10 @@ import { BOOKING_URL } from "@/lib/site-config";
 
 export const Route = createFileRoute("/diagnostika/$slug")({
   loader: async ({ params, context }) => {
-    if (diagnosticDocuments.some((document) => document.slug === params.slug)) return { item: null };
     const item = await context.queryClient.ensureQueryData(
       diagnosticsItemQueryOptions(params.slug),
     );
+    if (diagnosticDocuments.some((document) => document.slug === params.slug)) return { item: null, dbItem: item ?? null };
     if (!item) throw notFound();
     return { item };
   },
@@ -70,7 +70,8 @@ export const Route = createFileRoute("/diagnostika/$slug")({
 function DiagnosticsRoutePage() {
   const { slug } = Route.useParams();
   const document = diagnosticDocuments.find((entry) => entry.slug === slug);
-  if (document) return <div className="min-h-screen bg-about-canvas"><SiteHeader /><Breadcrumbs items={[{ label: "Диагностика", href: "/diagnostika" }, { label: document.title }]} /><main><DiagnosticsDocument slug={slug} /></main><SiteFooter /></div>;
+  const { data: dbItem } = useSuspenseQuery(diagnosticsItemQueryOptions(slug));
+  if (document) return <div className="min-h-screen bg-about-canvas"><SiteHeader /><Breadcrumbs items={[{ label: "Диагностика", href: "/diagnostika" }, { label: dbItem?.title || document.title }]} /><main><DiagnosticsDocument slug={slug} item={dbItem ?? null} /></main><SiteFooter /></div>;
   return <DiagnosticsItemPage />;
 }
 
