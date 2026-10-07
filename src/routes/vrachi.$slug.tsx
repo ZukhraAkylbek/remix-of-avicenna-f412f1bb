@@ -14,7 +14,7 @@ import {
   findDoctor,
 } from "@/lib/clinic-doctors";
 
-const WHATSAPP_URL = `https://wa.me/${(CLINIC.phones?.[0] ?? "996707909001").replace(/\D/g, "")}`;
+const WHATSAPP_URL = `https://wa.me/${(CLINIC.phones?.[0] ?? "996779909009").replace(/\D/g, "")}`;
 
 export const Route = createFileRoute("/vrachi/$slug")({
   loader: ({ params }) => {

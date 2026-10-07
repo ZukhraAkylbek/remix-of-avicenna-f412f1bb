@@ -15,7 +15,7 @@ const TITLE = "Травмпункт 24/7 в Бишкеке — круглосу�
 const DESCRIPTION =
   "Круглосуточный травмпункт «Авиценна» в Бишкеке: переломы, вывихи, раны, ожоги. Без записи, ул. Жукеева-Пудовкина, 124. Уточните возможность помощи до приезда в WhatsApp.";
 
-const WHATSAPP_TRAUMA_URL = `https://wa.me/996707909001?text=${encodeURIComponent("Здравствуйте! Хочу уточнить, можно ли обратиться в травмпункт с моей ситуацией.")}`;
+const WHATSAPP_TRAUMA_URL = `https://wa.me/996779909009?text=${encodeURIComponent("Здравствуйте! Хочу уточнить, можно ли обратиться в травмпункт с моей ситуацией.")}`;
 
 export const Route = createFileRoute("/travmpunkt")({
   head: () => ({

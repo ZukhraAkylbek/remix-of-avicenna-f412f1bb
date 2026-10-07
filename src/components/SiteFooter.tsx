@@ -82,7 +82,7 @@ export function SiteFooter() {
 
           <div className="mt-5 flex items-center gap-3">
             <a
-              href="https://api.whatsapp.com/send/?phone=996707909001&text=&type=phone_number&app_absent=0"
+              href="https://wa.me/996779909009?text=&type=phone_number&app_absent=0"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp"

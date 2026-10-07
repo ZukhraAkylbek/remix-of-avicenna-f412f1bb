@@ -41,7 +41,7 @@ const FALLBACK_SECTIONS: Record<string, SurgeryContentSection> = {
     body: "Опытные хирурги\nСтационар 24/7\nСовременные операционные\nПолное сопровождение",
     image_url: "/assets/spec-hirurg.webp",
     primary_label: "Записаться на консультацию",
-    primary_url: "https://wa.me/996707909001",
+    primary_url: "https://wa.me/996779909009",
   },
   advantages: {
     title: "Почему выбирают нашу хирургию",
@@ -53,7 +53,7 @@ const FALLBACK_SECTIONS: Record<string, SurgeryContentSection> = {
     subtitle: "Не откладывайте обращение, если боль усиливается или заметно влияет на самочувствие.",
     body: "Острая или продолжительная боль\nНовообразование или уплотнение\nТравма, отёк или ограничение движения\nДискомфорт после ранее проведённой операции\nНеобходимость планового хирургического лечения\nРекомендация другого специалиста",
     primary_label: "Записаться на консультацию",
-    primary_url: "https://wa.me/996707909001",
+    primary_url: "https://wa.me/996779909009",
   },
   diseases: {
     title: "Какие заболевания лечим",
@@ -92,7 +92,7 @@ const FALLBACK_SECTIONS: Record<string, SurgeryContentSection> = {
     title: "Обсудите лечение с хирургом",
     subtitle: "Врач оценит состояние, объяснит варианты и предложит понятный план действий.",
     primary_label: "Записаться на приём",
-    primary_url: "https://wa.me/996707909001",
+    primary_url: "https://wa.me/996779909009",
   },
 } as const;
 
