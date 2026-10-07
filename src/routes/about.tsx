@@ -10,16 +10,16 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import archiveTeam from "@/assets/about-archive-team.jpg.asset.json";
-import archiveFounder from "@/assets/about-archive-founder.jpg.asset.json";
-import teamToday from "@/assets/about-team-today.jpg.asset.json";
-import clinicHero from "@/assets/about-clinic-hero.png.asset.json";
+import archiveTeam from "@/assets/about-archive-team.jpg";
+import archiveFounder from "@/assets/about-archive-founder.jpg";
+import teamToday from "@/assets/about-team-today.jpg";
+import clinicHero from "@/assets/about-clinic-hero.png";
 import clinicExterior from "@/assets/about-clinic-exterior.jpg";
 import founderPortrait from "@/assets/founder-zhypar.png";
 import receptionPhoto from "@/assets/about-reception.jpg";
 import expresslabLogo from "@/assets/partners/expresslab-logo.svg";
 import kokomerenLogo from "@/assets/partners/kokomeren-logo.png";
-import corpusLogo from "@/assets/partners/corpus-logo-cropped.jpg.asset.json";
+import corpusLogo from "@/assets/partners/corpus-logo-cropped.jpg";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { AdvantagesGrid } from "@/components/AdvantagesGrid";
 import { Reveal } from "@/components/Reveal";
@@ -32,14 +32,14 @@ const STORY = [
     year: "2000",
     title: "Как всё начиналось",
     text: "В 2000 году Жыпар Абдыказиевна Керималиева открыла «Авиценну» в небольшом кабинете на улице Суеркулова. Так началась история отечественной медицинской компании.",
-    image: archiveFounder.url,
+    image: archiveFounder,
     alt: "Архивный портрет основательницы клиники",
   },
   {
     year: "",
     title: "Появление «Экспресс Плюс»",
     text: "Чтобы обеспечить точную диагностику, мы создали собственную лабораторию «Экспресс Плюс». Это стало важным шагом в развитии комплексной медицинской помощи.",
-    image: archiveTeam.url,
+    image: archiveTeam,
     alt: "Архивный снимок команды медиков",
   },
   {
@@ -60,7 +60,7 @@ const STORY = [
     year: "Сегодня",
     title: "«Авиценна» сегодня",
     text: "Сегодня это сеть из 5 филиалов в Бишкеке, 60+ специальностей и собственной лаборатории «Экспресс Плюс». Мы продолжаем развивать современную медицину в Кыргызстане.",
-    image: teamToday.url,
+    image: teamToday,
     alt: "Современная команда врачей «Авиценны»",
   },
 ];
@@ -85,7 +85,7 @@ const PARTNERS = [
   {
     title: "Corpus",
     text: "Производство мебели.",
-    logo: corpusLogo.url,
+    logo: corpusLogo,
     alt: "Логотип мебельной компании Corpus",
     href: "",
     action: "Производство мебели",
@@ -193,7 +193,7 @@ function AboutPage() {
         <section className="bg-about-mint relative isolate min-h-[440px] overflow-hidden lg:min-h-[460px]">
           <div className="absolute inset-x-0 bottom-0 h-[55%] lg:inset-y-0 lg:right-0 lg:left-auto lg:h-auto lg:w-[57%]">
             <img
-              src={clinicHero.url}
+              src={clinicHero}
               alt="Здание клиники «Авиценна»"
               width={1600}
               height={1200}
