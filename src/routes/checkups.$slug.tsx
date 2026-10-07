@@ -7,7 +7,11 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SiteHeader } from "@/components/SiteHeader";
 import { absoluteUrl } from "@/lib/clinic";
 import { checkupCardQueryOptions } from "@/lib/checkups.queries";
-import { BOOKING_URL } from "@/lib/site-config";
+const waHref = (title: string) =>
+  `https://wa.me/996779909009?text=${encodeURIComponent(
+    `Здравствуйте! Хочу записаться на чекап: ${title}.`,
+  )}`;
+
 
 export const Route = createFileRoute("/checkups/$slug")({
   loader: async ({ context, params }) => {
@@ -91,7 +95,7 @@ function CheckupCardPage() {
                 <p className="text-primary mt-6 text-3xl font-extrabold">{card.price}</p>
               )}
               <a
-                href={BOOKING_URL}
+                href={waHref(card.title)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-primary text-primary-foreground hover:bg-primary/90 mt-6 inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-[16px] font-extrabold transition-colors"
