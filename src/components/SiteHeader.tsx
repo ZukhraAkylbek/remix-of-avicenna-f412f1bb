@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Calendar, Menu, Phone, User, X } from "lucide-react";
+import { Calendar, Globe, Menu, Phone, User, X } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 
 function WhatsAppIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -12,7 +13,7 @@ function WhatsAppIcon(props: React.SVGProps<SVGSVGElement>) {
 
 import logo from "@/assets/chat/logo-avicenna-kg.webp";
 import { CLINIC } from "@/lib/clinic";
-import { useLanguage } from "@/lib/i18n";
+import { LANGS, useLanguage } from "@/lib/i18n";
 import { BOOKING_URL } from "@/lib/site-config";
 import { useSiteContent } from "@/lib/site-content";
 
@@ -114,26 +115,20 @@ export function SiteHeader({ breadcrumb }: { breadcrumb?: string }) {
             </a>
 
             {/* Переключатель языка — десктоп / планшет (не на мобильном) */}
-            <div
-              role="group"
-              aria-label={t("Выбор языка", "Выбор языка")}
-              className="border-border bg-background hidden shrink-0 items-center rounded-xl border p-0.5 lg:flex"
-            >
-              {(["ru", "ky"] as const).map((code) => (
-                <button
-                  key={code}
-                  type="button"
-                  onClick={() => setLang(code)}
-                  aria-pressed={lang === code}
-                  className={`rounded-lg px-2.5 py-1.5 text-sm font-bold uppercase transition-colors ${
-                    lang === code
-                      ? "bg-brand-green text-brand-white"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {code === "ru" ? "Рус" : "Кыр"}
-                </button>
-              ))}
+            <div data-no-translate className="hidden shrink-0 lg:flex">
+              <DropdownMenu>
+                <DropdownMenuTrigger aria-label="Выбор языка" className="border-border bg-background text-foreground inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-bold">
+                  <Globe className="size-4" aria-hidden="true" />
+                  {lang.toUpperCase()}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" data-no-translate>
+                  {LANGS.map((l) => (
+                    <DropdownMenuItem key={l.code} onSelect={() => setLang(l.code)} className={lang === l.code ? "font-bold" : ""}>
+                      {l.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
 
             {/* Бургер — крупный touch target */}
@@ -220,27 +215,21 @@ export function SiteHeader({ breadcrumb }: { breadcrumb?: string }) {
 
             {/* Язык */}
             <div className="border-b border-brand-white/20 px-4 py-3">
-              <div
-                role="group"
-                aria-label={t("Выбор языка", "Выбор языка")}
-                className="inline-flex items-center rounded-xl border border-brand-white/40 bg-brand-white/10 p-0.5"
-              >
-                {(["ru", "ky"] as const).map((code) => (
-                  <button
-                    key={code}
-                    type="button"
-                    onClick={() => setLang(code)}
-                    aria-pressed={lang === code}
-                    className={`rounded-lg px-4 py-2 text-sm font-bold uppercase transition-colors ${
-                      lang === code
-                        ? "bg-brand-white text-brand-green"
-                        : "text-brand-white hover:bg-brand-white/10"
-                    }`}
-                  >
-                    {code === "ru" ? "Рус" : "Кыр"}
-                  </button>
-                ))}
-              </div>
+              <div data-no-translate className="">
+              <DropdownMenu>
+                <DropdownMenuTrigger aria-label="Выбор языка" className="border-brand-white/40 bg-brand-white/10 text-brand-white inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-bold">
+                  <Globe className="size-4" aria-hidden="true" />
+                  {lang.toUpperCase()}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" data-no-translate>
+                  {LANGS.map((l) => (
+                    <DropdownMenuItem key={l.code} onSelect={() => setLang(l.code)} className={lang === l.code ? "font-bold" : ""}>
+                      {l.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
             </div>
 
             {/* Навигация */}

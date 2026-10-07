@@ -11,6 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import { LeadPopup } from "@/components/LeadPopup";
+import { AutoTranslate } from "@/components/AutoTranslate";
 import { LiveEditProvider } from "@/components/live-edit/LiveEdit";
 import { MobileNavBar } from "@/components/MobileNavBar";
 import { ScrollToTop } from "@/components/ScrollToTop";
@@ -158,6 +159,7 @@ function RootComponent() {
           <MobileNavBar />
           <ScrollToTop />
           <LeadPopup />
+          <AutoTranslate />
         </LiveEditProvider>
       </LanguageProvider>
     </QueryClientProvider>
