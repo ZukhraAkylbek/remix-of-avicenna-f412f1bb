@@ -67,6 +67,15 @@ function PersonalCheckupPage() {
   const [selected, setSelected] = useState<string[]>([]);
   const [expanded, setExpanded] = useState<string | null>(null);
 
+  const total = useMemo(
+    () =>
+      (base ? priceOf(base) : 0) +
+      optionCards
+        .filter((item) => selected.includes(item.slug))
+        .reduce((sum, item) => sum + priceOf(item), 0),
+    [base, optionCards, selected],
+  );
+
   const bookingHref = useMemo(() => {
     const chosen = optionCards.filter((item) => selected.includes(item.slug));
     const lines = [
@@ -77,15 +86,6 @@ function PersonalCheckupPage() {
     ];
     return `https://wa.me/996779909009?text=${encodeURIComponent(lines.join("\n"))}`;
   }, [base, optionCards, selected, total]);
-
-  const total = useMemo(
-    () =>
-      (base ? priceOf(base) : 0) +
-      optionCards
-        .filter((item) => selected.includes(item.slug))
-        .reduce((sum, item) => sum + priceOf(item), 0),
-    [base, optionCards, selected],
-  );
 
   const toggle = (id: string, checked: boolean) => {
     setSelected((current) =>
