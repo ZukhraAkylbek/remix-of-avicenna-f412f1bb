@@ -7,6 +7,7 @@ import type { CheckupCard } from "@/lib/checkups.server";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   Baby,
+  Building2,
   CalendarCheck,
   Check,
   ChevronDown,
@@ -217,7 +218,7 @@ function CheckupsPage() {
               {/* Корпоративные чекапы */}
               <div className="border-about-line bg-about-mint lg:col-span-12 overflow-hidden rounded-2xl border lg:flex lg:items-stretch">
                 <div className="p-5 sm:p-7 lg:max-w-xl lg:flex-1">
-                  <span className="bg-brand-green text-brand-white grid size-11 place-items-center rounded-full"><UsersRound className="size-5" /></span>
+                  <span className="bg-brand-green text-brand-white grid size-11 place-items-center rounded-full"><Building2 className="size-5" /></span>
                   <h3 className="text-about-ink mt-4 text-xl font-extrabold">Корпоративные чекапы</h3>
                   <p className="text-about-copy mt-2 text-sm leading-relaxed">Обследование для сотрудников компании: подберём программу и график под ваше расписание.</p>
                   <div className="mt-5 flex flex-wrap gap-3">
@@ -228,7 +229,7 @@ function CheckupsPage() {
                   </div>
                 </div>
                 <div className="bg-about-canvas flex min-h-[150px] items-center justify-center overflow-hidden lg:min-h-0 lg:w-[46%]">
-                  <span className="bg-about-icon text-about-teal grid size-24 place-items-center rounded-full lg:size-32"><UsersRound className="size-10 lg:size-14" /></span>
+                  <span className="bg-about-icon text-about-teal grid size-24 place-items-center rounded-full lg:size-32"><Building2 className="size-10 lg:size-14" /></span>
                 </div>
               </div>
             </div>
