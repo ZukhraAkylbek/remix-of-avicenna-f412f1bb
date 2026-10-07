@@ -208,14 +208,14 @@ function TraumaPage() {
               title="Специалисты оказывают помощь при"
               description="Оказываем помощь при травмах круглосуточно. Если сомневаетесь, уточните возможность приёма до приезда."
             />
-            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
               {HELP_AT.map((item) => (
                 <article
                   key={item.title}
-                  className="rounded-2xl border border-about-line bg-white p-4 transition-colors hover:border-brand-green"
+                  className="rounded-2xl border border-about-line bg-white p-3 transition-colors hover:border-brand-green sm:p-4"
                 >
-                  <h3 className="text-base font-bold text-about-ink">{item.title}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-about-copy">{item.text}</p>
+                  <h3 className="text-sm font-bold text-about-ink sm:text-base">{item.title}</h3>
+                  <p className="mt-1.5 text-[13px] leading-relaxed text-about-copy line-clamp-3 sm:text-sm sm:line-clamp-none">{item.text}</p>
                 </article>
               ))}
             </div>
@@ -231,7 +231,7 @@ function TraumaPage() {
               description="Травмпункт оснащён всем необходимым оборудованием, включая рентгеновскую аппаратуру и операционные."
             />
             <ul className="mt-6 grid gap-3 lg:grid-cols-2">
-              {PROCEDURES.map((item) => (
+              {(showAllProcedures ? PROCEDURES : PROCEDURES.slice(0, 5)).map((item) => (
                 <li
                   key={item}
                   className="flex items-start gap-3 rounded-2xl border border-about-line bg-white p-4"
@@ -243,6 +243,15 @@ function TraumaPage() {
                 </li>
               ))}
             </ul>
+            {!showAllProcedures && PROCEDURES.length > 5 && (
+              <button
+                type="button"
+                onClick={() => setShowAllProcedures(true)}
+                className="mt-4 inline-flex items-center gap-2 rounded-full border border-about-line bg-white px-5 py-2.5 text-sm font-bold text-about-teal transition-colors hover:border-brand-green"
+              >
+                Показать все процедуры ({PROCEDURES.length})
+              </button>
+            )}
           </div>
         </section>
 
