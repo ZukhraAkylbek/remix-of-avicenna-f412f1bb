@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 
 import asianFamilyHeroAsset from "@/assets/chat/asian-family-hero.webp";
-import clinicExterior from "@/assets/about-clinic-exterior.jpg";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CheckupIcon } from "@/components/checkups/CheckupIcon";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -228,8 +227,8 @@ function CheckupsPage() {
                     <ContactButtons />
                   </div>
                 </div>
-                <div className="min-h-[190px] overflow-hidden lg:w-[46%]">
-                  <img src={clinicExterior} alt="Здание клиники «Авиценна»" className="animate-ken-burns size-full object-cover" />
+                <div className="bg-about-canvas flex min-h-[150px] items-center justify-center overflow-hidden lg:min-h-0 lg:w-[46%]">
+                  <span className="bg-about-icon text-about-teal grid size-24 place-items-center rounded-full lg:size-32"><UsersRound className="size-10 lg:size-14" /></span>
                 </div>
               </div>
             </div>
