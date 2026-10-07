@@ -70,18 +70,18 @@ export const Route = createFileRoute("/diagnostika/$slug")({
 function DiagnosticsRoutePage() {
   const { slug } = Route.useParams();
   const document = diagnosticDocuments.find((entry) => entry.slug === slug);
-  if (document) return <div className="min-h-screen bg-background"><SiteHeader /><Breadcrumbs items={[{ label: "Диагностика", href: "/diagnostika" }, { label: document.title }]} /><main><DiagnosticsDocument slug={slug} /></main><SiteFooter /></div>;
+  if (document) return <div className="min-h-screen bg-about-canvas"><SiteHeader /><Breadcrumbs items={[{ label: "Диагностика", href: "/diagnostika" }, { label: document.title }]} /><main><DiagnosticsDocument slug={slug} /></main><SiteFooter /></div>;
   return <DiagnosticsItemPage />;
 }
 
 function Fallback({ title }: { title: string }) {
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-about-canvas min-h-screen">
       <SiteHeader />
       <Breadcrumbs items={[{ label: "Диагностика" }]} />
       <main className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-        <h1 className="text-foreground text-4xl font-extrabold">{title}</h1>
-        <Link to="/diagnostika" className="text-primary mt-6 inline-block font-semibold">
+        <h1 className="text-about-ink text-4xl font-extrabold">{title}</h1>
+        <Link to="/diagnostika" className="text-about-teal mt-6 inline-block font-semibold">
           Все исследования
         </Link>
       </main>
@@ -104,7 +104,7 @@ function parsePairs(value: string | null | undefined): Array<{ title: string; te
 }
 
 const BOOK_BTN =
-  "bg-accent text-accent-foreground hover:bg-accent/90 inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-[16px] font-extrabold transition-colors";
+  "bg-brand-green text-brand-white hover:bg-brand-green-dark inline-flex items-center gap-2 rounded-md px-6 py-3.5 text-[16px] font-extrabold transition-colors";
 
 const ADVANTAGE_ICONS = [ShieldCheck, Microscope, Stethoscope, UserRound, Activity, Clock];
 
@@ -152,15 +152,15 @@ function DiagnosticsItemPage() {
     : null;
 
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-about-canvas min-h-screen">
       <SiteHeader />
       <Breadcrumbs
         items={[{ label: "Диагностика", href: "/diagnostika" }, { label: item.title }]}
       />
       <main>
         {/* Hero */}
-        <section className="border-border border-b">
-          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:py-16">
+        <section className="bg-about-mint">
+          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
 
 
             <div className="mt-6 grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_420px]">
@@ -170,11 +170,11 @@ function DiagnosticsItemPage() {
                   title={item.title}
                   className="size-12 rounded-2xl"
                 />
-                <h1 className="text-foreground mt-5 text-[30px] leading-[1.08] font-extrabold tracking-tight sm:text-5xl">
+                <h1 className="text-about-ink mt-5 text-2xl leading-[1.08] font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
                   {item.title} в Бишкеке
                 </h1>
                 {item.subtitle && (
-                  <p className="text-muted-foreground mt-4 max-w-2xl text-[16px] leading-relaxed sm:text-[19px]">
+                  <p className="text-about-copy mt-4 max-w-2xl text-[16px] leading-relaxed sm:text-[19px]">
                     {item.subtitle}
                   </p>
                 )}
@@ -184,20 +184,20 @@ function DiagnosticsItemPage() {
                     Записаться
                   </a>
                   {item.price && (
-                    <span className="bg-surface-soft text-foreground rounded-2xl px-5 py-3 text-[17px] font-extrabold">
+                    <span className="bg-about-mint border-about-line text-about-ink rounded-2xl border px-5 py-3 text-[17px] font-extrabold">
                       {item.price}
                     </span>
                   )}
                 </div>
                 {item.hero_note && (
-                  <p className="text-muted-foreground mt-4 text-[14px] font-semibold">
+                  <p className="text-about-copy mt-4 text-[14px] font-semibold">
                     {item.hero_note}
                   </p>
                 )}
               </div>
 
               {item.image_url && (
-                <div className="bg-surface-soft relative overflow-hidden rounded-[2rem] p-6">
+                <div className="bg-about-mint border-about-line relative overflow-hidden rounded-2xl border p-6">
                   <img
                     src={item.image_url}
                     alt={item.title}
@@ -211,18 +211,18 @@ function DiagnosticsItemPage() {
 
         {/* О процедуре */}
         {item.body && (
-          <section className="border-border border-b">
-            <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12">
-              <h2 className="text-foreground text-2xl font-extrabold tracking-tight sm:text-[34px]">
+          <section className="bg-about-canvas">
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+              <h2 className="text-about-ink text-2xl font-extrabold tracking-tight sm:text-3xl">
                 О процедуре
               </h2>
-              <p className="text-muted-foreground mt-4 max-w-3xl text-[16px] leading-relaxed whitespace-pre-line sm:text-[18px]">
+              <p className="text-about-copy mt-4 max-w-3xl text-[16px] leading-relaxed whitespace-pre-line sm:text-[18px]">
                 {item.body}
               </p>
               {item.preparation && (
-                <div className="bg-surface-soft mt-6 max-w-3xl rounded-3xl p-6">
-                  <p className="text-foreground text-[17px] font-extrabold">Подготовка</p>
-                  <p className="text-muted-foreground mt-2 text-[15px] leading-relaxed whitespace-pre-line">
+                <div className="bg-about-mint border-about-line mt-6 max-w-3xl rounded-2xl border p-6">
+                  <p className="text-about-ink text-[17px] font-extrabold">Подготовка</p>
+                  <p className="text-about-copy mt-2 text-[15px] leading-relaxed whitespace-pre-line">
                     {item.preparation}
                   </p>
                 </div>
@@ -232,9 +232,9 @@ function DiagnosticsItemPage() {
         )}
 
         {/* Почему выбирают Авиценну */}
-        <section className="border-border border-b">
-          <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12 lg:py-16">
-            <h2 className="text-foreground text-2xl font-extrabold tracking-tight sm:text-[34px]">
+        <section className="bg-about-mint">
+          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+            <h2 className="text-about-ink text-2xl font-extrabold tracking-tight sm:text-3xl">
               Почему выбирают «Авиценну»
             </h2>
             <AdvantagesGrid
@@ -249,28 +249,28 @@ function DiagnosticsItemPage() {
 
         {/* Виды исследования */}
         {kinds.length > 0 && (
-          <section className="border-border border-b">
-            <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12 lg:py-16">
-              <h2 className="text-foreground text-2xl font-extrabold tracking-tight sm:text-[34px]">
+          <section className="bg-about-canvas">
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+              <h2 className="text-about-ink text-2xl font-extrabold tracking-tight sm:text-3xl">
                 Виды исследования
               </h2>
               <div className="mt-6 grid auto-rows-fr gap-4 sm:mt-8 sm:grid-cols-2 lg:grid-cols-3">
                 {kinds.map((kind) => (
                   <div
                     key={kind.title}
-                    className="border-border bg-card flex h-full flex-col rounded-3xl border p-5 sm:p-6"
+                    className="border-about-line bg-card flex h-full flex-col rounded-2xl border p-5 sm:p-6"
                   >
-                    <p className="text-foreground text-[18px] leading-tight font-extrabold">
+                    <p className="text-about-ink text-[18px] leading-tight font-extrabold">
                       {kind.title}
                     </p>
                     {kind.text && (
-                      <p className="text-primary mt-2 text-[15px] font-extrabold">{kind.text}</p>
+                      <p className="text-about-teal mt-2 text-[15px] font-extrabold">{kind.text}</p>
                     )}
                     <a
                       href={BOOKING_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground mt-auto inline-flex items-center gap-2 self-start rounded-xl px-4 py-2.5 pt-2.5 text-[14px] font-extrabold transition-colors"
+                      className="bg-about-icon text-about-teal hover:bg-brand-green hover:text-brand-white mt-auto inline-flex items-center gap-2 self-start rounded-xl px-4 py-2.5 pt-2.5 text-[14px] font-extrabold transition-colors"
                     >
                       Записаться
                     </a>
@@ -282,9 +282,9 @@ function DiagnosticsItemPage() {
         )}
 
         {/* Оффер */}
-        <section className="border-border border-b">
-          <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12">
-            <div className="bg-primary text-primary-foreground rounded-[2rem] px-6 py-9 sm:px-10 sm:py-12">
+        <section className="bg-about-mint">
+          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+            <div className="bg-brand-green text-brand-white rounded-2xl px-6 py-9 sm:px-10 sm:py-12">
               <h2 className="text-[26px] leading-tight font-extrabold tracking-tight sm:text-[36px]">
                 {item.offer_title || `Запишитесь на ${item.title}`}
               </h2>
@@ -296,7 +296,7 @@ function DiagnosticsItemPage() {
                 href={BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-accent text-accent-foreground hover:bg-accent/90 mt-7 inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-[16px] font-extrabold transition-colors"
+                className="bg-brand-white text-brand-green hover:bg-brand-white/90 mt-7 inline-flex items-center gap-2 rounded-md px-6 py-3.5 text-[16px] font-extrabold transition-colors"
               >
                 <CalendarCheck className="size-5" strokeWidth={2.2} />
                 Записаться онлайн
@@ -306,19 +306,19 @@ function DiagnosticsItemPage() {
         </section>
 
         {/* График работы */}
-        <section className="border-border border-b">
-          <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12">
-            <h2 className="text-foreground text-2xl font-extrabold tracking-tight sm:text-[34px]">
+        <section className="bg-about-canvas">
+          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+            <h2 className="text-about-ink text-2xl font-extrabold tracking-tight sm:text-3xl">
               График работы
             </h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {schedule.map((entry) => (
-                <div key={entry.title} className="bg-surface-soft rounded-3xl p-5 sm:p-6">
-                  <span className="text-primary inline-flex items-center gap-2 text-[14px] font-extrabold">
+                <div key={entry.title} className="bg-about-mint border-about-line rounded-2xl border p-5 sm:p-6">
+                  <span className="text-about-teal inline-flex items-center gap-2 text-[14px] font-extrabold">
                     <Clock className="size-4" strokeWidth={2.4} />
                     {entry.title}
                   </span>
-                  <p className="text-foreground mt-2 text-[19px] font-extrabold">{entry.text}</p>
+                  <p className="text-about-ink mt-2 text-[19px] font-extrabold">{entry.text}</p>
                 </div>
               ))}
             </div>
@@ -326,31 +326,31 @@ function DiagnosticsItemPage() {
         </section>
 
         {/* Филиалы */}
-        <section className="border-border border-b">
-          <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12 lg:py-16">
-            <h2 className="text-foreground text-2xl font-extrabold tracking-tight sm:text-[34px]">
+        <section className="bg-about-mint">
+          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+            <h2 className="text-about-ink text-2xl font-extrabold tracking-tight sm:text-3xl">
               Где доступно исследование
             </h2>
             <div className="mt-6 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {CLINIC.branches.map((branch) => (
                 <div
                   key={branch.name}
-                  className="border-border bg-card flex h-full flex-col rounded-3xl border p-5 sm:p-6"
+                  className="border-about-line bg-card flex h-full flex-col rounded-2xl border p-5 sm:p-6"
                 >
-                  <span className="bg-primary/10 text-primary grid size-10 place-items-center rounded-xl">
+                  <span className="bg-about-icon text-about-teal grid size-10 place-items-center rounded-xl">
                     <MapPin className="size-5" strokeWidth={2.2} />
                   </span>
-                  <p className="text-foreground mt-4 text-[17px] leading-tight font-extrabold">
+                  <p className="text-about-ink mt-4 text-[17px] leading-tight font-extrabold">
                     {branch.street}
                   </p>
-                  <p className="text-muted-foreground mt-2 text-[14px] font-semibold">
+                  <p className="text-about-copy mt-2 text-[14px] font-semibold">
                     {schedule.map((entry) => `${entry.title}: ${entry.text}`).join(" · ")}
                   </p>
                   <a
                     href={BOOKING_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground mt-auto inline-flex items-center gap-2 self-start rounded-xl px-4 py-2.5 text-[14px] font-extrabold transition-colors"
+                    className="bg-about-icon text-about-teal hover:bg-brand-green hover:text-brand-white mt-auto inline-flex items-center gap-2 self-start rounded-xl px-4 py-2.5 text-[14px] font-extrabold transition-colors"
                   >
                     Записаться
                   </a>
@@ -362,24 +362,24 @@ function DiagnosticsItemPage() {
 
         {/* FAQ */}
         {faq.length > 0 && (
-          <section className="border-border border-b">
-            <div className="mx-auto max-w-4xl px-4 py-9 sm:px-6 sm:py-12 lg:py-16">
-              <h2 className="text-foreground text-2xl font-extrabold tracking-tight sm:text-[34px]">
+          <section className="bg-about-canvas">
+            <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
+              <h2 className="text-about-ink text-2xl font-extrabold tracking-tight sm:text-3xl">
                 Частые вопросы
               </h2>
               <div className="mt-6 space-y-3">
                 {faq.map((entry) => (
                   <details
                     key={entry.title}
-                    className="group border-border bg-card rounded-2xl border px-5 py-4"
+                    className="group border-about-line bg-card rounded-2xl border px-5 py-4"
                   >
-                    <summary className="text-foreground flex cursor-pointer list-none items-start justify-between gap-4 text-[16px] leading-snug font-extrabold">
+                    <summary className="text-about-ink flex cursor-pointer list-none items-start justify-between gap-4 text-[16px] leading-snug font-extrabold">
                       {entry.title}
-                      <span className="bg-primary/10 text-primary grid size-7 shrink-0 place-items-center rounded-full transition-transform group-open:rotate-45">
+                      <span className="bg-about-icon text-about-teal grid size-7 shrink-0 place-items-center rounded-full transition-transform group-open:rotate-45">
                         <Plus className="size-4" strokeWidth={2.6} />
                       </span>
                     </summary>
-                    <p className="text-muted-foreground mt-3 text-[15px] leading-relaxed whitespace-pre-line">
+                    <p className="text-about-copy mt-3 text-[15px] leading-relaxed whitespace-pre-line">
                       {entry.text}
                     </p>
                   </details>
@@ -391,13 +391,13 @@ function DiagnosticsItemPage() {
 
         {/* SEO-блок */}
         {(item.seo_text || item.seo_heading) && (
-          <section className="border-border border-b">
-            <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12">
-              <h2 className="text-foreground text-2xl font-extrabold tracking-tight sm:text-[30px]">
+          <section className="bg-about-mint">
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+              <h2 className="text-about-ink text-2xl font-extrabold tracking-tight sm:text-3xl">
                 {item.seo_heading || `Где сделать ${item.title} в Бишкеке?`}
               </h2>
               {item.seo_text && (
-                <p className="text-muted-foreground mt-4 max-w-4xl text-[15px] leading-relaxed whitespace-pre-line sm:text-[17px]">
+                <p className="text-about-copy mt-4 max-w-4xl text-[15px] leading-relaxed whitespace-pre-line sm:text-[17px]">
                   {item.seo_text}
                 </p>
               )}
@@ -406,12 +406,12 @@ function DiagnosticsItemPage() {
         )}
 
         {/* Финальный CTA */}
-        <section>
-          <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
-            <h2 className="text-foreground text-[26px] leading-tight font-extrabold tracking-tight sm:text-[36px]">
+        <section className="bg-about-canvas">
+          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+            <h2 className="text-about-ink text-2xl leading-tight font-extrabold tracking-tight sm:text-3xl">
               Записаться на {item.title}
             </h2>
-            <p className="text-muted-foreground mt-3 max-w-2xl text-[16px] leading-relaxed sm:text-[18px]">
+            <p className="text-about-copy mt-3 max-w-2xl text-[16px] leading-relaxed sm:text-[18px]">
               Онлайн-запись занимает меньше минуты. Мы подтвердим время и напомним о визите.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-4">
@@ -419,7 +419,7 @@ function DiagnosticsItemPage() {
                 <CalendarCheck className="size-5" strokeWidth={2.2} />
                 Записаться онлайн
               </a>
-              <Link to="/diagnostika" className="text-primary text-[16px] font-extrabold">
+              <Link to="/diagnostika" className="text-about-teal text-[16px] font-extrabold">
                 Все исследования
               </Link>
             </div>

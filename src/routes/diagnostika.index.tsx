@@ -51,7 +51,7 @@ export const Route = createFileRoute("/diagnostika/")({
 
 function PageShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-about-canvas min-h-screen">
       <SiteHeader />
       <Breadcrumbs items={[{ label: "Диагностика" }]} />
       <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6">{children}</main>
@@ -82,21 +82,21 @@ function DiagnosticsPage() {
   const bookingUrl = hero?.primary_url || BOOKING_URL;
 
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-about-canvas min-h-screen">
       <SiteHeader />
       <Breadcrumbs items={[{ label: "Диагностика" }]} />
       <main>
         {hero && (
-          <section className="border-border border-b">
-            <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12 lg:py-16">
+          <section className="bg-about-mint">
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
 
               <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:items-center">
                 <div>
-                  <h1 className="text-foreground text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-[56px] lg:leading-[1.05]">
+                  <h1 className="text-about-ink text-2xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
                     {hero.title}
                   </h1>
                   {hero.subtitle && (
-                    <p className="text-muted-foreground mt-5 max-w-2xl text-[17px] leading-relaxed sm:text-[19px]">
+                    <p className="text-about-copy mt-5 max-w-2xl text-[17px] leading-relaxed sm:text-[19px]">
                       {hero.subtitle}
                     </p>
                   )}
@@ -105,7 +105,7 @@ function DiagnosticsPage() {
                       href={bookingUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-[16px] font-extrabold transition-colors"
+                      className="bg-brand-green text-brand-white hover:bg-brand-green-dark inline-flex items-center gap-2 rounded-md px-6 py-3.5 text-[16px] font-extrabold transition-colors"
                     >
                       <CalendarCheck className="size-5" strokeWidth={2.2} />
                       {hero.primary_label ?? "Записаться на диагностику"}
@@ -114,7 +114,7 @@ function DiagnosticsPage() {
                     {hero.secondary_label && hero.secondary_url && (
                       <a
                         href={hero.secondary_url}
-                        className="border-border text-foreground hover:border-primary/50 inline-flex items-center gap-2 rounded-2xl border px-6 py-3.5 text-[16px] font-extrabold transition-colors"
+                        className="border-about-line text-about-ink hover:border-brand-green inline-flex items-center gap-2 rounded-md border px-6 py-3.5 text-[16px] font-extrabold transition-colors"
                       >
                         {hero.secondary_label}
                       </a>
@@ -123,7 +123,7 @@ function DiagnosticsPage() {
                 </div>
 
                 {hero.image_url && (
-                  <div className="overflow-hidden rounded-3xl sm:rounded-[2rem]">
+                  <div className="overflow-hidden rounded-2xl">
                     <img
                       src={hero.image_url}
                       alt={hero.title}
@@ -139,13 +139,13 @@ function DiagnosticsPage() {
         )}
 
         {catalog && (
-          <section id="catalog" className="border-border border-b">
-            <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12 lg:py-16">
-              <h2 className="text-foreground text-2xl font-extrabold tracking-tight sm:text-3xl">
+          <section id="catalog" className="bg-about-canvas">
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+              <h2 className="text-about-ink text-2xl font-extrabold tracking-tight sm:text-3xl">
                 {catalog.title}
               </h2>
               {catalog.subtitle && (
-                <p className="text-muted-foreground mt-3 max-w-3xl text-[17px] leading-relaxed">
+                <p className="text-about-copy mt-3 max-w-3xl text-[17px] leading-relaxed">
                   {catalog.subtitle}
                 </p>
               )}
@@ -158,8 +158,8 @@ function DiagnosticsPage() {
                     className={cn(
                       "rounded-full px-5 py-2.5 text-[15px] font-bold transition-colors",
                       activeCategory === null
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-surface-soft text-muted-foreground hover:text-foreground",
+                        ? "bg-brand-green text-brand-white"
+                        : "bg-about-icon text-about-teal",
                     )}
                   >
                     Все направления
@@ -172,8 +172,8 @@ function DiagnosticsPage() {
                       className={cn(
                         "rounded-full px-5 py-2.5 text-[15px] font-bold transition-colors",
                         activeCategory === category.key
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-surface-soft text-muted-foreground hover:text-foreground",
+                          ? "bg-brand-green text-brand-white"
+                          : "bg-about-icon text-about-teal",
                       )}
                     >
                       {category.name}
@@ -188,7 +188,7 @@ function DiagnosticsPage() {
                     <Link
                       to="/diagnostika/$slug"
                       params={{ slug: item.slug }}
-                      className="group border-border bg-card hover:border-primary/40 relative flex h-full flex-row items-center gap-3 overflow-hidden rounded-3xl border p-4 transition-all hover:shadow-xl sm:flex-col sm:items-stretch sm:rounded-[1.75rem] sm:p-6"
+                      className="group border-about-line bg-card hover:border-brand-green relative flex h-full flex-row items-center gap-3 overflow-hidden rounded-2xl border p-4 transition-all sm:flex-col sm:items-stretch sm:p-6"
                     >
                       <div className="relative flex items-start justify-between gap-3">
                         <div className="flex items-center gap-2.5">
@@ -199,22 +199,22 @@ function DiagnosticsPage() {
                           />
                         </div>
                       </div>
-                      <h3 className="text-foreground relative mt-0 text-base leading-tight font-extrabold tracking-tight sm:mt-5 sm:text-[21px]">
+                      <h3 className="text-about-ink relative mt-0 text-base leading-tight font-extrabold tracking-tight sm:mt-5 sm:text-[21px]">
                         {item.title}
                       </h3>
-                      <p className="text-muted-foreground relative mt-2 hidden line-clamp-3 text-[14px] leading-snug font-medium sm:block sm:text-[15px]">
+                      <p className="text-about-copy relative mt-2 hidden line-clamp-3 text-[14px] leading-snug font-medium sm:block sm:text-[15px]">
                         {item.blocks.find((block) => block.type === "paragraph")?.text}
                       </p>
 
                       <div className="relative mt-auto hidden items-end justify-between gap-3 pt-5 sm:flex sm:pt-6">
-                        <span className="text-primary text-[14px] font-extrabold sm:text-[15px]">
+                        <span className="text-about-teal text-[14px] font-extrabold sm:text-[15px]">
                         Подробнее
                         </span>
-                        <span className="bg-primary/10 text-primary grid size-8 shrink-0 place-items-center rounded-full transition-transform group-hover:translate-x-1">
+                        <span className="bg-about-icon text-about-teal grid size-8 shrink-0 place-items-center rounded-full transition-transform group-hover:translate-x-1">
                           <ArrowRight className="size-4" />
                         </span>
                       </div>
-                      <ArrowRight className="text-primary ml-auto size-5 shrink-0 sm:hidden" aria-hidden="true" />
+                      <ArrowRight className="text-about-teal ml-auto size-5 shrink-0 sm:hidden" aria-hidden="true" />
                     </Link>
                   </Reveal>
                 ))}
@@ -222,7 +222,7 @@ function DiagnosticsPage() {
 
 
               {filtered.length === 0 && (
-                <p className="text-muted-foreground mt-10 text-[16px]">
+                <p className="text-about-copy mt-10 text-[16px]">
                   В этой категории пока нет исследований.
                 </p>
               )}
@@ -240,14 +240,14 @@ function DiagnosticsPage() {
         )}
 
         {advantages && (
-          <section className="border-border border-b">
-            <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12 lg:py-16">
-              <div className="bg-surface-soft rounded-[2rem] px-6 py-10 sm:px-10 lg:py-14">
-                <h2 className="text-foreground text-2xl font-extrabold tracking-tight sm:text-3xl">
+          <section className="bg-about-mint">
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+              <div className="bg-card border-about-line rounded-2xl border px-6 py-10 sm:px-10 lg:py-14">
+                <h2 className="text-about-ink text-2xl font-extrabold tracking-tight sm:text-3xl">
                   {advantages.title}
                 </h2>
                 {advantages.subtitle && (
-                  <p className="text-muted-foreground mt-4 max-w-3xl text-[17px] leading-relaxed">
+                  <p className="text-about-copy mt-4 max-w-3xl text-[17px] leading-relaxed">
                     {advantages.subtitle}
                   </p>
                 )}
@@ -257,13 +257,13 @@ function DiagnosticsPage() {
         )}
 
         {cta && (
-          <section>
-            <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
-              <h2 className="text-foreground text-2xl font-extrabold tracking-tight sm:text-3xl">
+          <section className="bg-about-canvas">
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+              <h2 className="text-about-ink text-2xl font-extrabold tracking-tight sm:text-3xl">
                 {cta.title}
               </h2>
               {cta.subtitle && (
-                <p className="text-muted-foreground mt-3 max-w-2xl text-[17px] leading-relaxed">
+                <p className="text-about-copy mt-3 max-w-2xl text-[17px] leading-relaxed">
                   {cta.subtitle}
                 </p>
               )}
@@ -272,7 +272,7 @@ function DiagnosticsPage() {
                 href={cta.primary_url || BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-accent text-accent-foreground hover:bg-accent/90 inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-[16px] font-extrabold transition-colors"
+                className="bg-brand-green text-brand-white hover:bg-brand-green-dark inline-flex items-center gap-2 rounded-md px-6 py-3.5 text-[16px] font-extrabold transition-colors"
               >
                 <CalendarCheck className="size-5" strokeWidth={2.2} />
                 {cta.primary_label ?? "Записаться онлайн"}
