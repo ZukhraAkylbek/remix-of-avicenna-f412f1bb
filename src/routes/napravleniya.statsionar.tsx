@@ -305,14 +305,6 @@ function StatsionarPage() {
                 >
                   Забронировать место
                 </a>
-                <a
-                  href={BOOKING_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded-md border border-about-teal px-5 py-3 text-sm font-semibold text-about-teal transition-colors hover:bg-brand-green hover:border-brand-green hover:text-white"
-                >
-                  Онлайн-запись
-                </a>
                 <ContactButtons />
               </div>
             </div>
