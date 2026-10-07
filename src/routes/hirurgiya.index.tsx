@@ -365,8 +365,8 @@ function SurgeryPage() {
         <section className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <SurgeryHeading title={symptoms?.title || "Когда нужна консультация хирурга"} />
-            <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
-               {consultationItems.map((item) => <div key={item.title} className="border-about-line flex items-center gap-3 rounded-2xl border bg-about-canvas p-4"><span className="bg-about-icon text-about-teal grid size-9 shrink-0 place-items-center rounded-full"><Check className="size-4" /></span><span className="text-about-ink text-sm font-semibold leading-snug">{item.title}</span></div>)}
+            <div className="mt-5 grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4">
+               {consultationItems.map((item) => <div key={item.title} className="border-about-line flex min-w-0 items-center gap-2 overflow-hidden rounded-2xl border bg-about-canvas p-3 sm:gap-3 sm:p-4"><span className="bg-about-icon text-about-teal grid size-7 shrink-0 place-items-center rounded-full sm:size-9"><Check className="size-3.5 sm:size-4" /></span><span className="text-about-ink min-w-0 break-words hyphens-auto text-xs font-semibold leading-snug sm:text-sm" lang="ru">{item.title}</span></div>)}
             </div>
           </div>
         </section>
