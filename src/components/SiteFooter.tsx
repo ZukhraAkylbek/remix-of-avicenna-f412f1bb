@@ -6,6 +6,7 @@ import { Armchair, Microscope, Stethoscope, ArrowUpRight } from "lucide-react";
 import { Editable } from "@/components/live-edit/LiveEdit";
 import { CLINIC } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
+import privacyPolicy from "@/assets/politika-konfidenczialnosti.docx.asset.json";
 
 const PARTNERS = [
   {
@@ -194,7 +195,11 @@ export function SiteFooter() {
             <span>© {new Date().getFullYear()} Медицинская клиника «Авиценна», Бишкек</span>
             <span>Лицензия «Авиценна КейДжи» № 3823</span>
           </div>
-          <a href="#faq" className="hover:text-foreground">
+          <a
+            href={privacyPolicy.url}
+            download="Политика конфиденциальности Авиценна.docx"
+            className="hover:text-foreground"
+          >
             Политика конфиденциальности
           </a>
         </div>
