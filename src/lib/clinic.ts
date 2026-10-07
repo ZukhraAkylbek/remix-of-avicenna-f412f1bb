@@ -7,7 +7,7 @@ export const CLINIC = {
   description:
     "Сеть многопрофильных клиник в Бишкеке: поликлиника, травмпункт 24/7, хирургия, лаборатория, стационар.",
   phones: ["+996779909009"],
-  whatsapp: "+996707909001",
+  whatsapp: "+996779909009",
   email: "call-center@expresslab.kg",
   branches: [
     {
