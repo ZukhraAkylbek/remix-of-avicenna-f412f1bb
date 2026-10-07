@@ -517,19 +517,7 @@ function DoctorsPage() {
         <section className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <PageHeading title="Наши возможности" description="Всё для диагностики и лечения в одной клинике." />
-            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {BENEFITS.map((item, index) => (
-                <Reveal key={item.title} delay={index * 35}>
-                  <div className="border-about-line bg-about-canvas flex h-full flex-col items-center rounded-2xl border p-4 text-center">
-                    <span className="bg-about-icon text-about-teal grid size-11 place-items-center rounded-full">
-                      <item.icon className="size-5" aria-hidden="true" />
-                    </span>
-                    <h3 className="text-about-ink mt-3 text-base font-bold">{item.title}</h3>
-                    <p className="text-about-copy mt-1 text-sm leading-snug">{item.text}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
+            <AdvantagesGrid items={BENEFITS} compact />
           </div>
         </section>
 
