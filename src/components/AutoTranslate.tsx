@@ -92,8 +92,14 @@ export function AutoTranslate() {
       const missing = [...found.keys()].filter((k) => !(k in cache));
       for (let i = 0; i < missing.length && !cancelled; i += 100) {
         try {
-          const { map } = await translateTexts({ data: { lang: lang as "en" | "ky" | "zh", texts: missing.slice(i, i + 100) } });
-          Object.assign(cache, map);
+          const { data: rows } = await supabase.rpc("get_translations", { p_lang: lang, p_texts: missing.slice(i, i + 100) });
+          for (const r of (rows ?? []) as { src: string; dst: string }[]) cache[r.src] = r.dst;
+          Object.assign(cache, rows ?? {});
+          const stillMissing = missing.slice(i, i + 100).filter((k) => !(k in cache));
+          if (stillMissing.length) {
+            const { map } = await translateTexts({ data: { lang: lang as "en" | "ky" | "zh", texts: stillMissing } });
+            Object.assign(cache, map);
+          }
           localStorage.setItem(cacheKey, JSON.stringify(cache));
         } catch {
           break;
