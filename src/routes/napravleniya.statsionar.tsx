@@ -17,6 +17,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SiteHeader } from "@/components/SiteHeader";
 import { CLINIC, absoluteUrl, faqPageJsonLd } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
+import { ContactButtons } from "@/components/ContactButtons";
 import { FaqList } from "./hirurgiya.index";
 
 const TITLE = "Стационар в Бишкеке — круглосуточный, с ценами | Авиценна";
@@ -170,6 +171,7 @@ function StatsionarPage() {
                   <Phone className="size-4" aria-hidden="true" />
                   +996 779 909 009
                 </a>
+                <ContactButtons only="whatsapp" />
               </div>
               <p className="mt-5 inline-flex items-center gap-2 text-sm text-about-copy">
                 <MapPin className="size-4 text-about-teal" aria-hidden="true" />
@@ -312,6 +314,7 @@ function StatsionarPage() {
                 >
                   Онлайн-запись
                 </a>
+                <ContactButtons />
               </div>
             </div>
           </div>

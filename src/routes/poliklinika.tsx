@@ -33,6 +33,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { absoluteUrl, faqPageJsonLd } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
+import { ContactButtons } from "@/components/ContactButtons";
 
 const TITLE = "Поликлиника в Бишкеке — врачи и диагностика | Авиценна";
 const DESCRIPTION =
@@ -157,6 +158,7 @@ function PolyclinicPage() {
               <p className="text-about-copy mt-3 max-w-2xl text-[13px] leading-relaxed sm:text-base">Современный многопрофильный медицинский центр, где вы сможете получить консультации врача, пройти диагностику, сдать анализы и начать лечение в одном месте.</p>
               <div className="mt-4 flex flex-wrap gap-2 sm:gap-3">
                 <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark px-3 text-xs shadow-none sm:px-4 sm:text-sm"><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на приём</a></Button>
+                <ContactButtons />
               </div>
             </Reveal>
             <div className="relative mt-6 hidden overflow-hidden rounded-2xl lg:mt-0 lg:block lg:h-full">
@@ -231,7 +233,7 @@ function PolyclinicPage() {
 
         <section className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-            <div><h2 className="text-about-ink text-2xl font-extrabold sm:text-3xl">Забота о вашем здоровье</h2><p className="text-about-copy mt-3 max-w-xl text-sm leading-relaxed sm:text-base">Запишитесь на консультацию — администратор поможет выбрать специалиста и удобное время.</p><Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark mt-6 shadow-none"><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на консультацию</a></Button></div>
+            <div><h2 className="text-about-ink text-2xl font-extrabold sm:text-3xl">Забота о вашем здоровье</h2><p className="text-about-copy mt-3 max-w-xl text-sm leading-relaxed sm:text-base">Запишитесь на консультацию — администратор поможет выбрать специалиста и удобное время.</p><div className="mt-6 flex flex-wrap gap-2 sm:gap-3"><Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark shadow-none"><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на консультацию</a></Button><ContactButtons /></div></div>
             <img src={doctorPatientHeroAsset} alt="Врач консультирует пациента" className="hidden lg:block h-60 w-full rounded-2xl object-cover" />
           </div>
         </section>

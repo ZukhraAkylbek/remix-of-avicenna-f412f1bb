@@ -13,6 +13,7 @@ import { SymptomNavigator } from "@/components/SymptomNavigator";
 import { absoluteUrl } from "@/lib/clinic";
 import { diagnosticsPageQueryOptions } from "@/lib/diagnostics.queries";
 import { BOOKING_URL } from "@/lib/site-config";
+import { ContactButtons } from "@/components/ContactButtons";
 import { cn } from "@/lib/utils";
 
 const TITLE = "Диагностика в Бишкеке — УЗИ, КТ, анализы | Авиценна";
@@ -109,6 +110,7 @@ function DiagnosticsPage() {
                       <CalendarCheck className="size-5" strokeWidth={2.2} />
                       {hero.primary_label ?? "Записаться на диагностику"}
                     </a>
+                    <ContactButtons />
                     {hero.secondary_label && hero.secondary_url && (
                       <a
                         href={hero.secondary_url}
@@ -265,15 +267,18 @@ function DiagnosticsPage() {
                   {cta.subtitle}
                 </p>
               )}
+              <div className="mt-5 flex flex-wrap items-center gap-2 sm:gap-3">
               <a
                 href={cta.primary_url || BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-accent text-accent-foreground hover:bg-accent/90 mt-5 inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-[16px] font-extrabold transition-colors"
+                className="bg-accent text-accent-foreground hover:bg-accent/90 inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-[16px] font-extrabold transition-colors"
               >
                 <CalendarCheck className="size-5" strokeWidth={2.2} />
                 {cta.primary_label ?? "Записаться онлайн"}
               </a>
+              <ContactButtons />
+              </div>
             </div>
           </section>
         )}
