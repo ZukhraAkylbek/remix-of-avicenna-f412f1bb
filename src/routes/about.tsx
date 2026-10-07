@@ -13,6 +13,7 @@ import {
 import archiveTeam from "@/assets/about-archive-team.jpg.asset.json";
 import archiveFounder from "@/assets/about-archive-founder.jpg.asset.json";
 import teamToday from "@/assets/about-team-today.jpg.asset.json";
+import clinicHero from "@/assets/about-clinic-hero.png.asset.json";
 import clinicExterior from "@/assets/about-clinic-exterior.jpg";
 import founderPortrait from "@/assets/founder-zhypar.png";
 import receptionPhoto from "@/assets/about-reception.jpg";
@@ -191,12 +192,12 @@ function AboutPage() {
         <section className="bg-about-mint relative isolate min-h-[440px] overflow-hidden lg:min-h-[460px]">
           <div className="absolute inset-x-0 bottom-0 h-[55%] lg:inset-y-0 lg:right-0 lg:left-auto lg:h-auto lg:w-[57%]">
             <img
-              src={clinicExterior}
-              alt="Современное здание медицинской клиники среди деревьев"
+              src={clinicHero.url}
+              alt="Здание клиники «Авиценна»"
               width={1600}
               height={1200}
               fetchPriority="high"
-              className="size-full object-cover object-center"
+              className="size-full object-cover object-[50%_30%]"
             />
             <div className="from-about-mint absolute inset-0 bg-gradient-to-b from-15% via-about-mint/30 to-transparent lg:bg-gradient-to-r lg:from-0% lg:via-about-mint/40 lg:to-transparent" />
           </div>
