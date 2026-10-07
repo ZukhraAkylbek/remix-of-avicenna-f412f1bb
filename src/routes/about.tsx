@@ -260,8 +260,8 @@ function AboutPage() {
               {PARTNERS.map(({ title, text, logo, alt, href, action }, index) => (
                 <Reveal key={title} delay={index * 35} className="h-full">
                   <a href={href || undefined} target={href ? "_blank" : undefined} rel={href ? "noopener noreferrer" : undefined} aria-label={`${title} — ${action}`} className="border-about-line bg-card group flex h-full flex-row items-center gap-4 rounded-2xl border p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-about-teal hover:shadow-sm sm:flex-col sm:items-stretch sm:gap-0 sm:p-6">
-                    <div className="bg-card flex h-14 w-20 shrink-0 items-center justify-center sm:h-20 sm:w-auto">
-                      <img src={logo} alt={alt} loading="lazy" className="max-h-full max-w-full w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03] sm:max-w-[220px]" />
+                    <div className="grid size-14 shrink-0 place-items-center rounded-xl bg-brand-white p-1.5 shadow-sm sm:size-20">
+                      <img src={logo} alt={alt} loading="lazy" className="max-h-full object-contain transition-transform duration-300 group-hover:scale-[1.03]" />
                     </div>
                     <div className="flex flex-1 flex-col pt-0 sm:mt-4 sm:border-t sm:border-about-line sm:pt-4">
                       <h3 className="text-about-ink text-base font-bold">{title}</h3>
