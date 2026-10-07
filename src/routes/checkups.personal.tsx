@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { absoluteUrl } from "@/lib/clinic";
 import { checkupCardsQueryOptions, parseSections } from "@/lib/checkups.queries";
 import type { CheckupCard } from "@/lib/checkups.server";
-import { BOOKING_URL } from "@/lib/site-config";
 
 const TITLE = "Персональный чекап — Авиценна";
 const DESCRIPTION =
@@ -75,6 +74,17 @@ function PersonalCheckupPage() {
         .reduce((sum, item) => sum + priceOf(item), 0),
     [base, optionCards, selected],
   );
+
+  const bookingHref = useMemo(() => {
+    const chosen = optionCards.filter((item) => selected.includes(item.slug));
+    const lines = [
+      "Здравствуйте! Хочу записаться на персональный чекап:",
+      `• ${base?.title ?? "Персональный чекап"} — ${formatSom(base ? priceOf(base) : 0)}`,
+      ...chosen.map((item) => `• ${item.title} — ${formatSom(priceOf(item))}`),
+      `Итого: ${formatSom(total)}`,
+    ];
+    return `https://wa.me/996779909009?text=${encodeURIComponent(lines.join("\n"))}`;
+  }, [base, optionCards, selected, total]);
 
   const toggle = (id: string, checked: boolean) => {
     setSelected((current) =>
@@ -255,7 +265,7 @@ function PersonalCheckupPage() {
             </div>
           </div>
           <Button asChild className="h-11 rounded-xl bg-brand-green px-5 font-bold text-brand-white hover:bg-brand-green-dark">
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+            <a href={bookingHref} target="_blank" rel="noopener noreferrer">
               <CalendarCheck className="size-4" />
               Записаться
             </a>
