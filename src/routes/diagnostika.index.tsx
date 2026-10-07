@@ -6,7 +6,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, CalendarCheck } from "lucide-react";
 
 import { DiagnosticsIcon } from "@/components/DiagnosticsIcon";
-import { diagnosticDocuments } from "@/components/DiagnosticsDocument";
+import { diagnosticDocuments, SHORT_INTROS } from "@/components/DiagnosticsDocument";
 import { Reveal } from "@/components/Reveal";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
