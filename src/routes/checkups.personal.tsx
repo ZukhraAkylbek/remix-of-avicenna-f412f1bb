@@ -10,8 +10,6 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { absoluteUrl } from "@/lib/clinic";
 import { checkupCardsQueryOptions, parseSections } from "@/lib/checkups.queries";
-import type { CheckupCard } from "@/lib/checkups.server";
-import { BOOKING_URL } from "@/lib/site-config";
 
 const TITLE = "Персональный чекап — Авиценна";
 const DESCRIPTION =
