@@ -102,16 +102,12 @@ export function CrudManager({
       const id = payload["id"] as string | undefined;
       delete payload["id"];
       if (id) {
-        const update = supabase.from(table).update as unknown as (
-          v: unknown,
-        ) => { eq: (c: string, v: string) => Promise<{ error: { message: string } | null }> };
-        const { error } = await update(payload).eq("id", id);
+        const builder = supabase.from(table) as any;
+        const { error } = await builder.update(payload).eq("id", id);
         if (error) throw new Error(error.message);
       } else {
-        const insert = supabase.from(table).insert as unknown as (
-          v: unknown,
-        ) => Promise<{ error: { message: string } | null }>;
-        const { error } = await insert(payload);
+        const builder = supabase.from(table) as any;
+        const { error } = await builder.insert(payload);
         if (error) throw new Error(error.message);
       }
 
