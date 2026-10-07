@@ -174,6 +174,9 @@ export function SiteHeader({ breadcrumb }: { breadcrumb?: string }) {
               }`}
             >
               {item.label}
+              {item.href === "/travmpunkt" && (
+                <span className="bg-brand-red text-brand-white ml-1.5 rounded-md px-1.5 py-0.5 text-[11px] font-extrabold leading-none">24/7</span>
+              )}
             </a>
           ))}
 
@@ -254,6 +257,9 @@ export function SiteHeader({ breadcrumb }: { breadcrumb?: string }) {
 
                 >
                   {item.label}
+                  {item.href === "/travmpunkt" && (
+                    <span className="bg-brand-red text-brand-white ml-1.5 rounded-md px-1.5 py-0.5 text-[11px] font-extrabold leading-none">24/7</span>
+                  )}
                 </a>
               ))}
 
