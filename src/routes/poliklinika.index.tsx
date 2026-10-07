@@ -99,7 +99,7 @@ const FAQS = [
   { question: "Как подготовиться к первичному приёму?", answer: "Возьмите результаты предыдущих обследований и список принимаемых препаратов, если они есть." },
 ];
 
-export const Route = createFileRoute("/poliklinika")({
+export const Route = createFileRoute("/poliklinika/")({
   head: () => ({
     meta: [
       { title: TITLE },
