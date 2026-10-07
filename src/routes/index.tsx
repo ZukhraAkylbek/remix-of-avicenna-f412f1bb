@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { HOME_HERO_IMAGE, HomeV3 } from "@/components/HomeV3";
 import { activeHeroSlidesQueryOptions } from "@/lib/hero-slides.queries";
+import { homeItemsQueryOptions } from "@/lib/home-items";
 import { absoluteUrl, medicalClinicJsonLd } from "@/lib/clinic";
 
 const TITLE = "Авиценна — сеть многопрофильных клиник в Бишкеке";
@@ -36,6 +37,7 @@ export const Route = createFileRoute("/")({
   }),
   loader: async ({ context }) => {
     await context.queryClient.prefetchQuery(activeHeroSlidesQueryOptions());
+    await context.queryClient.prefetchQuery(homeItemsQueryOptions());
   },
   component: HomeV3,
 });

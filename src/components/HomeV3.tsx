@@ -1,5 +1,6 @@
-import { ArrowRight, ClipboardCheck, Award, Waves, MapPin, Star, Stethoscope, TrendingUp, Brain, Droplets, Ribbon, Flower2, HeartPulse, Ear, Microscope, type LucideIcon } from "lucide-react";
+import { ArrowRight, ClipboardCheck, Award, Waves, MapPin, Star, Stethoscope, TrendingUp, Brain, Droplets, Ribbon, Flower2, HeartPulse, Ear, Microscope, Users, type LucideIcon } from "lucide-react";
 import { useRef, useState } from "react";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 import aboutHeroAsset from "@/assets/chat/about-hero.webp";
 import aboutMissionAsset from "@/assets/chat/about-mission.webp";
@@ -20,6 +21,7 @@ import { CLINIC } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
 import { ContactButtons } from "@/components/ContactButtons";
 import { Link } from "@tanstack/react-router";
+import { homeItemsQueryOptions, type HomeItem } from "@/lib/home-items";
 
 export const HOME_HERO_IMAGE = asianFamilyHeroAsset;
 
@@ -31,7 +33,7 @@ function Eyebrow({ children }: { children: string }) {
   );
 }
 
-function SpecialtyMarquee() {
+function SpecialtyMarquee({ items }: { items: Array<{ name: string; icon: LucideIcon; href: string }> }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [manual, setManual] = useState(false);
 
@@ -66,10 +68,10 @@ function SpecialtyMarquee() {
           <div className={`${manual ? "" : "marquee-track-quarter"} flex w-max`}>
             {[0, 1, 2, 3].map((copy) => (
               <div key={copy} className="flex shrink-0 gap-3 pr-3" aria-hidden={copy > 0}>
-                {SPECIALTY_PILLS.map((item) => (
-                  <Link
+                {items.map((item) => (
+                  <SmartLink
                     key={`${copy}-${item.name}`}
-                    to={item.href}
+                    href={item.href}
                     className="bg-background border-border hover:border-brand-green group flex h-[112px] w-[190px] shrink-0 flex-col justify-between rounded-2xl border p-4 transition-colors sm:h-[150px] sm:w-[230px] sm:p-5"
                   >
                     <span className="bg-brand-green/10 text-brand-green grid size-11 shrink-0 place-items-center rounded-full transition-transform group-hover:scale-105 sm:size-14">
@@ -78,7 +80,7 @@ function SpecialtyMarquee() {
                     <span className="text-foreground text-base font-extrabold leading-snug sm:text-lg">
                       {item.name}
                     </span>
-                  </Link>
+                  </SmartLink>
                 ))}
               </div>
             ))}
@@ -94,16 +96,17 @@ function ReviewCard({
   review,
   className,
 }: {
-  review: { text: string; src: string };
+  review: { text: string; src: string; rating?: number | null };
   className?: string;
 }) {
+  const rating = Math.max(0, Math.min(5, review.rating ?? 5));
   return (
     <figure
       className={`bg-background border-border flex h-[200px] w-[320px] flex-col rounded-2xl border p-5 lg:w-[360px] ${className ?? ""}`}
     >
       <div className="text-brand-green flex gap-1">
         {[0, 1, 2, 3, 4].map((i) => (
-          <Star key={i} className="size-4 fill-current" />
+          <Star key={i} className={`size-4 ${i < rating ? "fill-current" : "opacity-30"}`} />
         ))}
       </div>
       <blockquote className="text-foreground mt-3 line-clamp-4 text-[15px] leading-relaxed">
@@ -169,11 +172,39 @@ const SPECIALTY_PILLS: Array<{ name: string; icon: LucideIcon; href: string }> =
   { name: "Эндокринология", icon: Microscope, href: "/vrachi" },
 ];
 
-const REVIEWS = [
-  { text: "Быстро приняли в травмпункте ночью, всё объяснили и сделали снимок за 15 минут.", src: "2GIS" },
-  { text: "Чекап прошли всей семьёй за два дня — результаты пришли в приложение.", src: "Google" },
-  { text: "Хирург подробно разобрал анализы и предложил план без лишних процедур.", src: "2GIS" },
-];
+const ICONS: Record<string, LucideIcon> = {
+  Brain, Droplets, Ribbon, Flower2, HeartPulse, Ear, Microscope, MapPin,
+  Stethoscope, TrendingUp, ClipboardCheck, Award, Waves, Users,
+};
+
+const iconOf = (name: string | null | undefined): LucideIcon =>
+  (name && ICONS[name]) || Stethoscope;
+
+const tagToneOf = (tag: string | null | undefined) =>
+  tag === "Акция" ? "bg-brand-red" : tag === "Спецпредложение" ? "bg-brand-green" : "bg-foreground/60";
+
+function SmartLink({
+  href,
+  className,
+  children,
+}: {
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  if (/^https?:\/\//.test(href)) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link to={href as "/"} className={className}>
+      {children}
+    </Link>
+  );
+}
 
 const CLINIC_STATS = [
   { value: "6", label: "филиалов в Бишкеке", icon: MapPin },
@@ -184,10 +215,9 @@ const CLINIC_STATS = [
   { value: "146", label: "видов УЗИ", icon: Waves },
 ];
 
-const OFFER_CARDS = [
+const OFFER_CARDS: OfferItem[] = [
   {
     tag: "Акция",
-    tagTone: "bg-brand-red",
     title: "Сомнография",
     description: "Консультация + диагностика на сомнографе со скидкой",
     price: "3 700 с",
@@ -198,7 +228,6 @@ const OFFER_CARDS = [
   },
   {
     tag: "Спецпредложение",
-    tagTone: "bg-brand-green",
     title: "Счастливые часы",
     description: "Пройдите чекап утром и получите дополнительную скидку 10%",
     href: "/checkups",
@@ -207,7 +236,6 @@ const OFFER_CARDS = [
   },
   {
     tag: "Новость",
-    tagTone: "bg-foreground/60",
     title: "Услуги на дому",
     description: "Врач, анализы и процедуры без выезда в клинику",
     href: "/uslugi/analizy",
@@ -216,7 +244,6 @@ const OFFER_CARDS = [
   },
   {
     tag: "Спецпредложение",
-    tagTone: "bg-brand-green",
     title: "Бесплатная консультация хирурга",
     description: "Разбор анализов и плана операции без оплаты приёма",
     href: "/hirurgiya",
@@ -225,7 +252,18 @@ const OFFER_CARDS = [
   },
 ];
 
-function OffersMarquee() {
+type OfferItem = {
+  tag: string | null;
+  title: string;
+  description: string | null;
+  price?: string | null;
+  oldPrice?: string | null;
+  href: string;
+  image: string;
+  tone: string | null;
+};
+
+function OffersMarquee({ items }: { items: OfferItem[] }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [manual, setManual] = useState(false);
 
@@ -247,7 +285,7 @@ function OffersMarquee() {
         <div className={`${manual ? "" : "marquee-track"} flex w-max gap-4 pr-4`}>
           {[0, 1].map((copy) => (
             <div key={copy} className="flex shrink-0 gap-4 pr-4" aria-hidden={copy === 1}>
-              {OFFER_CARDS.map((item) => (
+              {items.map((item) => (
                 <OfferCard key={`${copy}-${item.title}`} item={item} className="w-[300px]" />
               ))}
             </div>
@@ -262,12 +300,12 @@ function OfferCard({
   item,
   className,
 }: {
-  item: (typeof OFFER_CARDS)[number];
+  item: OfferItem;
   className?: string;
 }) {
   return (
-    <Link
-      to={item.href as "/"}
+    <SmartLink
+      href={item.href}
       className={`${item.tone} group border-border/40 flex shrink-0 flex-col overflow-hidden rounded-3xl border transition-all hover:-translate-y-1 hover:shadow-lg ${className ?? ""}`}
     >
       <div className="relative h-[150px] w-full shrink-0 overflow-hidden sm:h-[190px]">
@@ -277,11 +315,13 @@ function OfferCard({
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           loading="lazy"
         />
-        <span
-          className={`${item.tagTone} text-brand-white absolute top-4 left-4 rounded-full px-3.5 py-1.5 text-[11px] font-extrabold tracking-[0.12em] uppercase`}
-        >
-          {item.tag}
-        </span>
+        {item.tag ? (
+          <span
+            className={`${tagToneOf(item.tag)} text-brand-white absolute top-4 left-4 rounded-full px-3.5 py-1.5 text-[11px] font-extrabold tracking-[0.12em] uppercase`}
+          >
+            {item.tag}
+          </span>
+        ) : null}
       </div>
 
       <div className="flex flex-1 flex-col p-5">
@@ -298,12 +338,64 @@ function OfferCard({
           <ArrowRight className="size-4" />
         </span>
       </div>
-    </Link>
+    </SmartLink>
   );
 }
 
 
 export function HomeV3() {
+  const { data: homeItems } = useSuspenseQuery(homeItemsQueryOptions());
+  const byGroup = (grp: HomeItem["grp"]) => homeItems.filter((i) => i.grp === grp);
+
+  const routeRows = byGroup("route");
+  const routeCards =
+    routeRows.length > 0
+      ? routeRows.map((i) => ({ title: i.title, href: i.href ?? "/", tone: i.tone ?? "pastel-mint" }))
+      : ROUTE_CARDS;
+
+  const specialtyRows = byGroup("specialty");
+  const specialtyPills =
+    specialtyRows.length > 0
+      ? specialtyRows.map((i) => ({ name: i.title, icon: iconOf(i.icon), href: i.href ?? "/vrachi" }))
+      : SPECIALTY_PILLS;
+
+  const statRows = byGroup("stat");
+  const clinicStats =
+    statRows.length > 0
+      ? statRows.map((i) => ({ value: i.value ?? "", label: i.title, icon: iconOf(i.icon) }))
+      : CLINIC_STATS;
+
+  const offerRows = byGroup("offer");
+  const offerCards: OfferItem[] =
+    offerRows.length > 0
+      ? offerRows.map((i) => ({
+          tag: i.tag,
+          title: i.title,
+          description: i.text,
+          price: i.price,
+          oldPrice: i.old_price,
+          href: i.href ?? "/",
+          image: i.image_url ?? aboutHeroAsset,
+          tone: i.tone,
+        }))
+      : OFFER_CARDS.map((o) => ({
+          tag: o.tag,
+          title: o.title,
+          description: o.description,
+          price: o.price ?? null,
+          oldPrice: o.oldPrice ?? null,
+          href: o.href,
+          image: o.image,
+          tone: o.tone,
+        }));
+
+  const reviewRows = byGroup("review");
+  const reviews = reviewRows.map((i) => ({
+    text: i.text ?? "",
+    src: i.source ?? "Другое",
+    rating: i.rating,
+  }));
+
   return (
     <div className="bg-background min-h-screen">
       <SiteHeader />
@@ -316,10 +408,10 @@ export function HomeV3() {
 
             {/* Быстрый маршрут — сетка 3×3 справа */}
             <div className="grid auto-rows-fr grid-cols-3 gap-2 sm:grid-cols-3 sm:gap-3">
-              {ROUTE_CARDS.map((card) => (
-                <Link
+              {routeCards.map((card) => (
+                <SmartLink
                   key={card.title}
-                  to={card.href as "/"}
+                  href={card.href}
                   className={`${card.tone} card-lift border-border/40 hover:border-brand-green group flex min-h-[76px] flex-col justify-between rounded-2xl border p-3 transition-all sm:min-h-[104px] sm:p-4`}
                 >
                   <p className="text-foreground text-[13px] leading-snug font-extrabold sm:text-[14px]">
@@ -328,14 +420,14 @@ export function HomeV3() {
                   <span className="bg-brand-green text-brand-white ml-auto flex size-6 shrink-0 items-center justify-center rounded-full transition-transform group-hover:translate-x-0.5 sm:size-7">
                     <ArrowRight className="size-3.5" />
                   </span>
-                </Link>
+                </SmartLink>
               ))}
             </div>
           </div>
         </section>
 
         {/* Зелёные блоки специальностей — бегущая строка */}
-        <SpecialtyMarquee />
+        <SpecialtyMarquee items={specialtyPills} />
 
 
 
@@ -385,7 +477,7 @@ export function HomeV3() {
           </div>
           <Reveal delay={160}>
             <div className="mt-6 grid grid-cols-3 gap-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
-              {CLINIC_STATS.map((stat) => (
+              {clinicStats.map((stat) => (
                 <div
                   key={stat.label}
                   className="bg-surface-soft border-border flex flex-col items-center gap-2 rounded-2xl border p-3 text-center sm:p-5"
@@ -408,14 +500,14 @@ export function HomeV3() {
         {/* Новости и специальные предложения */}
         <Section tone="soft" eyebrow="" title="Новости и специальные предложения">
           <div className="hidden gap-4 lg:grid lg:grid-cols-3">
-            {OFFER_CARDS.slice(0, 3).map((item, index) => (
+            {offerCards.slice(0, 3).map((item, index) => (
               <Reveal key={item.title} delay={index * 60} className="h-full">
                 <OfferCard item={item} className="h-full w-full" />
               </Reveal>
             ))}
           </div>
           <div className="lg:hidden">
-            <OffersMarquee />
+            <OffersMarquee items={offerCards} />
           </div>
         </Section>
 
@@ -460,13 +552,14 @@ export function HomeV3() {
         <BranchesWithMap />
 
         {/* Отзывы */}
+        {reviews.length > 0 && (
         <Section tone="soft" eyebrow="Доверие" title="Отзывы пациентов">
           {/* Mobile: scrolling marquee */}
           <div className="group marquee-mask relative overflow-hidden md:hidden">
             <div className="marquee-track-quarter flex w-max">
               {[0, 1, 2, 3].map((copy) => (
                 <div key={copy} className="flex shrink-0 gap-4 pr-4" aria-hidden={copy > 0}>
-                  {REVIEWS.map((review) => (
+                  {reviews.map((review) => (
                     <ReviewCard
                       review={review}
                       key={`mobile-${copy}-${review.text}`}
@@ -483,7 +576,7 @@ export function HomeV3() {
             <div className="marquee-track-quarter flex w-max">
               {[0, 1, 2, 3].map((copy) => (
                 <div key={copy} className="flex shrink-0 gap-4 pr-4" aria-hidden={copy > 0}>
-                  {REVIEWS.map((review) => (
+                  {reviews.map((review) => (
                     <ReviewCard review={review} key={`${copy}-${review.text}`} />
                   ))}
                 </div>
@@ -491,6 +584,7 @@ export function HomeV3() {
             </div>
           </div>
         </Section>
+        )}
 
         {/* Часто задаваемые вопросы */}
         <FaqAccordion />
