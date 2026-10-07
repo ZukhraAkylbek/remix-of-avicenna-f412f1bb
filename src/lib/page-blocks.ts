@@ -112,7 +112,7 @@ export function emptyBlock(type: BlockType): PageBlock {
         ...base,
         title: "Запишитесь на приём",
         subtitle: "Мы подберём врача и удобное время",
-        buttons: [{ label: "Записаться онлайн", url: "https://avicenna.altegio.me" }],
+        buttons: [{ label: "Записаться онлайн", url: "https://crm.operator.kg/book?org=avicenna" }],
       };
     case "mission":
       return { ...base, title: "Наша миссия", text: "" };
