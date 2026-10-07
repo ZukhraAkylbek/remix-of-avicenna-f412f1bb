@@ -418,10 +418,10 @@ export function HomeV3() {
 
             {/* Быстрый маршрут — сетка 3×3 справа */}
             <div className="grid auto-rows-fr grid-cols-3 gap-2 sm:grid-cols-3 sm:gap-3">
-              {ROUTE_CARDS.map((card) => (
-                <Link
+              {routeCards.map((card) => (
+                <SmartLink
                   key={card.title}
-                  to={card.href as "/"}
+                  href={card.href}
                   className={`${card.tone} card-lift border-border/40 hover:border-brand-green group flex min-h-[76px] flex-col justify-between rounded-2xl border p-3 transition-all sm:min-h-[104px] sm:p-4`}
                 >
                   <p className="text-foreground text-[13px] leading-snug font-extrabold sm:text-[14px]">
@@ -430,14 +430,14 @@ export function HomeV3() {
                   <span className="bg-brand-green text-brand-white ml-auto flex size-6 shrink-0 items-center justify-center rounded-full transition-transform group-hover:translate-x-0.5 sm:size-7">
                     <ArrowRight className="size-3.5" />
                   </span>
-                </Link>
+                </SmartLink>
               ))}
             </div>
           </div>
         </section>
 
         {/* Зелёные блоки специальностей — бегущая строка */}
-        <SpecialtyMarquee />
+        <SpecialtyMarquee items={specialtyPills} />
 
 
 
