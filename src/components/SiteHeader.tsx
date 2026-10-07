@@ -51,7 +51,7 @@ export function SiteHeader({ breadcrumb }: { breadcrumb?: string }) {
   return (
     <div className="sticky top-0 z-50">
       {/* Верхняя панель */}
-      <header className="bg-background/95 border-border border-b backdrop-blur">
+      <header className="bg-background/70 border-border border-b backdrop-blur-md">
         <div className="mx-auto grid max-w-7xl grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-2 py-2.5 sm:px-4 sm:py-3 lg:gap-6 lg:px-6 lg:py-3">
           {/* Логотип */}
           <div className="flex min-w-0 shrink-0 items-center gap-2 sm:gap-3">
@@ -157,7 +157,7 @@ export function SiteHeader({ breadcrumb }: { breadcrumb?: string }) {
       {/* Зелёная навигационная панель — десктоп */}
       <nav
         aria-label={t("Главное меню", "Главное меню")}
-        className="bg-brand-green text-brand-white hidden shadow-sm md:block"
+        className="bg-brand-green/85 text-brand-white hidden shadow-sm backdrop-blur-md md:block"
       >
         <div className="mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto px-4 py-1.5 sm:px-6 xl:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none]">
           {navItems.map((item) => (
