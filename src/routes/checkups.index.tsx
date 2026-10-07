@@ -34,10 +34,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { absoluteUrl } from "@/lib/clinic";
-const TITLE = "Чекапы — Авиценна";
 import { ContactButtons } from "@/components/ContactButtons";
 
-const TITLE = "Чекапы для вашего здоровья | Авиценна";
+/** Ссылка WhatsApp с сообщением о выбранном чекапе */
+function waHref(title?: string) {
+  const text = title
+    ? `Здравствуйте! Хочу записаться на чекап: ${title}.`
+    : "Здравствуйте! Хочу записаться на чекап.";
+  return `https://wa.me/996779909009?text=${encodeURIComponent(text)}`;
+}
+
 const DESCRIPTION =
   "Чекапы в клинике «Авиценна» в Бишкеке: программы обследования для женщин, мужчин и детей, мини-чекапы, персональные и корпоративные решения.";
 
