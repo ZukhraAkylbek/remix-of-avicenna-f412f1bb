@@ -171,6 +171,7 @@ function StatsionarPage() {
                   <Phone className="size-4" aria-hidden="true" />
                   +996 779 909 009
                 </a>
+                <ContactButtons only="whatsapp" />
               </div>
               <p className="mt-5 inline-flex items-center gap-2 text-sm text-about-copy">
                 <MapPin className="size-4 text-about-teal" aria-hidden="true" />

@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ChevronLeft,
   ChevronRight,
-  Phone,
   Plus,
   Stethoscope,
   UserRound,
