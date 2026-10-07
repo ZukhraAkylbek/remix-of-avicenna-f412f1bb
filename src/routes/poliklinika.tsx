@@ -200,6 +200,7 @@ function PolyclinicPage() {
                       <span className="text-about-ink min-w-0 flex-1 text-[13px] font-semibold sm:text-sm">{item.name}</span>
                       <Plus className="text-about-teal hidden size-5 shrink-0 transition-transform group-hover:rotate-90 sm:block" aria-hidden="true" />
                     </Link>
+                    )}
                   </Reveal>
                   );
                 })}
