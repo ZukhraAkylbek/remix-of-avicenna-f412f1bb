@@ -31,14 +31,14 @@ const STORY = [
     title: "Как всё начиналось",
     text: "В 2000 году Жыпар Абдыказиевна Керималиева открыла «Авиценну» в небольшом кабинете на улице Суеркулова. Так началась история отечественной медицинской компании.",
     image: archiveFounder.url,
-    alt: "Архивный снимок команды медиков",
+    alt: "Архивный портрет основательницы клиники",
   },
   {
     year: "",
     title: "Появление «Экспресс Плюс»",
     text: "Чтобы обеспечить точную диагностику, мы создали собственную лабораторию «Экспресс Плюс». Это стало важным шагом в развитии комплексной медицинской помощи.",
     image: archiveTeam.url,
-    alt: "Архивный портрет основательницы клиники",
+    alt: "Архивный снимок команды медиков",
   },
   {
     year: "2001",
@@ -217,7 +217,7 @@ function AboutPage() {
             </Reveal>
           </div>
 
-          <LeafOrnament className="text-about-ornament absolute bottom-3 left-3 z-10 w-32 opacity-60 sm:left-8 sm:w-40 lg:bottom-8" />
+          <LeafOrnament className="text-about-ornament absolute bottom-3 left-3 z-10 w-32 opacity-60 sm:left-8 sm:w-40 lg:bottom-8 hidden lg:block" />
         </section>
 
         <section className="py-10 sm:py-12">
@@ -227,7 +227,7 @@ function AboutPage() {
               История сети — от первого кабинета до многопрофильной клиники. Листайте вправо, чтобы увидеть всю историю.
             </p>
           </div>
-          <div className="mt-8 flex gap-4 overflow-x-auto px-4 pb-3 scroll-smooth snap-x snap-mandatory sm:px-6">
+          <div className="mt-8 flex gap-4 overflow-x-auto px-4 pb-3 scroll-smooth snap-x snap-mandatory sm:px-6 scroll-px-4 sm:scroll-px-6 xl:px-[calc((100vw-80rem)/2+1.5rem)] xl:scroll-px-[calc((100vw-80rem)/2+1.5rem)]">
             {STORY.map(({ year, title, text, image, alt }) => (
               <article
                 key={title}
