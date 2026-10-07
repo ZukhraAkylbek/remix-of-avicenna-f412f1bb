@@ -83,8 +83,9 @@ function CheckupsPage() {
   const { data: cards } = useSuspenseQuery(checkupCardsQueryOptions());
   const [active, setActive] = useState<CheckupCard | null>(null);
   const [fromMini, setFromMini] = useState(false);
+  const [showAllAnalyses, setShowAllAnalyses] = useState(false);
+  useEffect(() => { setShowAllAnalyses(false); }, [active?.id]);
   const byBadge = (badge: string) => cards.filter((c) => c.badge === badge);
-  const openCard = (card: CheckupCard) => { setFromMini(false); setActive(card); };
 
   return (
     <div className="min-h-screen bg-about-canvas">
