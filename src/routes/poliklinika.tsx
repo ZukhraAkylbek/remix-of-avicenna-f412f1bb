@@ -39,21 +39,21 @@ const TITLE = "Поликлиника в Бишкеке — врачи и диа
 const DESCRIPTION =
   "Поликлиника «Авиценна» в Бишкеке: консультации врачей, диагностика, анализы и комплексное наблюдение для взрослых и детей.";
 
-const POLYCLINIC_SPECIALISTS: Array<{ name: string; category: string; icon: LucideIcon }> = [
+const POLYCLINIC_SPECIALISTS: Array<{ name: string; category: string; icon: LucideIcon; surgery?: string }> = [
   { name: "Терапевты и семейные врачи", category: "terapiya", icon: Stethoscope },
   { name: "Педиатры", category: "pediatriya", icon: Baby },
   { name: "Кардиологи", category: "uzkie", icon: HeartPulse },
   { name: "Неврологи", category: "nevrologiya", icon: Brain },
   { name: "Гастроэнтерологи", category: "uzkie", icon: Activity },
   { name: "Эндокринологи", category: "uzkie", icon: Microscope },
-  { name: "Гинекологи", category: "ginekologiya", icon: Venus },
-  { name: "Урологи", category: "urologiya", icon: Mars },
-  { name: "Хирурги", category: "hirurgiya", icon: BriefcaseMedical },
-  { name: "Травматологи-ортопеды", category: "travmatologiya", icon: Bone },
+  { name: "Гинекологи", category: "ginekologiya", icon: Venus, surgery: "ginekologiya" },
+  { name: "Урологи", category: "urologiya", icon: Mars, surgery: "urologiya" },
+  { name: "Хирурги", category: "hirurgiya", icon: BriefcaseMedical, surgery: "obshchaya-hirurgiya" },
+  { name: "Травматологи-ортопеды", category: "travmatologiya", icon: Bone, surgery: "travmatologiya" },
   { name: "ЛОР-врачи", category: "uzkie", icon: Ear },
-  { name: "Проктологи", category: "hirurgiya", icon: Hospital },
-  { name: "Маммологи", category: "onkologiya", icon: HeartPulse },
-  { name: "Флебологи", category: "uzkie", icon: Activity },
+  { name: "Проктологи", category: "hirurgiya", icon: Hospital, surgery: "proktologiya" },
+  { name: "Маммологи", category: "onkologiya", icon: HeartPulse, surgery: "mammologiya" },
+  { name: "Флебологи", category: "uzkie", icon: Activity, surgery: "flebologiya" },
   { name: "Пульмонологи", category: "uzkie", icon: Stethoscope },
   { name: "Дерматологи", category: "uzkie", icon: ShieldCheck },
   { name: "Гематологи", category: "uzkie", icon: Microscope },
@@ -175,7 +175,7 @@ function PolyclinicPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <div className="flex flex-wrap items-end justify-between gap-3">
               <PolyclinicHeading title="Направления поликлиники" />
-              <Link to="/vrachi" className="text-about-teal inline-flex items-center gap-2 text-sm font-semibold">Все направления <ArrowRight className="size-4" /></Link>
+              <Link to="/vrachi" className="text-about-teal inline-flex items-center gap-2 text-sm font-semibold">Все врачи <ArrowRight className="size-4" /></Link>
             </div>
             <div className="mt-5 grid gap-5 lg:grid-cols-[280px_1fr]">
               <img src="/assets/checkup-doctors.jpg" alt="Врачи поликлиники «Авиценна»" className="hidden h-full max-h-[560px] w-full rounded-2xl object-cover lg:block" />
@@ -184,6 +184,15 @@ function PolyclinicPage() {
                   const Icon = item.icon;
                   return (
                   <Reveal key={item.name} delay={index * 20}>
+                    item.surgery ? (
+                    <Link to="/hirurgiya/$slug" params={{ slug: item.surgery }} className="border-about-line hover:border-about-teal group flex h-full items-center gap-2 rounded-2xl border bg-about-canvas p-3 transition-colors sm:gap-3 sm:p-4">
+                      <span className="bg-about-icon text-about-teal grid size-8 shrink-0 place-items-center rounded-full sm:size-10">
+                        <Icon className="size-4 sm:size-5" aria-hidden="true" />
+                      </span>
+                      <span className="text-about-ink min-w-0 flex-1 text-[13px] font-semibold sm:text-sm">{item.name}</span>
+                      <Plus className="text-about-teal hidden size-5 shrink-0 transition-transform group-hover:rotate-90 sm:block" aria-hidden="true" />
+                    </Link>
+                    ) : (
                     <Link to="/vrachi" search={{ category: item.category }} hash="vrachi" className="border-about-line hover:border-about-teal group flex h-full items-center gap-2 rounded-2xl border bg-about-canvas p-3 transition-colors sm:gap-3 sm:p-4">
                       <span className="bg-about-icon text-about-teal grid size-8 shrink-0 place-items-center rounded-full sm:size-10">
                         <Icon className="size-4 sm:size-5" aria-hidden="true" />
