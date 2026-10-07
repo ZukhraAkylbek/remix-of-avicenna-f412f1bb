@@ -294,20 +294,32 @@ function AboutPage() {
                       «Главное — ден соолук!»
                     </h2>
                     <p className="text-about-ink mt-6 text-lg font-bold">
-                      Керималиева Жыпар Абдыказиевна
+                      Жыпар Абдыказиевна Керималиева
                     </p>
                     <p className="text-about-copy mt-1.5 text-sm leading-relaxed">
-                      Основательница сети клиник «Авиценна»
+                      Основатель сети клиник «Авиценна»
+                      <br />
+                      Врач-дерматовенеролог, кандидат медицинских наук
                     </p>
                   </div>
 
                   <div className="bg-about-line h-px w-full lg:h-full lg:min-h-56 lg:w-px" />
 
                   <div>
-                    <p className="text-about-ink text-lg leading-relaxed sm:text-xl">
-                      С самого начала нашей работы мы руководствовались простой и важной целью —
-                      сделать качественную медицинскую помощь доступной для каждого человека.
-                    </p>
+                    <div className="space-y-3">
+                      <p className="text-about-ink text-base leading-relaxed sm:text-lg">
+                        В 2000 году «Авиценна» началась с небольшого кабинета, большой мечты и труда — создавать медицину, которой можно доверять.
+                      </p>
+                      <p className="text-about-ink text-base leading-relaxed sm:text-lg">
+                        Мы росли вместе с нашей страной, развивали новые направления, внедряли современные технологии и шаг за шагом строили отечественную медицинскую компанию.
+                      </p>
+                      <p className="text-about-ink text-base leading-relaxed sm:text-lg">
+                        Сегодня я особенно горжусь тем, что «Авиценна» стала частью жизни тысяч людей.
+                      </p>
+                      <p className="text-about-ink text-base leading-relaxed sm:text-lg">
+                        И я верю: самое важное в медицине — не только технологии, но и забота, доверие и стремление каждый день становиться лучше.
+                      </p>
+                    </div>
                     <div className="mt-7 flex items-end gap-4">
                       <span className="bg-about-icon text-about-teal grid size-12 shrink-0 place-items-center rounded-full">
                         <HeartHandshake className="size-6" strokeWidth={1.5} aria-hidden="true" />
