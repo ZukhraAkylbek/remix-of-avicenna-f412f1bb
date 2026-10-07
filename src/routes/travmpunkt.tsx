@@ -147,7 +147,7 @@ function TraumaPage() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-7 flex flex-wrap gap-2 sm:gap-3">
+              <div className="mt-5 flex flex-wrap gap-2 sm:gap-3">
                 <a
                   href={WHATSAPP_TRAUMA_URL}
                   target="_blank"
@@ -180,7 +180,7 @@ function TraumaPage() {
           </div>
         </section>
 
-        <section className="border-b border-about-line bg-about-canvas py-10 sm:py-12">
+        <section className="border-b border-about-line bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <TraumaHeading
               icon={<AlertTriangle className="size-5" aria-hidden="true" />}
@@ -201,7 +201,7 @@ function TraumaPage() {
         </section>
 
         {/* Помощь при */}
-        <section className="py-10 sm:py-12">
+        <section className="py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <TraumaHeading
               icon={<AlertTriangle className="size-5" aria-hidden="true" />}
@@ -223,7 +223,7 @@ function TraumaPage() {
         </section>
 
         {/* Процедуры */}
-        <section className="bg-about-mint border-y border-about-line py-10 sm:py-12">
+        <section className="bg-about-mint border-y border-about-line py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <TraumaHeading
               icon={<Syringe className="size-5" aria-hidden="true" />}
@@ -247,7 +247,7 @@ function TraumaPage() {
         </section>
 
         {/* Детский травматолог */}
-        <section className="py-10 sm:py-12">
+        <section className="py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <div className="grid items-center gap-6 rounded-2xl border border-about-line bg-white p-5 sm:p-8 lg:grid-cols-[auto_1fr_auto]">
               <span className="grid size-14 place-items-center rounded-2xl bg-about-icon text-about-teal">
@@ -276,7 +276,7 @@ function TraumaPage() {
 
         {/* Врачи */}
         {traumaDoctors.length > 0 && (
-          <section id="vrachi" className="bg-about-mint border-y border-about-line py-10 sm:py-12">
+          <section id="vrachi" className="bg-about-mint border-y border-about-line py-8 sm:py-10">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="flex flex-wrap items-end justify-between gap-3">
                 <TraumaHeading
@@ -304,24 +304,24 @@ function TraumaPage() {
         )}
 
         {/* FAQ */}
-        <section className="bg-about-canvas border-y border-about-line py-10 sm:py-12">
+        <section className="bg-about-canvas border-y border-about-line py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <TraumaHeading
               title="Часто задаваемые вопросы"
               description="Отвечаем на популярные вопросы о приёме травматолога-ортопеда."
             />
-            <div className="mt-7">
+            <div className="mt-5">
               <FaqList items={FAQ_ITEMS} />
             </div>
           </div>
         </section>
 
         {/* Финальный CTA */}
-        <section className="pb-10 sm:pb-12">
+        <section className="pb-8 sm:pb-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <div className="grid items-center gap-6 rounded-2xl border border-about-line bg-about-mint p-5 sm:p-8 lg:grid-cols-[1fr_auto]">
               <div>
-                <h2 className="text-2xl font-extrabold text-about-ink sm:text-3xl">
+                <h2 className="text-2xl font-extrabold text-about-ink sm:text-2xl">
                   Травма не ждёт — и мы тоже
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm leading-relaxed text-about-copy sm:text-base">
@@ -372,11 +372,11 @@ function TraumaHeading({
   return (
     <div className="max-w-2xl">
       {icon && (
-        <span className="mb-3 grid size-10 place-items-center rounded-xl bg-about-icon text-about-teal">
+        <span className="mb-2 grid size-9 place-items-center rounded-xl bg-about-icon text-about-teal">
           {icon}
         </span>
       )}
-      <h2 className="text-2xl font-extrabold text-about-ink sm:text-3xl">{title}</h2>
+      <h2 className="text-2xl font-extrabold text-about-ink sm:text-2xl">{title}</h2>
       {description && (
         <p className="mt-2 text-sm leading-relaxed text-about-copy sm:text-base">{description}</p>
       )}

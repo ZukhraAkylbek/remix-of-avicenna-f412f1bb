@@ -154,7 +154,7 @@ function StatsionarPage() {
                 медицинских наук): кардиологи, невропатологи, ревматологи, эндокринологи. Проводятся
                 инструментальные и лабораторные исследования.
               </p>
-              <div className="mt-7 flex flex-wrap gap-2 sm:gap-3">
+              <div className="mt-5 flex flex-wrap gap-2 sm:gap-3">
                 <a
                   href={WHATSAPP_BOOKING}
                   target="_blank"
@@ -188,7 +188,7 @@ function StatsionarPage() {
         </section>
 
         {/* Особенности */}
-        <section className="py-10 sm:py-12">
+        <section className="py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <StatsionarHeading
               icon={<BedDouble className="size-5" aria-hidden="true" />}
@@ -213,7 +213,7 @@ function StatsionarPage() {
         </section>
 
         {/* Кардиологический стационар */}
-        <section className="bg-about-mint border-y border-about-line py-10 sm:py-12">
+        <section className="bg-about-mint border-y border-about-line py-8 sm:py-10">
           <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-2">
             <img
               src="/assets/image-2.webp"
@@ -242,7 +242,7 @@ function StatsionarPage() {
         </section>
 
         {/* Цены */}
-        <section className="py-10 sm:py-12">
+        <section className="py-8 sm:py-10">
           <div className="mx-auto max-w-4xl px-4 sm:px-6">
             <StatsionarHeading
               icon={<Stethoscope className="size-5" aria-hidden="true" />}
@@ -266,21 +266,21 @@ function StatsionarPage() {
         </section>
 
         {/* FAQ */}
-        <section className="bg-about-canvas border-y border-about-line py-10 sm:py-12">
+        <section className="bg-about-canvas border-y border-about-line py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <StatsionarHeading
               icon={<CalendarClock className="size-5" aria-hidden="true" />}
               title="Часто задаваемые вопросы"
               description="Всё о стационарном лечении и госпитализации в «Авиценне»."
             />
-            <div className="mt-7">
+            <div className="mt-5">
               <FaqList items={FAQ_ITEMS} />
             </div>
           </div>
         </section>
 
         {/* Финальный CTA */}
-        <section className="py-10 sm:py-12">
+        <section className="py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <div className="grid items-center gap-6 rounded-2xl border border-about-line bg-white p-5 sm:p-8 lg:grid-cols-[auto_1fr_auto]">
               <span className="grid size-14 place-items-center rounded-2xl bg-about-icon text-about-teal">
@@ -334,11 +334,11 @@ function StatsionarHeading({
   return (
     <div className="max-w-2xl">
       {icon && (
-        <span className="mb-3 grid size-10 place-items-center rounded-xl bg-about-icon text-about-teal">
+        <span className="mb-2 grid size-9 place-items-center rounded-xl bg-about-icon text-about-teal">
           {icon}
         </span>
       )}
-      <h2 className="text-2xl font-extrabold text-about-ink sm:text-3xl">{title}</h2>
+      <h2 className="text-2xl font-extrabold text-about-ink sm:text-2xl">{title}</h2>
       {description && (
         <p className="mt-2 text-sm leading-relaxed text-about-copy sm:text-base">{description}</p>
       )}
