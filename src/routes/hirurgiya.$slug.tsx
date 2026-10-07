@@ -52,7 +52,7 @@ function parseBody(body: string | null | undefined) {
       const rest = lines.slice(1).join("\n").trim();
       blocks.push({ title: lines[0].slice(3).trim(), paragraphs: rest ? [rest] : [] });
     } else if (blocks.length > 0) {
-      blocks[blocks.length - 1].paragraphs.push(chunk.trim());
+      blocks[blocks.length - 1]?.paragraphs.push(chunk.trim());
     } else {
       intro.push(chunk.trim());
     }
@@ -422,7 +422,7 @@ function DirectionPage() {
                 <Heading title="Наши врачи" />
                 <Link
                   to="/vrachi"
-                  search={category ? ({ category } as never) : undefined}
+                  search={(category ? { category } : {}) as never}
                   className="text-about-teal inline-flex items-center gap-1.5 text-[13px] font-semibold sm:text-sm"
                 >
                   Все врачи
