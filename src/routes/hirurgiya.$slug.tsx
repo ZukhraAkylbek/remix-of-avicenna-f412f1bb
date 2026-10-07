@@ -1,6 +1,6 @@
 import { BannerSlider } from "@/components/BannerSlider";
 import { SURGERY_IMAGES } from "@/lib/hq-images";
-import { PAGE_BANNERS } from "@/lib/page-banners";
+import { PAGE_BANNERS, usePageBanners } from "@/lib/page-banners";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { ArrowRight, Check, Plus } from "lucide-react";
@@ -474,7 +474,7 @@ function DirectionPage() {
               </div>
             </Reveal>
             <div className="relative h-48 w-full overflow-hidden rounded-2xl lg:h-[300px]">
-              <BannerSlider slides={[{ image, alt: name }, ...PAGE_BANNERS.hirurgiya.slice(1)]} />
+              <BannerSlider slides={[{ image, alt: name }, ...usePageBanners("hirurgiya", PAGE_BANNERS.hirurgiya).slice(1)]} />
             </div>
           </div>
         </section>

@@ -34,7 +34,7 @@ export type CrudField = {
 type Row = Record<string, unknown> & { id: string };
 
 type CrudManagerProps = {
-  table: "specialties" | "doctors" | "pages" | "hero_slides" | "specialty_faqs" | "home_items";
+  table: "specialties" | "doctors" | "pages" | "hero_slides" | "specialty_faqs" | "home_items" | "page_banners";
   queryKey: string;
   select: string;
   orderBy?: { column: string; ascending?: boolean };
