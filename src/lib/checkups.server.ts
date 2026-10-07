@@ -11,13 +11,14 @@ export type CheckupCard = {
   icon: string | null;
   body: string | null;
   includes: string | null;
+  image_url: string | null;
   sort_order: number;
 };
 
 export async function listCheckupCards(): Promise<CheckupCard[]> {
   const { data, error } = await publicClient()
     .from("checkup_cards")
-    .select("id, slug, badge, title, subtitle, price, price_note, icon, body, includes, sort_order")
+    .select("id, slug, badge, title, subtitle, price, price_note, icon, body, includes, image_url, sort_order")
     .eq("is_active", true)
     .order("sort_order", { ascending: true });
   if (error) throw error;

@@ -8,6 +8,20 @@ export const checkupCardsQueryOptions = () =>
     queryFn: () => fetchCheckupCards(),
   });
 
+export const checkupPageQueryOptions = () =>
+  queryOptions({
+    queryKey: ["checkups", "cards"],
+    queryFn: () => fetchCheckupCards(),
+    select: (cards) => ({ cards }),
+  });
+
+export const checkupCardQueryOptions = (slug: string) =>
+  queryOptions({
+    queryKey: ["checkups", "cards"],
+    queryFn: () => fetchCheckupCards(),
+    select: (cards) => cards.find((c) => c.slug === slug) ?? null,
+  });
+
 export type CheckupSection = { title: string; items: string[] };
 
 /** «## Заголовок», затем пункты по строке; секции разделены пустой строкой. */
