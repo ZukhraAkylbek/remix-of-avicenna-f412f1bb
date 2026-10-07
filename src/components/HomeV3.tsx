@@ -171,6 +171,40 @@ const SPECIALTY_PILLS: Array<{ name: string; icon: LucideIcon; href: string }> =
   { name: "Эндокринология", icon: Microscope, href: "/vrachi" },
 ];
 
+const ICONS: Record<string, LucideIcon> = {
+  Brain, Droplets, Ribbon, Flower2, HeartPulse, Ear, Microscope, MapPin,
+  Stethoscope, TrendingUp, ClipboardCheck, Award, Waves, Users,
+};
+
+const iconOf = (name: string | null | undefined): LucideIcon =>
+  (name && ICONS[name]) || Stethoscope;
+
+const tagToneOf = (tag: string | null | undefined) =>
+  tag === "Акция" ? "bg-brand-red" : tag === "Спецпредложение" ? "bg-brand-green" : "bg-foreground/60";
+
+function SmartLink({
+  href,
+  className,
+  children,
+}: {
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  if (/^https?:\/\//.test(href)) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link to={href as "/"} className={className}>
+      {children}
+    </Link>
+  );
+}
+
 const REVIEWS = [
   { text: "Быстро приняли в травмпункте ночью, всё объяснили и сделали снимок за 15 минут.", src: "2GIS" },
   { text: "Чекап прошли всей семьёй за два дня — результаты пришли в приложение.", src: "Google" },
