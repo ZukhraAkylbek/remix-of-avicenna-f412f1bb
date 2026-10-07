@@ -295,7 +295,7 @@ function OffersMarquee({ items }: { items: OfferItem[] }) {
         <div className={`${manual ? "" : "marquee-track"} flex w-max gap-4 pr-4`}>
           {[0, 1].map((copy) => (
             <div key={copy} className="flex shrink-0 gap-4 pr-4" aria-hidden={copy === 1}>
-              {OFFER_CARDS.map((item) => (
+              {items.map((item) => (
                 <OfferCard key={`${copy}-${item.title}`} item={item} className="w-[300px]" />
               ))}
             </div>
@@ -310,12 +310,12 @@ function OfferCard({
   item,
   className,
 }: {
-  item: (typeof OFFER_CARDS)[number];
+  item: OfferItem;
   className?: string;
 }) {
   return (
-    <Link
-      to={item.href as "/"}
+    <SmartLink
+      href={item.href}
       className={`${item.tone} group border-border/40 flex shrink-0 flex-col overflow-hidden rounded-3xl border transition-all hover:-translate-y-1 hover:shadow-lg ${className ?? ""}`}
     >
       <div className="relative h-[150px] w-full shrink-0 overflow-hidden sm:h-[190px]">
