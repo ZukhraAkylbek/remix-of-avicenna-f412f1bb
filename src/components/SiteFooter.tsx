@@ -94,12 +94,10 @@ export function SiteFooter() {
             Филиалы
           </p>
           <ul className="mt-4 space-y-2 text-base">
-            {CLINIC.branches.map((branch) => (
+            {CLINIC.branches.map((branch, i) => (
               <li key={branch.name}>
                 <a
-                  href={doubleGisSearchUrl(branch.name)}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`/?filial=${i}#filialy`}
                   className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 transition-colors"
                 >
                   {branch.city}, {branch.street}

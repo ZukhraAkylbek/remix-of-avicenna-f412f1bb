@@ -134,6 +134,23 @@ export function BranchesWithMap() {
     }
   }, [active, branches]);
 
+  // Выбор филиала из ссылки вида /?filial=N#filialy (например, из подвала)
+  useEffect(() => {
+    const raw = new URLSearchParams(window.location.search).get("filial");
+    if (raw === null) return;
+    const n = Number(raw);
+    if (!Number.isInteger(n) || n < 0 || n >= CLINIC.branches.length) return;
+    setActive(n);
+    const list = listRef.current;
+    if (list) {
+      const card = list.children.item(n) as HTMLElement | null;
+      if (card) list.scrollTo({ left: card.offsetLeft - list.offsetLeft, behavior: "smooth" });
+    }
+    document.getElementById("filialy")?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+
+
 
 
   return (
