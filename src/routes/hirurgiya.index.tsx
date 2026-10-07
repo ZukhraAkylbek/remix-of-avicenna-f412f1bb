@@ -39,7 +39,7 @@ const FALLBACK_SECTIONS: Record<string, SurgeryContentSection> = {
     body: "Опытные хирурги\nСтационар 24/7\nСовременные операционные\nПолное сопровождение",
     image_url: "/assets/spec-hirurg.webp",
     primary_label: "Записаться на консультацию",
-    primary_url: BOOKING_URL,
+    primary_url: "https://wa.me/996707909001",
   },
   advantages: {
     title: "Почему выбирают нашу хирургию",
@@ -51,7 +51,7 @@ const FALLBACK_SECTIONS: Record<string, SurgeryContentSection> = {
     subtitle: "Не откладывайте обращение, если боль усиливается или заметно влияет на самочувствие.",
     body: "Острая или продолжительная боль\nНовообразование или уплотнение\nТравма, отёк или ограничение движения\nДискомфорт после ранее проведённой операции\nНеобходимость планового хирургического лечения\nРекомендация другого специалиста",
     primary_label: "Записаться на консультацию",
-    primary_url: BOOKING_URL,
+    primary_url: "https://wa.me/996707909001",
   },
   diseases: {
     title: "Какие заболевания лечим",
@@ -90,7 +90,7 @@ const FALLBACK_SECTIONS: Record<string, SurgeryContentSection> = {
     title: "Обсудите лечение с хирургом",
     subtitle: "Врач оценит состояние, объяснит варианты и предложит понятный план действий.",
     primary_label: "Записаться на приём",
-    primary_url: BOOKING_URL,
+    primary_url: "https://wa.me/996707909001",
   },
 } as const;
 
@@ -314,7 +314,7 @@ function SurgeryPage() {
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2 sm:gap-3">
                   <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark px-3 text-xs shadow-none sm:px-4 sm:text-sm"><a href={hero.primary_url || BOOKING_URL} target="_blank" rel="noopener noreferrer">{hero.primary_label || "Записаться на консультацию"}</a></Button>
-                  <ContactButtons />
+                  <ContactButtons only="phone" />
                   <Button asChild variant="outline" className="border-about-line text-about-ink bg-about-canvas px-3 text-xs shadow-none sm:px-4 sm:text-sm"><a href="#directions">Выбрать направление</a></Button>
                 </div>
               </Reveal>
@@ -389,7 +389,7 @@ function SurgeryPage() {
         {final && (
           <section className="bg-about-mint py-8 sm:py-10">
             <div className="mx-auto grid max-w-7xl overflow-hidden px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-              <div className="flex flex-col justify-center py-6 lg:pr-10"><h2 className="text-about-ink text-2xl font-extrabold sm:text-3xl">Забота о вашем здоровье</h2><p className="text-about-copy mt-3 max-w-xl text-base leading-relaxed">{final.subtitle}</p><div className="mt-6 flex flex-wrap gap-2 sm:gap-3"><Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark w-fit shadow-none"><a href={final.primary_url || BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на консультацию</a></Button><ContactButtons /></div></div>
+              <div className="flex flex-col justify-center py-6 lg:pr-10"><h2 className="text-about-ink text-2xl font-extrabold sm:text-3xl">Забота о вашем здоровье</h2><p className="text-about-copy mt-3 max-w-xl text-base leading-relaxed">{final.subtitle}</p><div className="mt-6 flex flex-wrap gap-2 sm:gap-3"><Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark w-fit shadow-none"><a href={final.primary_url || BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на консультацию</a></Button><ContactButtons only="phone" /></div></div>
               <img src={heroImage} alt="Консультация хирурга" loading="lazy" className="hidden lg:block h-60 w-full rounded-2xl object-cover" />
             </div>
           </section>
