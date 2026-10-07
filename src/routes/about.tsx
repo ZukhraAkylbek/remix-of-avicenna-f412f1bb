@@ -5,6 +5,8 @@ import {
   Activity,
   ArrowUpRight,
   Award,
+  Armchair,
+  TestTubes,
   HeartHandshake,
   Microscope,
   ShieldCheck,
@@ -70,6 +72,7 @@ const STORY = [
 const PARTNERS = [
   {
     title: "Экспресс Плюс",
+    icon: TestTubes,
     text: "Лабораторная диагностика и анализы.",
     logo: expresslabLogo,
     alt: "Логотип лаборатории «Экспресс Плюс»",
@@ -78,6 +81,7 @@ const PARTNERS = [
   },
   {
     title: "Кокомерен",
+    icon: Microscope,
     text: "Продажа медицинской техники и лабораторных реагентов.",
     logo: kokomerenLogo,
     alt: "Логотип компании «Кокомерен»",
@@ -86,13 +90,14 @@ const PARTNERS = [
   },
   {
     title: "Corpus",
+    icon: Armchair,
     text: "Производство мебели.",
     logo: corpusLogo,
     alt: "Логотип мебельной компании Corpus",
     href: "",
     action: "Производство мебели",
   },
-] satisfies Array<{ title: string; text: string; logo: string; alt: string; href: string; action: string }>;
+] satisfies Array<{ title: string; icon: LucideIcon; text: string; logo: string; alt: string; href: string; action: string }>;
 
 export const ADVANTAGES = [
   {
@@ -257,14 +262,19 @@ function AboutPage() {
             <SectionTitle>Больше, чем сеть клиник</SectionTitle>
             <p className="text-about-copy mt-3 max-w-2xl leading-relaxed">Разные направления работы объединены одной целью — заботой о здоровье людей.</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {PARTNERS.map(({ title, text, logo, alt, href, action }, index) => (
+              {PARTNERS.map(({ title, icon: Icon, text, logo, alt, href, action }, index) => (
                 <Reveal key={title} delay={index * 35} className="h-full">
                   <a href={href || undefined} target={href ? "_blank" : undefined} rel={href ? "noopener noreferrer" : undefined} aria-label={`${title} — ${action}`} className="border-about-line bg-card group flex h-full flex-row items-center gap-4 rounded-2xl border p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-about-teal hover:shadow-sm sm:flex-col sm:items-stretch sm:gap-0 sm:p-6">
                     <div className="grid size-14 shrink-0 place-items-center rounded-xl bg-brand-white p-1.5 shadow-sm sm:size-20">
                       <img src={logo} alt={alt} loading="lazy" className="max-h-full object-contain transition-transform duration-300 group-hover:scale-[1.03]" />
                     </div>
                     <div className="flex flex-1 flex-col pt-0 sm:mt-4 sm:border-t sm:border-about-line sm:pt-4">
-                      <h3 className="text-about-ink text-base font-bold">{title}</h3>
+                      <div className="flex items-center gap-2">
+                        <span className="bg-about-icon text-about-teal grid size-8 shrink-0 place-items-center rounded-lg">
+                          <Icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
+                        </span>
+                        <h3 className="text-about-ink text-base font-bold">{title}</h3>
+                      </div>
                       <p className="text-about-copy mt-1.5 flex-1 text-sm leading-relaxed">{text}</p>
                       <span className="text-about-teal mt-4 inline-flex items-center gap-1 text-sm font-semibold">{action}<ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" /></span>
                     </div>
