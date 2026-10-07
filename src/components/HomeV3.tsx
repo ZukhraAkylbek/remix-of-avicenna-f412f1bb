@@ -1,5 +1,6 @@
-import { ArrowRight, ClipboardCheck, Award, Waves, MapPin, Star, Stethoscope, TrendingUp, Brain, Droplets, Ribbon, Flower2, HeartPulse, Ear, Microscope, type LucideIcon } from "lucide-react";
+import { ArrowRight, ClipboardCheck, Award, Waves, MapPin, Star, Stethoscope, TrendingUp, Brain, Droplets, Ribbon, Flower2, HeartPulse, Ear, Microscope, Users, type LucideIcon } from "lucide-react";
 import { useRef, useState } from "react";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 import aboutHeroAsset from "@/assets/chat/about-hero.webp";
 import aboutMissionAsset from "@/assets/chat/about-mission.webp";
@@ -20,6 +21,7 @@ import { CLINIC } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
 import { ContactButtons } from "@/components/ContactButtons";
 import { Link } from "@tanstack/react-router";
+import { homeItemsQueryOptions, type HomeItem } from "@/lib/home-items";
 
 export const HOME_HERO_IMAGE = asianFamilyHeroAsset;
 
