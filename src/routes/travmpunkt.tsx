@@ -55,9 +55,9 @@ function TraumaPage() {
       <main>
         {/* Герой */}
         <section className="bg-about-mint border-b border-about-line">
-          <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-[1.15fr_1fr]">
+          <div className="mx-auto grid max-w-7xl items-start gap-8 px-4 pb-10 pt-5 sm:px-6 sm:pb-12 sm:pt-6 lg:grid-cols-[1.15fr_1fr]">
             <div>
-              <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-brand-red px-4 py-1.5 text-sm font-semibold text-brand-white">
+              <span className="inline-flex items-center gap-2 rounded-full bg-brand-red px-4 py-1.5 text-sm font-semibold text-brand-white">
                 <Clock3 className="size-4" aria-hidden="true" />
                 Работаем круглосуточно
               </span>
