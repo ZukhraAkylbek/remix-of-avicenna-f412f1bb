@@ -85,7 +85,7 @@ const CONSULTATION_REASONS = [
   "Подбор индивидуального плана лечения",
 ];
 
-const DIAGNOSTICS = [
+const DIAGNOSTICS: { title: string; text: string; href: string; external?: boolean }[] = [
   { title: "Лабораторные исследования", text: "Анализы ведём в собственной лаборатории «Экспресс Плюс».", href: "https://expresslab.kg/", external: true },
   { title: "УЗИ, КТ и рентген", text: "Современные исследования в одном медицинском центре.", href: "/diagnostika" },
   { title: "Эндоскопические исследования", text: "ЭГДС и колоноскопия, в том числе под наркозом.", href: "/diagnostika" },
