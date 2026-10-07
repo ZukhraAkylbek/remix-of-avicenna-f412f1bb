@@ -1,3 +1,5 @@
+import { BannerSlider } from "@/components/BannerSlider";
+import { PAGE_BANNERS } from "@/lib/page-banners";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Activity,
@@ -192,14 +194,7 @@ function AboutPage() {
       <main>
         <section className="bg-about-mint relative isolate min-h-[440px] overflow-hidden lg:min-h-[460px]">
           <div className="absolute inset-x-0 bottom-0 h-[55%] lg:inset-y-0 lg:right-0 lg:left-auto lg:h-auto lg:w-[57%]">
-            <img
-              src={clinicHero}
-              alt="Здание клиники «Авиценна»"
-              width={1600}
-              height={1200}
-              fetchPriority="high"
-              className="size-full object-cover object-[50%_30%]"
-            />
+            <BannerSlider slides={PAGE_BANNERS.about} />
             <div className="from-about-mint absolute inset-0 bg-gradient-to-b from-15% via-about-mint/30 to-transparent lg:bg-gradient-to-r lg:from-0% lg:via-about-mint/40 lg:to-transparent" />
           </div>
 

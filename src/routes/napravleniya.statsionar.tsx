@@ -1,3 +1,5 @@
+import { BannerSlider } from "@/components/BannerSlider";
+import { PAGE_BANNERS } from "@/lib/page-banners";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   BedDouble,
@@ -176,13 +178,8 @@ function StatsionarPage() {
                 ул. Бакаева, 106 — главный корпус
               </p>
             </div>
-            <div className="relative hidden lg:block">
-              <img
-                src="/assets/statsionar-hero.jpg"
-                alt="Стационар клиники Авиценна"
-                loading="eager"
-                className="aspect-[4/3] w-full rounded-2xl border border-about-line object-cover lg:h-[380px]"
-              />
+            <div className="relative hidden aspect-[4/3] w-full overflow-hidden rounded-2xl border border-about-line lg:block lg:h-[380px]">
+              <BannerSlider slides={PAGE_BANNERS.statsionar} />
             </div>
           </div>
         </section>

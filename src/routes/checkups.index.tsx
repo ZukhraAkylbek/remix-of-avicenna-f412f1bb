@@ -1,3 +1,5 @@
+import { BannerSlider } from "@/components/BannerSlider";
+import { PAGE_BANNERS } from "@/lib/page-banners";
 import { useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
@@ -190,14 +192,7 @@ function CheckupsPage() {
       <main>
         <section className="mx-auto max-w-7xl px-4 pt-4 pb-10 sm:px-6 sm:pt-6 sm:pb-12">
           <div className="border-about-line relative h-[350px] overflow-hidden rounded-2xl border sm:h-[380px]">
-            <img
-              src={asianFamilyHeroAsset}
-              alt="Семья, заботящаяся о здоровье"
-              className="absolute inset-0 h-full w-full object-cover object-[70%_center]"
-              width={1344}
-              height={768}
-              fetchPriority="high"
-            />
+            <BannerSlider slides={PAGE_BANNERS.checkups} />
             <div className="from-about-mint via-about-mint/90 absolute inset-0 bg-gradient-to-r to-transparent" />
             <div className="relative flex h-full max-w-xl flex-col justify-center p-5 sm:p-9">
               <p className="text-about-teal text-xs font-bold uppercase">Комплексная диагностика</p>

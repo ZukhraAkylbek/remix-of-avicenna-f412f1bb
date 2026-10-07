@@ -1,3 +1,5 @@
+import { BannerSlider } from "@/components/BannerSlider";
+import { PAGE_BANNERS } from "@/lib/page-banners";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { ArrowRight, Check, Plus } from "lucide-react";
@@ -468,11 +470,9 @@ function DirectionPage() {
                 <ContactButtons />
               </div>
             </Reveal>
-            <img
-              src={image}
-              alt={name}
-              className="h-48 w-full rounded-2xl object-cover lg:h-[300px]"
-            />
+            <div className="relative h-48 w-full overflow-hidden rounded-2xl lg:h-[300px]">
+              <BannerSlider slides={[{ image, alt: name }, ...PAGE_BANNERS.hirurgiya.slice(1)]} />
+            </div>
           </div>
         </section>
 
