@@ -1,12 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, type LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 import { Reveal } from "@/components/Reveal";
 
 export type AdvantageItem = {
   icon: LucideIcon;
-  title: string;
-  text: string;
+  title: ReactNode;
+  text: ReactNode;
   href?: string;
   external?: boolean;
 };
@@ -79,7 +80,7 @@ export function AdvantagesGrid({
         );
         return (
           <Reveal
-            key={title}
+            key={index}
             delay={index * 35}
             className={isFeatured ? "h-full lg:row-span-2" : "h-full"}
           >
