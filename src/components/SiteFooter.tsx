@@ -163,7 +163,7 @@ export function SiteFooter() {
                   <div>
                     <p className="text-base font-bold">{p.name}</p>
                     <p className="text-brand-white/80 flex items-center gap-1.5 text-sm">
-                      <p.icon size={4} className="size-4" aria-hidden="true" />
+                      <p.icon size={16} aria-hidden="true" />
                       {p.line}
                     </p>
                   </div>
