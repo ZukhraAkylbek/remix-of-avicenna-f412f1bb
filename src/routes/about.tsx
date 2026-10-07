@@ -28,35 +28,38 @@ import { absoluteUrl } from "@/lib/clinic";
 const STORY = [
   {
     year: "2000",
-    title: "Начало истории",
-    text: "В Бишкеке открылся первый медицинский центр «Авиценна». Так началась наша история заботы о пациентах.",
-    image: archiveTeam.url,
+    title: "Как всё начиналось",
+    text: "В 2000 году Жыпар Абдыказиевна Керималиева открыла «Авиценну» в небольшом кабинете на улице Суеркулова. Так началась история отечественной медицинской компании.",
+    image: archiveFounder.url,
     alt: "Архивный снимок команды медиков",
-    caption: "Из архива клиники · точная дата снимка не указана",
+  },
+  {
+    year: "",
+    title: "Появление «Экспресс Плюс»",
+    text: "Чтобы обеспечить точную диагностику, мы создали собственную лабораторию «Экспресс Плюс». Это стало важным шагом в развитии комплексной медицинской помощи.",
+    image: archiveTeam.url,
+    alt: "Архивный портрет основательницы клиники",
   },
   {
     year: "2001",
-    title: "Первые годы работы",
-    text: "В основе «Авиценны» с первых лет — внимательное отношение к человеку и преданность медицинскому делу.",
-    image: archiveFounder.url,
-    alt: "Архивный портрет основательницы клиники",
-    caption: "Из архива клиники · точная дата снимка не указана",
-  },
-  {
-    year: "2005",
-    title: "Расширение направлений",
-    text: "В холдинге появились новые направления: поставка медицинской техники и производство мебели.",
+    title: "Развитие инфраструктуры",
+    text: "В 2001 году появилась компания «Көкөмерен», обеспечивающая медицинские учреждения оборудованием и реагентами. Позже — собственное производство медицинской мебели «Корпус».",
     image: clinicExterior,
     alt: "Здание медицинского центра «Авиценна» сегодня",
-    caption: "Современный снимок клиники",
+  },
+  {
+    year: "",
+    title: "От клиники — к системе",
+    text: "Шаг за шагом «Авиценна» развивалась, объединяя диагностику, лечение и современные медицинские технологии в одной системе.",
+    image: receptionPhoto,
+    alt: "Светлая современная зона регистрации клиники",
   },
   {
     year: "Сегодня",
-    title: "Продолжаем заботиться",
-    text: "В сети работают более 100 специалистов; доступны диагностика, хирургия и круглосуточный стационар.",
+    title: "«Авиценна» сегодня",
+    text: "Сегодня это сеть из 5 филиалов в Бишкеке, 60+ специальностей и собственной лаборатории «Экспресс Плюс». Мы продолжаем развивать современную медицину в Кыргызстане.",
     image: teamToday.url,
     alt: "Современная команда врачей «Авиценны»",
-    caption: "Команда «Авиценны» сегодня",
   },
 ];
 
@@ -221,31 +224,29 @@ function AboutPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <SectionTitle>Как создавалась «Авиценна»</SectionTitle>
             <p className="text-about-copy mt-3 max-w-2xl leading-relaxed">
-              История сети — от первого кабинета до многопрофильной клиники. Лента движется сама, наведите курсор, чтобы остановить.
+              История сети — от первого кабинета до многопрофильной клиники. Листайте вправо, чтобы увидеть всю историю.
             </p>
           </div>
-          <div className="group marquee-mask mt-8 overflow-hidden">
-            <div className="marquee-track flex w-max gap-5 pr-5">
-              {[...STORY, ...STORY].map(({ year, title, text, image, alt, caption }, index) => (
-                <article
-                  key={`${year}-${index}`}
-                  aria-hidden={index >= STORY.length}
-                  className="border-about-line bg-card flex w-72 shrink-0 flex-col overflow-hidden rounded-2xl border sm:w-80"
-                >
-                  <div className="relative aspect-[16/9] overflow-hidden">
-                    <img src={image} alt={alt} loading="lazy" className="size-full object-cover" />
+          <div className="mt-8 flex gap-4 overflow-x-auto px-4 pb-3 scroll-smooth snap-x snap-mandatory sm:px-6">
+            {STORY.map(({ year, title, text, image, alt }) => (
+              <article
+                key={title}
+                className="border-about-line bg-card w-[260px] shrink-0 snap-start overflow-hidden rounded-2xl border sm:w-72"
+              >
+                <div className="relative aspect-[2/1] overflow-hidden">
+                  <img src={image} alt={alt} loading="lazy" className="size-full object-cover" />
+                  {year ? (
                     <span className="bg-about-canvas/90 text-about-teal absolute top-3 left-3 rounded-full px-3 py-1 text-sm font-bold">
                       {year}
                     </span>
-                  </div>
-                  <div className="flex flex-1 flex-col p-5">
-                    <h3 className="text-about-ink text-lg font-bold">{title}</h3>
-                    <p className="text-about-copy mt-2 flex-1 text-sm leading-relaxed">{text}</p>
-                    <p className="text-about-copy mt-4 text-xs">{caption}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
+                  ) : null}
+                </div>
+                <div className="flex flex-1 flex-col p-4">
+                  <h3 className="text-about-ink text-base font-bold">{title}</h3>
+                  <p className="text-about-copy mt-2 text-sm leading-relaxed">{text}</p>
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 
