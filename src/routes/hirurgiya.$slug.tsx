@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { ArrowRight, Check, Plus, ShieldCheck, Sparkles, Stethoscope, UserRound } from "lucide-react";
+import { ArrowRight, Check, Plus } from "lucide-react";
 import { useState } from "react";
 
 import { AdvantagesGrid } from "@/components/AdvantagesGrid";
@@ -13,6 +13,8 @@ import { CLINIC, absoluteUrl, faqPageJsonLd } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
 import { specialtyImage } from "@/lib/specialty-images";
 import { parseRows, surgeryDirectionQueryOptions } from "@/lib/surgery.queries";
+import { ADVANTAGES } from "./about";
+
 import { DoctorsGrid, SurgeryDoctorsGrid } from "./hirurgiya.index";
 import { ContactButtons } from "@/components/ContactButtons";
 import { CLINIC_DOCTORS } from "@/lib/clinic-doctors";
@@ -63,14 +65,7 @@ function parseBody(body: string | null | undefined) {
 const DEFAULT_SUBTITLE =
   "Современные операции с использованием малоинвазивных технологий. Подходы и материалы помощи взрослым пациентам.";
 
-const DEFAULT_ADVANTAGES = [
-  { title: "Опытные хирурги", text: "Большой практический опыт." },
-  { title: "Современные методы", text: "Традиционные и лапароскопические операции." },
-  { title: "Полная диагностика", text: "Все обследования в одной клинике." },
-  { title: "Комплексное сопровождение", text: "От консультации до восстановления." },
-];
 
-const ADVANTAGE_ICONS = [UserRound, Sparkles, Stethoscope, ShieldCheck];
 
 const DEFAULT_SYMPTOMS = [
   "Боли в животе",
@@ -280,8 +275,6 @@ function DirectionPage() {
   const { intro, blocks } = parseBody(data?.body);
   const aboutTitle = data?.about_title?.trim() || "О направлении";
 
-  const dbAdvantages = parseRows(data?.advantages);
-  const advantages = dbAdvantages.length > 0 ? dbAdvantages : DEFAULT_ADVANTAGES;
 
   const rowTitles = (value: string | null | undefined, fallback: string[]) => {
     const rows = parseRows(value).map((row) => row.title);
@@ -404,14 +397,9 @@ function DirectionPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Heading title="Почему пациенты выбирают «Авиценну»" />
             <div className="mt-5">
-              <AdvantagesGrid
-                items={advantages.map((item, index) => ({
-                  icon: ADVANTAGE_ICONS[index % ADVANTAGE_ICONS.length] ?? UserRound,
-                  title: item.title,
-                  text: item.text ?? "",
-                }))}
-              />
+              <AdvantagesGrid items={ADVANTAGES} featured={{ value: "100+", label: "специалистов" }} />
             </div>
+
           </div>
         </section>
 
