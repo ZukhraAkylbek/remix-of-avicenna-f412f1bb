@@ -215,11 +215,25 @@ export function CrudManager({
           </div>
         ) : (
           <ul className="divide-admin-line divide-y">
-            {filtered.map((row) => (
+            {displayRows.map((row) => (
               <li
                 key={row.id}
-                className="hover:bg-admin-bg/70 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3.5 transition-colors sm:px-5"
+                draggable={canDrag}
+                onDragStart={() => setDragId(row.id)}
+                onDragOver={(e) => canDrag && e.preventDefault()}
+                onDrop={() => handleDrop(row.id)}
+                onDragEnd={() => setDragId(null)}
+                className={cn(
+                  "hover:bg-admin-bg/70 grid items-center gap-3 px-4 py-3.5 transition-colors sm:px-5",
+                  canDrag
+                    ? "grid-cols-[auto_minmax(0,1fr)_auto]"
+                    : "grid-cols-[minmax(0,1fr)_auto]",
+                  dragId === row.id && "opacity-50",
+                )}
               >
+                {canDrag && (
+                  <GripVertical className="text-admin-muted size-4 shrink-0 cursor-grab" aria-hidden />
+                )}
                 <div className="min-w-0">
                   <div className="flex min-w-0 items-center gap-2">
                     <p className="truncate text-[15px] font-bold">
