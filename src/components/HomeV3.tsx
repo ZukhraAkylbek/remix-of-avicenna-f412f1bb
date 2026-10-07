@@ -69,7 +69,7 @@ function SpecialtyMarquee() {
                 {SPECIALTY_PILLS.map((item) => (
                   <Link
                     key={`${copy}-${item.name}`}
-                    to="/napravleniya"
+                    to={item.href}
                     className="bg-background border-border hover:border-brand-green group flex h-[112px] w-[190px] shrink-0 flex-col justify-between rounded-2xl border p-4 transition-colors sm:h-[150px] sm:w-[230px] sm:p-5"
                   >
                     <span className="bg-brand-green/10 text-brand-green grid size-11 shrink-0 place-items-center rounded-full transition-transform group-hover:scale-105 sm:size-14">
@@ -159,14 +159,14 @@ const ROUTE_CARDS = [
 ];
 
 
-const SPECIALTY_PILLS: Array<{ name: string; icon: LucideIcon }> = [
-  { name: "Неврология", icon: Brain },
-  { name: "Урология", icon: Droplets },
-  { name: "Маммология", icon: Ribbon },
-  { name: "Гинекология", icon: Flower2 },
-  { name: "Кардиология", icon: HeartPulse },
-  { name: "Лор", icon: Ear },
-  { name: "Эндокринология", icon: Microscope },
+const SPECIALTY_PILLS: Array<{ name: string; icon: LucideIcon; href: string }> = [
+  { name: "Неврология", icon: Brain, href: "/vrachi" },
+  { name: "Урология", icon: Droplets, href: "/hirurgiya/urologiya" },
+  { name: "Маммология", icon: Ribbon, href: "/hirurgiya/mammologiya" },
+  { name: "Гинекология", icon: Flower2, href: "/hirurgiya/ginekologiya" },
+  { name: "Кардиология", icon: HeartPulse, href: "/vrachi" },
+  { name: "Лор", icon: Ear, href: "/vrachi" },
+  { name: "Эндокринология", icon: Microscope, href: "/vrachi" },
 ];
 
 const REVIEWS = [
