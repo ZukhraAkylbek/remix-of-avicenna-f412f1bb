@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { CtaHrefField } from "@/components/admin/CtaHrefField";
 import { compressImage } from "@/lib/compress-image";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -254,46 +255,3 @@ function AdminHero() {
   );
 }
 
-const SITE_PAGES = [
-  ["/", "Главная"],
-  ["/poliklinika", "Поликлиника"],
-  ["/diagnostika", "Диагностика"],
-  ["/vrachi", "Врачи"],
-  ["/travmpunkt", "Травмпункт"],
-  ["/hirurgiya", "Хирургия"],
-  ["/napravleniya/statsionar", "Стационар"],
-  ["/checkups", "Чекап"],
-  ["/about", "О нас"],
-] as const;
-
-function CtaHrefField({ value, onSave }: { value: string; onSave: (v: string) => void }) {
-  const [text, setText] = useState(value);
-  const known = SITE_PAGES.some(([href]) => href === text);
-  return (
-    <div className="flex gap-2">
-      <select
-        aria-label="Ссылка кнопки"
-        className="border-input bg-background h-9 rounded-md border px-2 text-sm"
-        value={known ? text : ""}
-        onChange={(e) => {
-          if (!e.target.value) return;
-          setText(e.target.value);
-          onSave(e.target.value);
-        }}
-      >
-        <option value="">Своя ссылка…</option>
-        {SITE_PAGES.map(([href, label]) => (
-          <option key={href} value={href}>
-            {label}
-          </option>
-        ))}
-      </select>
-      <Input
-        value={text}
-        placeholder="Ссылка кнопки"
-        onChange={(e) => setText(e.target.value)}
-        onBlur={() => onSave(text.trim())}
-      />
-    </div>
-  );
-}

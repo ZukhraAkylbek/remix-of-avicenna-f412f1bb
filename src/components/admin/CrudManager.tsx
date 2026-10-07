@@ -18,11 +18,14 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 import { useSiteRefresh } from "@/lib/admin-refresh";
+import { compressImage } from "@/lib/compress-image";
+import { SITE_IMAGES_BUCKET } from "@/lib/site-content";
+import { CtaHrefField } from "@/components/admin/CtaHrefField";
 
 export type CrudField = {
   name: string;
   label: string;
-  type: "text" | "textarea" | "number" | "switch" | "select";
+  type: "text" | "textarea" | "number" | "switch" | "select" | "image" | "link";
   options?: { value: string; label: string }[];
   hint?: string;
   fromTitle?: boolean;
@@ -31,7 +34,7 @@ export type CrudField = {
 type Row = Record<string, unknown> & { id: string };
 
 type CrudManagerProps = {
-  table: "specialties" | "doctors" | "pages" | "hero_slides" | "specialty_faqs";
+  table: "specialties" | "doctors" | "pages" | "hero_slides" | "specialty_faqs" | "home_items";
   queryKey: string;
   select: string;
   orderBy?: { column: string; ascending?: boolean };
@@ -43,6 +46,7 @@ type CrudManagerProps = {
   searchFields?: string[];
   addLabel?: string;
   filter?: { column: string; ilike: string };
+  fixed?: { column: string; value: string };
 };
 
 export const slugify = (value: string) =>
@@ -65,6 +69,7 @@ export function CrudManager({
   searchFields = [],
   addLabel = "Добавить",
   filter,
+  fixed,
 }: CrudManagerProps) {
   const queryClient = useQueryClient();
   const refreshSite = useSiteRefresh();
@@ -72,10 +77,11 @@ export function CrudManager({
   const [draft, setDraft] = useState<Record<string, unknown> | null>(null);
 
   const { data: rows, isLoading } = useQuery({
-    queryKey: [queryKey, filter?.ilike ?? null],
+    queryKey: [queryKey, filter?.ilike ?? null, fixed?.value ?? null],
     queryFn: async (): Promise<Row[]> => {
       let q = supabase.from(table).select(select);
       if (filter) q = q.ilike(filter.column, filter.ilike);
+      if (fixed) q = q.eq(fixed.column, fixed.value);
       const { data, error } = await q.order(orderBy.column, {
         ascending: orderBy.ascending ?? true,
       });
@@ -141,7 +147,7 @@ export function CrudManager({
   }, [rows, search, searchFields, titleField]);
 
   const openNew = () => {
-    const base: Record<string, unknown> = { ...defaults };
+    const base: Record<string, unknown> = { ...defaults, ...(fixed ? { [fixed.column]: fixed.value } : {}) };
     fields.forEach((f) => {
       if (!(f.name in base)) base[f.name] = f.type === "switch" ? true : f.type === "number" ? 0 : "";
     });
@@ -270,6 +276,18 @@ export function CrudManager({
                       onChange={(e) => setDraft({ ...draft, [field.name]: e.target.value })}
                       className="border-admin-line rounded-xl"
                     />
+                  ) : field.type === "image" ? (
+                    <ImageField
+                      id={field.name}
+                      value={String(draft[field.name] ?? "")}
+                      onChange={(v) => setDraft((d) => (d ? { ...d, [field.name]: v } : d))}
+                    />
+                  ) : field.type === "link" ? (
+                    <CtaHrefField
+                      id={field.name}
+                      value={String(draft[field.name] ?? "")}
+                      onChange={(v) => setDraft((d) => (d ? { ...d, [field.name]: v } : d))}
+                    />
                   ) : field.type === "select" ? (
                     <select
                       id={field.name}
@@ -327,6 +345,49 @@ export function CrudManager({
           )}
         </SheetContent>
       </Sheet>
+    </div>
+  );
+}
+
+function ImageField({ id, value, onChange }: { id: string; value: string; onChange: (v: string) => void }) {
+  const [busy, setBusy] = useState(false);
+  const upload = async (file: File) => {
+    setBusy(true);
+    try {
+      const blob = await compressImage(file);
+      const ext = blob.type === "image/webp" ? "webp" : (file.name.split(".").pop() ?? "jpg");
+      const path = `home/${crypto.randomUUID()}.${ext}`;
+      const { error } = await supabase.storage
+        .from(SITE_IMAGES_BUCKET)
+        .upload(path, blob, { contentType: blob.type || file.type });
+      if (error) throw new Error(error.message);
+      onChange(supabase.storage.from(SITE_IMAGES_BUCKET).getPublicUrl(path).data.publicUrl);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Ошибка загрузки");
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <div className="space-y-2">
+      {value && <img src={value} alt="" className="h-20 w-32 rounded-lg object-cover" />}
+      <Input
+        type="file"
+        accept="image/*"
+        disabled={busy}
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) void upload(f);
+          e.target.value = "";
+        }}
+      />
+      <Input
+        id={id}
+        value={value}
+        placeholder="или вставьте ссылку на изображение"
+        onChange={(e) => onChange(e.target.value)}
+        className="border-admin-line bg-card h-11 rounded-xl"
+      />
     </div>
   );
 }
