@@ -10,16 +10,14 @@ export const checkupCardsQueryOptions = () =>
 
 export const checkupPageQueryOptions = () =>
   queryOptions({
-    queryKey: ["checkups", "cards"],
-    queryFn: () => fetchCheckupCards(),
-    select: (cards) => ({ cards }),
+    queryKey: ["checkups", "page"],
+    queryFn: async () => ({ cards: await fetchCheckupCards() }),
   });
 
 export const checkupCardQueryOptions = (slug: string) =>
   queryOptions({
-    queryKey: ["checkups", "cards"],
-    queryFn: () => fetchCheckupCards(),
-    select: (cards) => cards.find((c) => c.slug === slug) ?? null,
+    queryKey: ["checkups", "card", slug],
+    queryFn: async () => (await fetchCheckupCards()).find((c) => c.slug === slug) ?? null,
   });
 
 export type CheckupSection = { title: string; items: string[] };
