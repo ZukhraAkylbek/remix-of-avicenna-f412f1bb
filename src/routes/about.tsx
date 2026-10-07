@@ -21,6 +21,7 @@ import expresslabLogo from "@/assets/partners/expresslab-logo.svg";
 import kokomerenLogo from "@/assets/partners/kokomeren-logo.png";
 import corpusLogo from "@/assets/partners/corpus-logo-cropped.jpg.asset.json";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { AdvantagesGrid } from "@/components/AdvantagesGrid";
 import { Reveal } from "@/components/Reveal";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";

@@ -26,6 +26,7 @@ import { useState } from "react";
 
 import doctorPatientHeroAsset from "@/assets/chat/doctor-patient-hero.webp";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { AdvantagesGrid } from "@/components/AdvantagesGrid";
 import { Reveal } from "@/components/Reveal";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
