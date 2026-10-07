@@ -127,7 +127,7 @@ function DiagnosticsPage() {
                   </div>
                 </div>
 
-                {hero.image_url && (
+                {(
                   <div className="relative h-44 overflow-hidden rounded-2xl sm:h-64 lg:h-full">
                     <BannerSlider
                       slides={
