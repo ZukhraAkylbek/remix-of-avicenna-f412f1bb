@@ -1083,6 +1083,30 @@ export type Database = {
         }
         Relationships: []
       }
+      translations: {
+        Row: {
+          created_at: string
+          dst: string
+          lang: string
+          src: string
+          src_hash: string
+        }
+        Insert: {
+          created_at?: string
+          dst: string
+          lang: string
+          src: string
+          src_hash: string
+        }
+        Update: {
+          created_at?: string
+          dst?: string
+          lang?: string
+          src?: string
+          src_hash?: string
+        }
+        Relationships: []
+      }
       trauma_sections: {
         Row: {
           body: string | null
