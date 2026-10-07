@@ -172,7 +172,7 @@ function PolyclinicPage() {
         <section id="specialists" className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <div className="flex flex-wrap items-end justify-between gap-3">
-              <PolyclinicHeading title="Какие специалисты ведут приём" />
+              <PolyclinicHeading title="Направления поликлиники" />
               <Link to="/vrachi" className="text-about-teal inline-flex items-center gap-2 text-sm font-semibold">Все специалисты <ArrowRight className="size-4" /></Link>
             </div>
             <div className="mt-5 grid gap-5 lg:grid-cols-[280px_1fr]">
