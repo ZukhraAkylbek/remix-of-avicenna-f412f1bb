@@ -445,6 +445,69 @@ export type Database = {
         }
         Relationships: []
       }
+      home_items: {
+        Row: {
+          created_at: string
+          grp: string
+          href: string | null
+          icon: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          old_price: string | null
+          price: string | null
+          rating: number | null
+          sort_order: number
+          source: string | null
+          tag: string | null
+          text: string | null
+          title: string
+          tone: string | null
+          updated_at: string
+          value: string | null
+        }
+        Insert: {
+          created_at?: string
+          grp: string
+          href?: string | null
+          icon?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          old_price?: string | null
+          price?: string | null
+          rating?: number | null
+          sort_order?: number
+          source?: string | null
+          tag?: string | null
+          text?: string | null
+          title?: string
+          tone?: string | null
+          updated_at?: string
+          value?: string | null
+        }
+        Update: {
+          created_at?: string
+          grp?: string
+          href?: string | null
+          icon?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          old_price?: string | null
+          price?: string | null
+          rating?: number | null
+          sort_order?: number
+          source?: string | null
+          tag?: string | null
+          text?: string | null
+          title?: string
+          tone?: string | null
+          updated_at?: string
+          value?: string | null
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           comment: string | null
