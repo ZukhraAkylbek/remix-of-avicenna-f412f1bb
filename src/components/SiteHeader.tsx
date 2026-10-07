@@ -20,14 +20,14 @@ import { SiteSearch } from "@/components/SiteSearch";
 
 export const HEADER_NAV_SLOTS = [
   { label: "Главная", href: "/" },
-  { label: "О нас", href: "/about" },
   { label: "Поликлиника", href: "/poliklinika" },
-  { label: "Врачи", href: "/vrachi" },
-  { label: "Травмпункт 24/7", href: "/travmpunkt" },
-  { label: "Хирургия", href: "/hirurgiya" },
-  { label: "Чекапы", href: "/checkups" },
-  { label: "Стационар", href: "/napravleniya/statsionar" },
   { label: "Диагностика", href: "/diagnostika" },
+  { label: "Врачи", href: "/vrachi" },
+  { label: "Травмпункт", href: "/travmpunkt" },
+  { label: "Хирургия", href: "/hirurgiya" },
+  { label: "Стационар", href: "/napravleniya/statsionar" },
+  { label: "Чекап", href: "/checkups" },
+  { label: "О нас", href: "/about" },
 ];
 
 const isExternal = (href: string) => /^(https?:|tel:|mailto:)/i.test(href);
