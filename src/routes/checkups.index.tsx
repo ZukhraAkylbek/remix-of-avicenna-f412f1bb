@@ -1,6 +1,6 @@
 import { BannerSlider } from "@/components/BannerSlider";
 import { PAGE_BANNERS } from "@/lib/page-banners";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { checkupCardsQueryOptions, parseParagraphs, parseSections } from "@/lib/checkups.queries";
 import type { CheckupCard } from "@/lib/checkups.server";
