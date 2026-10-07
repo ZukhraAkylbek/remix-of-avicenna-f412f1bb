@@ -1,5 +1,5 @@
 // Позже эти данные будут приходить из админки
-export type BannerSlide = { image: string; alt: string; caption?: string; href?: string };
+export type BannerSlide = { image: string; alt: string; caption?: string; href?: string; position?: string };
 
 const s = (image: string, alt: string): BannerSlide => ({ image, alt });
 

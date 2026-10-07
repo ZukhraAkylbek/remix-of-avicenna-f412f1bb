@@ -179,7 +179,9 @@ function StatsionarPage() {
               </p>
             </div>
             <div className="relative hidden aspect-[4/3] w-full overflow-hidden rounded-2xl border border-about-line lg:block lg:h-[380px]">
-              <BannerSlider slides={PAGE_BANNERS.statsionar} />
+              <BannerSlider
+                slides={[{ image: "/assets/statsionar-hero.jpg", alt: "Стационар клиники «Авиценна»" }, ...PAGE_BANNERS.statsionar.slice(0, 2)]}
+              />
             </div>
           </div>
         </section>

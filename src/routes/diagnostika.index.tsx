@@ -126,7 +126,13 @@ function DiagnosticsPage() {
 
                 {hero.image_url && (
                   <div className="relative h-44 overflow-hidden rounded-2xl sm:h-64 lg:h-full">
-                    <BannerSlider slides={PAGE_BANNERS.diagnostika} />
+                    <BannerSlider
+                      slides={
+                        hero.image_url
+                          ? [{ image: hero.image_url, alt: "Диагностика в клинике «Авиценна»" }, ...PAGE_BANNERS.diagnostika.slice(0, 2)]
+                          : PAGE_BANNERS.diagnostika
+                      }
+                    />
                   </div>
                 )}
 

@@ -194,7 +194,12 @@ function AboutPage() {
       <main>
         <section className="bg-about-mint relative isolate min-h-[440px] overflow-hidden lg:min-h-[460px]">
           <div className="absolute inset-x-0 bottom-0 h-[55%] lg:inset-y-0 lg:right-0 lg:left-auto lg:h-auto lg:w-[57%]">
-            <BannerSlider slides={PAGE_BANNERS.about} />
+            <BannerSlider
+              slides={[
+                { image: clinicHero, alt: "Здание клиники «Авиценна»", position: "50% 30%" },
+                ...PAGE_BANNERS.about.slice(0, 2),
+              ]}
+            />
             <div className="from-about-mint absolute inset-0 bg-gradient-to-b from-15% via-about-mint/30 to-transparent lg:bg-gradient-to-r lg:from-0% lg:via-about-mint/40 lg:to-transparent" />
           </div>
 

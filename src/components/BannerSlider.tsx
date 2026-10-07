@@ -44,6 +44,7 @@ export function BannerSlider({ slides, className = "" }: { slides: BannerSlide[]
               src={slide.image}
               alt={slide.alt}
               loading={i === 0 ? "eager" : "lazy"}
+              style={slide.position ? { objectPosition: slide.position } : undefined}
               className="size-full object-cover"
             />
             {slide.caption && (
