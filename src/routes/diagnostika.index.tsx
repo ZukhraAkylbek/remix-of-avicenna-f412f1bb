@@ -1,3 +1,5 @@
+import { BannerSlider } from "@/components/BannerSlider";
+import { PAGE_BANNERS } from "@/lib/page-banners";
 import { useMemo, useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
@@ -123,13 +125,8 @@ function DiagnosticsPage() {
                 </div>
 
                 {hero.image_url && (
-                  <div className="overflow-hidden rounded-2xl">
-                    <img
-                      src={hero.image_url}
-                      alt={hero.title}
-                      loading="lazy"
-                      className="h-44 w-full object-cover sm:h-64 lg:h-full"
-                    />
+                  <div className="relative h-44 overflow-hidden rounded-2xl sm:h-64 lg:h-full">
+                    <BannerSlider slides={PAGE_BANNERS.diagnostika} />
                   </div>
                 )}
 

@@ -1,3 +1,5 @@
+import { BannerSlider } from "@/components/BannerSlider";
+import { PAGE_BANNERS } from "@/lib/page-banners";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertTriangle, Baby, Clock3, MapPin, Phone } from "lucide-react";
@@ -87,13 +89,8 @@ function TraumaPage() {
                 ул. Жукеева-Пудовкина, 124 — приём без записи
               </p>
             </div>
-            <div className="relative hidden lg:block">
-              <img
-                src="/assets/svc-priem.jpg"
-                alt="Травмпункт клиники Авиценна"
-                loading="eager"
-                className="aspect-[4/3] w-full rounded-2xl border border-about-line object-cover lg:h-[380px]"
-              />
+            <div className="relative hidden aspect-[4/3] w-full overflow-hidden rounded-2xl border border-about-line lg:block lg:h-[380px]">
+              <BannerSlider slides={PAGE_BANNERS.travmpunkt} />
             </div>
           </div>
         </section>

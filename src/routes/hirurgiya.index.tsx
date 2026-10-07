@@ -1,3 +1,5 @@
+import { BannerSlider } from "@/components/BannerSlider";
+import { PAGE_BANNERS } from "@/lib/page-banners";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Building2, CalendarDays, Check, ChevronLeft, ChevronRight, Plus, UserRound } from "lucide-react";
@@ -318,7 +320,7 @@ function SurgeryPage() {
                 </div>
               </Reveal>
               <div className="relative mt-6 hidden h-60 overflow-hidden rounded-2xl lg:mt-0 lg:block lg:h-full">
-                <img src={heroImage} alt="Хирургическое отделение клиники «Авиценна»" className="absolute inset-0 size-full object-cover" />
+                <BannerSlider slides={PAGE_BANNERS.hirurgiya} />
                 <div className="from-about-mint/30 absolute inset-0 bg-gradient-to-r to-transparent" />
                 <div className="bg-about-canvas/95 absolute right-0 bottom-0 grid grid-cols-2 gap-6 rounded-tl-2xl p-4 backdrop-blur-sm">
                   <div><strong className="text-about-ink block text-2xl">{Math.max(data.doctors.length, 14)}</strong><span className="text-about-copy text-xs">специалистов</span></div>

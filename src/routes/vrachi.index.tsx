@@ -1,3 +1,5 @@
+import { BannerSlider } from "@/components/BannerSlider";
+import { PAGE_BANNERS } from "@/lib/page-banners";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ChevronLeft,
@@ -476,11 +478,7 @@ function DoctorsPage() {
               </div>
             </Reveal>
             <div className="relative mt-6 hidden h-60 overflow-hidden rounded-2xl lg:mt-0 lg:block lg:h-full">
-              <img
-                src={heroImage}
-                alt="Врачи клиники «Авиценна»"
-                className="absolute inset-0 size-full object-cover"
-              />
+              <BannerSlider slides={PAGE_BANNERS.vrachi} />
               <div className="from-about-mint/30 absolute inset-0 bg-gradient-to-r to-transparent" />
               <div className="bg-about-canvas/95 absolute right-0 bottom-0 grid grid-cols-2 gap-6 rounded-tl-2xl p-4 backdrop-blur-sm">
                 <div>
