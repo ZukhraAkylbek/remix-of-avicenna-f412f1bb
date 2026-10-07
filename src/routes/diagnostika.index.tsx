@@ -180,13 +180,13 @@ function DiagnosticsPage() {
                 </div>
               )}
 
-              <div className="mt-8 grid auto-rows-fr gap-4 sm:mt-10 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
+              <div className="mt-8 grid gap-4 sm:auto-rows-fr sm:mt-10 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
                 {filtered.map((item) => (
                   <Reveal key={item.slug} className="h-full">
                     <Link
                       to="/diagnostika/$slug"
                       params={{ slug: item.slug }}
-                      className="group border-border bg-card hover:border-primary/40 relative flex h-full flex-col overflow-hidden rounded-3xl border p-5 transition-all hover:shadow-xl sm:rounded-[1.75rem] sm:p-6"
+                      className="group border-border bg-card hover:border-primary/40 relative flex h-full flex-row items-center gap-3 overflow-hidden rounded-3xl border p-4 transition-all hover:shadow-xl sm:flex-col sm:items-stretch sm:rounded-[1.75rem] sm:p-6"
                     >
                       <div className="relative flex items-start justify-between gap-3">
                         <div className="flex items-center gap-2.5">
@@ -197,14 +197,14 @@ function DiagnosticsPage() {
                           />
                         </div>
                       </div>
-                      <h3 className="text-foreground relative mt-4 text-[18px] leading-tight font-extrabold tracking-tight sm:mt-5 sm:text-[21px]">
+                      <h3 className="text-foreground relative mt-0 text-base leading-tight font-extrabold tracking-tight sm:mt-5 sm:text-[21px]">
                         {item.title}
                       </h3>
-                      <p className="text-muted-foreground relative mt-2 line-clamp-3 text-[14px] leading-snug font-medium sm:text-[15px]">
+                      <p className="text-muted-foreground relative mt-2 hidden line-clamp-3 text-[14px] leading-snug font-medium sm:block sm:text-[15px]">
                         {item.blocks.find((block) => block.type === "paragraph")?.text}
                       </p>
 
-                      <div className="relative mt-auto flex items-end justify-between gap-3 pt-5 sm:pt-6">
+                      <div className="relative mt-auto hidden items-end justify-between gap-3 pt-5 sm:flex sm:pt-6">
                         <span className="text-primary text-[14px] font-extrabold sm:text-[15px]">
                         Подробнее
                         </span>
@@ -212,6 +212,7 @@ function DiagnosticsPage() {
                           <ArrowRight className="size-4" />
                         </span>
                       </div>
+                      <ArrowRight className="text-primary ml-auto size-5 shrink-0 sm:hidden" aria-hidden="true" />
                     </Link>
                   </Reveal>
                 ))}
