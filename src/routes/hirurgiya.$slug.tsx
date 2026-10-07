@@ -271,10 +271,8 @@ function DirectionPage() {
   const clinicDoctors = doctors.length === 0 ? fallbackDoctors(slug) : [];
   const category = SLUG_CATEGORY[slug];
   const { intro, blocks } = parseBody(data?.body);
-  const aboutTitle = data?.about_title?.trim() || "О направлении";
+  const aboutTitle = data?.about_title?.trim() || "О направление".replace("направление", "направлении");
 
-  const dbAdvantages = parseRows(data?.advantages);
-  const advantages = dbAdvantages.length > 0 ? dbAdvantages : DEFAULT_ADVANTAGES;
 
   const rowTitles = (value: string | null | undefined, fallback: string[]) => {
     const rows = parseRows(value).map((row) => row.title);
