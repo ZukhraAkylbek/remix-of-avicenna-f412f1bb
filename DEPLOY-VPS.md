@@ -74,7 +74,7 @@ bun install          # или npm install
 cp .env.example .env && nano .env
 
 # 3. Сборка — VITE_* подтянутся из .env автоматически
-bun run build        # или NITRO_PRESET=node-server npm run build
+bun run build:vps     # или: npm run build:vps
 
 # 4. Запуск (порт 3000 по умолчанию; меняется через PORT)
 node .output/server/index.mjs
@@ -110,8 +110,8 @@ Nginx настраивается так же, как в способе 1.
 
 ```bash
 git pull
-docker compose up -d --build        # Docker
-# или: bun install && bun run build && sudo systemctl restart avicenna
+docker compose up -d --build        # Docker (режим сервера задан в Dockerfile)
+# или: bun install && bun run build:vps && sudo systemctl restart avicenna
 ```
 
 ## Важно
