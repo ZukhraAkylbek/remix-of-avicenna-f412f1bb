@@ -36,6 +36,7 @@ export function SiteSearch({ className = "" }: { className?: string }) {
   const checkups = useQuery({ ...checkupPageQueryOptions(), enabled });
   const pages = useQuery({ ...pagesQueryOptions(), enabled });
 
+  const clinicDoctors = useClinicDoctors();
   const index = useMemo<Hit[]>(() => {
     const hits: Hit[] = [...STATIC_HITS];
     for (const s of specialties.data ?? []) {
