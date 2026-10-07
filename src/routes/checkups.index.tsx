@@ -1,6 +1,9 @@
 import { BannerSlider } from "@/components/BannerSlider";
 import { PAGE_BANNERS } from "@/lib/page-banners";
 import { useState } from "react";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { checkupCardsQueryOptions, parseParagraphs, parseSections } from "@/lib/checkups.queries";
+import type { CheckupCard } from "@/lib/checkups.server";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   Baby,
@@ -50,116 +53,11 @@ export const Route = createFileRoute("/checkups/")({
     ],
     links: [{ rel: "canonical", href: absoluteUrl("/checkups") || "/checkups" }],
   }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(checkupCardsQueryOptions()),
   component: CheckupsPage,
+  errorComponent: ({ error }) => <div role="alert" className="p-6">{String((error as Error)?.message ?? error)}</div>,
+  notFoundComponent: () => <div className="p-6">Не найдено</div>,
 });
-
-type MiniProgram = {
-  title: string;
-  price: string;
-  icon: string;
-};
-
-const MINI_PROGRAMS: MiniProgram[] = [
-  { title: "Здоровые лёгкие", price: "1 300 сом", icon: "lungs" },
-  { title: "Здоровый желудок", price: "8 400 сом", icon: "stomach" },
-  { title: "Здоровое сердце", price: "5 800 сом", icon: "heart" },
-  { title: "Лишний вес", price: "5 000 сом", icon: "weight" },
-  { title: "Эндокринологический", price: "5 300 сом", icon: "thyroid" },
-  { title: "Проктологический", price: "5 000 сом", icon: "clipboard" },
-  { title: "Спортивный", price: "4 800 сом", icon: "activity" },
-];
-
-
-const PROGRAM_CONTENT = [
-  "Лабораторные исследования по направлению программы",
-  "Необходимые диагностические исследования",
-  "Консультация профильного специалиста",
-  "Итоговое заключение и рекомендации врача",
-];
-
-type ProgramDetail = {
-  label: string;
-  price: string;
-  title: string;
-  includes: string[];
-  note?: string;
-};
-
-const FEMALE_PROGRAMS: ProgramDetail[] = [
-  {
-    label: "Базовый",
-    price: "39 000 сом",
-    title: "Женский чекап — Базовый",
-    includes: [
-      "УЗИ 9 органов, ЭКГ, ЭХОКГ, ЭГДС, рентген/РКТ, дыхательный тест",
-      "27 видов анализов",
-      "Консультации: терапевт, проктолог и гинеколог, маммолог/уролог, невролог, ортопед",
-      "Паспорт здоровья с рекомендациями",
-    ],
-  },
-  {
-    label: "Расширенный",
-    price: "62 000 сом",
-    title: "Женский чекап — Расширенный",
-    includes: [
-      "УЗИ 9 органов, ЭКГ, ЭХОКГ, ЭГДС и колоноскопия под наркозом, спирометрия, Доплер сосудов, дыхательный тест на H. pylori, суточный мониторинг АД и ЭКГ",
-      "53 лабораторных анализа",
-      "Консультации гинеколога, терапевта, маммолога, ортопеда, невролога, проктолога, кардиолога",
-      "Паспорт здоровья с индивидуальными рекомендациями",
-    ],
-  },
-];
-
-const MALE_PROGRAMS: ProgramDetail[] = [
-  {
-    label: "Базовый",
-    price: "34 000 сом",
-    title: "Мужской чекап — Базовый",
-    includes: [
-      "УЗИ 9 органов, ЭКГ, ЭХОКГ, ЭГДС, рентген/РКТ, дыхательный тест",
-      "27 видов анализов",
-      "Консультации: терапевт, проктолог и гинеколог, маммолог/уролог, невролог, ортопед",
-      "Паспорт здоровья с рекомендациями",
-    ],
-  },
-  {
-    label: "Расширенный",
-    price: "62 000 сом",
-    title: "Мужской чекап — Расширенный",
-    includes: [
-      "Полное обследование, аналогичное женскому расширенному",
-      "54 лабораторных анализа",
-      "Консультации уролога, терапевта, кардиолога, ортопеда, невролога, проктолога",
-      "Паспорт здоровья с индивидуальными рекомендациями",
-    ],
-    note: "Рекомендуется мужчинам от 25 лет — 1 раз в год",
-  },
-];
-
-const CHILD_PROGRAMS: ProgramDetail[] = [
-  {
-    label: "С 3 до 9 лет",
-    price: "от 17 000 сом",
-    title: "Детский чекап — С 3 до 9 лет",
-    includes: [
-      "УЗИ 7 органов, ЭКГ (с 10 лет), РКТ (с 10 лет)",
-      "20 лабораторных анализов",
-      "Консультация педиатра, ортопеда",
-      "Паспорт здоровья",
-    ],
-  },
-  {
-    label: "С 10 до 16 лет",
-    price: "от 18 500 сом",
-    title: "Детский чекап — С 10 до 16 лет",
-    includes: [
-      "УЗИ 7 органов, ЭКГ, РКТ",
-      "20 лабораторных анализов",
-      "Консультация педиатра, ортопеда",
-      "Паспорт здоровья",
-    ],
-  },
-];
 
 const FAQ = [
   {
@@ -182,8 +80,11 @@ const FAQ = [
 
 function CheckupsPage() {
   const [miniListOpen, setMiniListOpen] = useState(false);
-  const [activeMini, setActiveMini] = useState<MiniProgram | null>(null);
-  const [activeProgram, setActiveProgram] = useState<ProgramDetail | null>(null);
+  const { data: cards } = useSuspenseQuery(checkupCardsQueryOptions());
+  const [active, setActive] = useState<CheckupCard | null>(null);
+  const [fromMini, setFromMini] = useState(false);
+  const byBadge = (badge: string) => cards.filter((c) => c.badge === badge);
+  const openCard = (card: CheckupCard) => { setFromMini(false); setActive(card); };
 
   return (
     <div className="min-h-screen bg-about-canvas">
@@ -260,24 +161,24 @@ function CheckupsPage() {
                 icon={CircleUserRound}
                 title="Женские чекапы"
                 image="/assets/checkup-female.jpg"
-                programs={FEMALE_PROGRAMS}
-                onSelect={setActiveProgram}
+                programs={byBadge("female")}
+                onSelect={openCard}
               />
               <ProgramGroup
                 className="pastel-sky lg:col-span-4"
                 icon={Stethoscope}
                 title="Мужские чекапы"
                 image="/assets/checkup-male.jpg"
-                programs={MALE_PROGRAMS}
-                onSelect={setActiveProgram}
+                programs={byBadge("male")}
+                onSelect={openCard}
               />
               <ProgramGroup
                 className="pastel-sand lg:col-span-4"
                 icon={Baby}
                 title="Детские чекапы"
                 image="/assets/checkup-child.jpg"
-                programs={CHILD_PROGRAMS}
-                onSelect={setActiveProgram}
+                programs={byBadge("child")}
+                onSelect={openCard}
               />
 
               <Button
@@ -355,9 +256,9 @@ function CheckupsPage() {
             <DialogDescription className="text-about-copy">Нажмите на программу, чтобы сразу увидеть состав и записаться.</DialogDescription>
           </DialogHeader>
           <div className="grid gap-2 sm:grid-cols-2">
-            {MINI_PROGRAMS.map((item) => (
-              <button key={item.title} type="button" onClick={() => { setMiniListOpen(false); setActiveMini(item); }} className="border-about-line hover:border-brand-green hover:bg-about-mint h-auto justify-start gap-3 whitespace-normal rounded-xl border p-3 text-left shadow-none transition-colors">
-                <span className="bg-about-icon text-about-teal grid size-9 shrink-0 place-items-center rounded-full"><CheckupIcon name={item.icon} className="size-4" /></span>
+            {byBadge("mini").map((item) => (
+              <button key={item.id} type="button" onClick={() => { setMiniListOpen(false); setFromMini(true); setActive(item); }} className="border-about-line hover:border-brand-green hover:bg-about-mint h-auto justify-start gap-3 whitespace-normal rounded-xl border p-3 text-left shadow-none transition-colors">
+                <span className="bg-about-icon text-about-teal grid size-9 shrink-0 place-items-center rounded-full"><CheckupIcon name={item.icon ?? ""} className="size-4" /></span>
                 <span><strong className="text-about-ink block text-sm">{item.title}</strong><span className="text-about-teal mt-1 block text-xs font-bold">{item.price}</span></span>
               </button>
             ))}
@@ -365,62 +266,47 @@ function CheckupsPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Состав выбранного мини-чекапа */}
-      <Dialog open={activeMini !== null} onOpenChange={(open) => !open && setActiveMini(null)}>
+      <Dialog open={active !== null} onOpenChange={(open) => !open && setActive(null)}>
         <DialogContent className="border-about-line max-h-[88vh] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto rounded-2xl p-5 sm:p-7">
-          {activeMini && (
+          {active && (
             <>
               <DialogHeader className="pr-8 text-left">
                 <DialogTitle className="text-about-ink flex items-center gap-3 text-2xl font-extrabold">
-                  <span className="bg-about-icon text-about-teal grid size-10 shrink-0 place-items-center rounded-full"><CheckupIcon name={activeMini.icon} className="size-5" /></span>
-                  {activeMini.title}
+                  {active.icon && <span className="bg-about-icon text-about-teal grid size-10 shrink-0 place-items-center rounded-full"><CheckupIcon name={active.icon} className="size-5" /></span>}
+                  {active.title}
                 </DialogTitle>
                 <DialogDescription className="text-about-copy">Что входит в программу</DialogDescription>
               </DialogHeader>
-              <ul className="mt-4 space-y-3">
-                {PROGRAM_CONTENT.map((item) => (
-                  <li key={item} className="text-about-copy flex items-start gap-3 text-sm"><span className="bg-about-icon text-about-teal mt-0.5 grid size-5 shrink-0 place-items-center rounded-full"><Check className="size-3" /></span>{item}</li>
-                ))}
-              </ul>
-              <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-                <strong className="text-brand-green text-xl">{activeMini.price}</strong>
-                <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark"><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться</a></Button>
-              </div>
-              <button type="button" onClick={() => { setActiveMini(null); setMiniListOpen(true); }} className="text-about-teal mt-3 text-sm font-bold underline-offset-4 hover:underline">
-                ← Назад к списку мини-чекапов
-              </button>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={activeProgram !== null} onOpenChange={(open) => !open && setActiveProgram(null)}>
-        <DialogContent className="border-about-line max-h-[88vh] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto rounded-2xl p-5 sm:p-7">
-          {activeProgram && (
-            <>
-              <DialogHeader className="pr-8 text-left">
-                <DialogTitle className="text-about-ink text-2xl font-extrabold">{activeProgram.title}</DialogTitle>
-                <DialogDescription className="text-about-copy">Что входит в программу</DialogDescription>
-              </DialogHeader>
-              <ul className="mt-4 space-y-3">
-                {activeProgram.includes.map((item) => (
-                  <li key={item} className="text-about-copy flex items-start gap-3 text-sm leading-relaxed">
-                    <span className="bg-about-icon text-about-teal mt-0.5 grid size-5 shrink-0 place-items-center rounded-full"><Check className="size-3" /></span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              {activeProgram.note && (
-                <p className="text-about-teal mt-4 flex items-start gap-2 text-sm font-semibold">
-                  <Check className="size-4 shrink-0" />{activeProgram.note}
-                </p>
-              )}
+              {parseParagraphs(active.body).map((p, i) => (
+                <p key={i} className="text-about-copy mt-3 text-sm leading-relaxed">{p}</p>
+              ))}
+              {parseSections(active.includes).map((section) => (
+                <div key={section.title} className="mt-5">
+                  <h4 className="text-about-ink text-base font-extrabold">{section.title} <span className="text-about-teal text-sm font-bold">({section.items.length})</span></h4>
+                  <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+                    {section.items.map((item) => (
+                      <li key={item} className="text-about-copy flex items-start gap-3 text-sm leading-relaxed">
+                        <span className="bg-about-icon text-about-teal mt-0.5 grid size-5 shrink-0 place-items-center rounded-full"><Check className="size-3" /></span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
               <div className="border-about-line mt-6 flex flex-wrap items-center justify-between gap-3 border-t pt-5">
-                <strong className="text-brand-green text-xl">{activeProgram.price}</strong>
+                <div>
+                  <strong className="text-brand-green text-xl">{active.price}</strong>
+                  {active.price_note && <p className="text-about-copy mt-1 text-xs">{active.price_note}</p>}
+                </div>
                 <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark">
                   <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на чекап</a>
                 </Button>
               </div>
+              {fromMini && (
+                <button type="button" onClick={() => { setActive(null); setMiniListOpen(true); }} className="text-about-teal mt-3 text-sm font-bold underline-offset-4 hover:underline">
+                  ← Назад к списку мини-чекапов
+                </button>
+              )}
             </>
           )}
         </DialogContent>
@@ -441,8 +327,8 @@ function ProgramGroup({
   icon: typeof CircleUserRound;
   title: string;
   image: string;
-  programs: ProgramDetail[];
-  onSelect: (program: ProgramDetail) => void;
+  programs: CheckupCard[];
+  onSelect: (program: CheckupCard) => void;
 }) {
   return (
     <article className={`${className} border-about-line relative sm:min-h-64 overflow-hidden rounded-2xl border p-5`}>
@@ -453,12 +339,12 @@ function ProgramGroup({
         <div className="mt-auto space-y-2 pt-5">
           {programs.map((program) => (
             <button
-              key={program.label}
+              key={program.id}
               type="button"
               onClick={() => onSelect(program)}
               className="border-about-line bg-background/85 text-about-ink hover:border-brand-green flex w-full items-center justify-between gap-2 rounded-xl border px-3 py-2.5 text-left text-xs font-bold transition-colors sm:text-sm"
             >
-              <span>{program.label}</span>
+              <span>{program.subtitle || program.title}</span>
               <span className="text-about-teal flex shrink-0 items-center gap-1">{program.price}<ChevronRight className="size-4" /></span>
             </button>
           ))}
