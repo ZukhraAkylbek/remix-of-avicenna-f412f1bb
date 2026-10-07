@@ -177,17 +177,17 @@ function PolyclinicPage() {
             </div>
             <div className="mt-5 grid gap-5 lg:grid-cols-[280px_1fr]">
               <img src="/assets/checkup-doctors.jpg" alt="Врачи поликлиники «Авиценна»" className="hidden h-full max-h-[560px] w-full rounded-2xl object-cover lg:block" />
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 sm:gap-3">
                 {POLYCLINIC_SPECIALISTS.map((item, index) => {
                   const Icon = item.icon;
                   return (
                   <Reveal key={item.name} delay={index * 20}>
-                    <Link to="/vrachi" search={{ category: item.category }} hash="vrachi" className="border-about-line hover:border-about-teal group flex h-full items-center gap-3 rounded-2xl border bg-about-canvas p-4 transition-colors">
-                      <span className="bg-about-icon text-about-teal grid size-10 shrink-0 place-items-center rounded-full">
-                        <Icon className="size-5" aria-hidden="true" />
+                    <Link to="/vrachi" search={{ category: item.category }} hash="vrachi" className="border-about-line hover:border-about-teal group flex h-full items-center gap-2 rounded-2xl border bg-about-canvas p-3 transition-colors sm:gap-3 sm:p-4">
+                      <span className="bg-about-icon text-about-teal grid size-8 shrink-0 place-items-center rounded-full sm:size-10">
+                        <Icon className="size-4 sm:size-5" aria-hidden="true" />
                       </span>
                       <span className="text-about-ink min-w-0 flex-1 text-[13px] font-semibold sm:text-sm">{item.name}</span>
-                      <Plus className="text-about-teal size-5 shrink-0 transition-transform group-hover:rotate-90" aria-hidden="true" />
+                      <Plus className="text-about-teal hidden size-5 shrink-0 transition-transform group-hover:rotate-90 sm:block" aria-hidden="true" />
                     </Link>
                   </Reveal>
                   );
@@ -200,7 +200,7 @@ function PolyclinicPage() {
         <section className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <PolyclinicHeading title="Почему пациенты выбирают «Авиценну»" />
-            <AdvantagesGrid items={BENEFITS} />
+            <AdvantagesGrid items={BENEFITS} compact />
           </div>
         </section>
 
