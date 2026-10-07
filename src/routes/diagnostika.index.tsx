@@ -209,7 +209,7 @@ function DiagnosticsPage() {
                         {item.title}
                       </h3>
                       <p className="text-about-copy relative mt-2 hidden line-clamp-3 text-[14px] leading-snug font-medium sm:block sm:text-[15px]">
-                        {item.blocks.find((block) => block.type === "paragraph")?.text}
+                        {SHORT_INTROS[item.slug] ?? item.blocks.find((block) => block.type === "paragraph")?.text}
                       </p>
 
                       <div className="relative mt-auto hidden items-end justify-between gap-3 pt-5 sm:flex sm:pt-6">
