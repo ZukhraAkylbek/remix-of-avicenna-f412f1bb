@@ -15,5 +15,5 @@ export default defineConfig({
   // Сборка под целевой хостинг: по умолчанию "node-server" (свой VPS,
   // `node .output/server/index.mjs`). Для Vercel задайте NITRO_PRESET=vercel
   // (уже прописано в vercel.json), для Cloudflare — NITRO_PRESET=cloudflare.
-  nitro: { preset: process.env.NITRO_PRESET || "node-server" },
+  nitro: { preset: process.env["NITRO_PRESET"] || "node-server" },
 });
