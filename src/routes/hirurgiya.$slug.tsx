@@ -33,17 +33,30 @@ const SLUG_CATEGORY: Record<string, string> = {
   "obshchaya-hirurgiya": "hirurgiya",
   proktologiya: "hirurgiya",
   flebologiya: "hirurgiya",
+  terapiya: "terapiya",
+  pediatriya: "pediatriya",
+  nevrologiya: "nevrologiya",
 };
-const SLUG_SPECIALTY: Record<string, string> = { proktologiya: "проктолог", flebologiya: "флеболог" };
+const SLUG_SPECIALTY: Record<string, string> = {
+  proktologiya: "проктолог",
+  flebologiya: "флеболог",
+  kardiologiya: "кардиолог",
+  gastroenterologiya: "гастроэнтеролог",
+  endokrinologiya: "эндокринолог",
+  lor: "лор",
+  pulmonologiya: "пульмонолог",
+  dermatologiya: "дермато",
+  gematologiya: "гематолог",
+};
 
 function fallbackDoctors(slug: string, CLINIC_DOCTORS: DbClinicDoctor[]) {
   const category = SLUG_CATEGORY[slug];
-  if (!category) return [];
   const term = SLUG_SPECIALTY[slug];
   if (term) {
     const bySpec = CLINIC_DOCTORS.filter((d) => d.specialty.toLowerCase().includes(term));
-    if (bySpec.length > 0) return bySpec.slice(0, 6);
+    if (bySpec.length > 0 || !category) return bySpec.slice(0, 6);
   }
+  if (!category) return [];
   return CLINIC_DOCTORS.filter((d) => d.category === category).slice(0, 6);
 }
 
@@ -266,7 +279,8 @@ function Faq({ items }: { items: { title: string; text?: string }[] }) {
   );
 }
 
-export function DirectionBody({ slug }: { slug: string }) {
+export function DirectionBody({ slug, variant = "surgery" }: { slug: string; variant?: "surgery" | "clinic" }) {
+  const clinic = variant === "clinic";
   const { data } = useSuspenseQuery(surgeryDirectionQueryOptions(slug));
 
   const name = data?.title || DIRECTION_TITLES[slug] || "Хирургия";
@@ -284,13 +298,13 @@ export function DirectionBody({ slug }: { slug: string }) {
     const rows = parseRows(value).map((row) => row.title);
     return rows.length > 0 ? rows : fallback;
   };
-  const symptoms = rowTitles(data?.symptoms, DEFAULT_SYMPTOMS);
-  const diseases = rowTitles(data?.diseases, DEFAULT_DISEASES);
-  const procedures = rowTitles(data?.procedures, DEFAULT_PROCEDURES);
+  const symptoms = rowTitles(data?.symptoms, clinic ? [] : DEFAULT_SYMPTOMS);
+  const diseases = rowTitles(data?.diseases, clinic ? [] : DEFAULT_DISEASES);
+  const procedures = rowTitles(data?.procedures, clinic ? [] : DEFAULT_PROCEDURES);
   const diagnostics = rowTitles(data?.diagnostics, []);
 
   const dbFaq = parseRows(data?.faq);
-  const faqItems = dbFaq.length > 0 ? dbFaq : DEFAULT_FAQ;
+  const faqItems = dbFaq.length > 0 ? dbFaq : clinic ? [] : DEFAULT_FAQ;
 
   return (
     <>
@@ -309,17 +323,19 @@ export function DirectionBody({ slug }: { slug: string }) {
           </section>
         )}
 
+        {(diseases.length > 0 || symptoms.length > 0) && (
         <section className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-2">
-            <BulletList title="Какие заболевания мы лечим" items={diseases} />
-            <BulletList title="Когда стоит обратиться к врачу" items={symptoms} />
+            {diseases.length > 0 && <BulletList title="Какие заболевания мы лечим" items={diseases} />}
+            {symptoms.length > 0 && <BulletList title="Когда стоит обратиться к врачу" items={symptoms} />}
           </div>
         </section>
+        )}
 
         {diagnostics.length > 0 && (
           <section className="bg-about-canvas py-8 sm:py-10">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
-              <BulletList title="Диагностика в «Авиценне»" items={diagnostics} />
+              <BulletList title={clinic ? "Доступная диагностика" : "Диагностика в «Авиценне»"} items={diagnostics} />
               <Link
                 to="/diagnostika"
                 className="text-about-teal mt-5 inline-flex items-center gap-1.5 text-[13px] font-semibold sm:text-sm"
@@ -331,9 +347,10 @@ export function DirectionBody({ slug }: { slug: string }) {
           </section>
         )}
 
+        {(procedures.length > 0 || blocks.length > 0) && (
         <section className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <BulletList title="Операции и лечение" items={procedures} />
+            {procedures.length > 0 && <BulletList title="Операции и лечение" items={procedures} />}
             {blocks.length > 0 && (
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 {blocks.map((block) => (
@@ -352,6 +369,7 @@ export function DirectionBody({ slug }: { slug: string }) {
             )}
           </div>
         </section>
+        )}
 
         <section className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -386,12 +404,14 @@ export function DirectionBody({ slug }: { slug: string }) {
           </section>
         )}
 
+        {faqItems.length > 0 && (
         <section id="faq" className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Heading title="Часто задаваемые вопросы" />
             <Faq items={faqItems} />
           </div>
         </section>
+        )}
 
         <section className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
@@ -452,6 +472,27 @@ function DirectionPage() {
       />
 
       <main>
+        <DirectionHero name={name} subtitle={subtitle} image={image} bannerKey="hirurgiya" />
+
+        <DirectionBody slug={slug} />
+      </main>
+      <SiteFooter />
+    </div>
+  );
+}
+
+export function DirectionHero({
+  name,
+  subtitle,
+  image,
+  bannerKey,
+}: {
+  name: string;
+  subtitle: string;
+  image: string;
+  bannerKey: keyof typeof PAGE_BANNERS;
+}) {
+  return (
         <section className="bg-about-mint">
           <div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 sm:px-6 sm:py-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
             <Reveal className="flex flex-col justify-center lg:pr-10">
@@ -474,14 +515,18 @@ function DirectionPage() {
               </div>
             </Reveal>
             <div className="relative h-48 w-full overflow-hidden rounded-2xl lg:h-[300px]">
-              <BannerSlider slides={[{ image, alt: name }, ...usePageBanners("hirurgiya", PAGE_BANNERS.hirurgiya).slice(1)]} />
+              <BannerSlider slides={[{ image, alt: name }, ...usePageBanners(bannerKey, PAGE_BANNERS[bannerKey]).slice(1)]} />
             </div>
           </div>
         </section>
+  );
+}
 
-        <DirectionBody slug={slug} />
-      </main>
-      <SiteFooter />
-    </div>
+export function DirectionCrumbs({ name, section, href }: { name: string; section: string; href: string }) {
+  return (
+    <>
+      <SiteHeader breadcrumb={name} />
+      <Breadcrumbs items={[{ label: section, href }, { label: name }]} />
+    </>
   );
 }

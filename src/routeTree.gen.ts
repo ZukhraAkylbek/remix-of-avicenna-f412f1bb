@@ -17,7 +17,6 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CheckupsV2RouteImport } from './routes/checkups-v2'
 import { Route as GlavnayaV2RouteImport } from './routes/glavnaya-v2'
 import { Route as GlavnayaV3RouteImport } from './routes/glavnaya-v3'
-import { Route as PoliklinikaRouteImport } from './routes/poliklinika'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TravmpunktRouteImport } from './routes/travmpunkt'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
@@ -33,6 +32,8 @@ import { Route as HirurgiyaSlugRouteImport } from './routes/hirurgiya.$slug'
 import { Route as NapravleniyaIndexRouteImport } from './routes/napravleniya.index'
 import { Route as NapravleniyaSlugRouteImport } from './routes/napravleniya.$slug'
 import { Route as NapravleniyaStatsionarRouteImport } from './routes/napravleniya.statsionar'
+import { Route as PoliklinikaIndexRouteImport } from './routes/poliklinika.index'
+import { Route as PoliklinikaSlugRouteImport } from './routes/poliklinika.$slug'
 import { Route as UslugiIndexRouteImport } from './routes/uslugi.index'
 import { Route as UslugiSlugRouteImport } from './routes/uslugi.$slug'
 import { Route as VrachiIndexRouteImport } from './routes/vrachi.index'
@@ -95,11 +96,6 @@ const GlavnayaV2Route = GlavnayaV2RouteImport.update({
 const GlavnayaV3Route = GlavnayaV3RouteImport.update({
   id: '/glavnaya-v3',
   path: '/glavnaya-v3',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PoliklinikaRoute = PoliklinikaRouteImport.update({
-  id: '/poliklinika',
-  path: '/poliklinika',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -175,6 +171,16 @@ const NapravleniyaSlugRoute = NapravleniyaSlugRouteImport.update({
 const NapravleniyaStatsionarRoute = NapravleniyaStatsionarRouteImport.update({
   id: '/napravleniya/statsionar',
   path: '/napravleniya/statsionar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliklinikaIndexRoute = PoliklinikaIndexRouteImport.update({
+  id: '/poliklinika/',
+  path: '/poliklinika/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliklinikaSlugRoute = PoliklinikaSlugRouteImport.update({
+  id: '/poliklinika/$slug',
+  path: '/poliklinika/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const UslugiIndexRoute = UslugiIndexRouteImport.update({
@@ -320,7 +326,6 @@ export interface FileRoutesByFullPath {
   '/checkups-v2': typeof CheckupsV2Route
   '/glavnaya-v2': typeof GlavnayaV2Route
   '/glavnaya-v3': typeof GlavnayaV3Route
-  '/poliklinika': typeof PoliklinikaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travmpunkt': typeof TravmpunktRoute
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
@@ -331,6 +336,7 @@ export interface FileRoutesByFullPath {
   '/hirurgiya/$slug': typeof HirurgiyaSlugRoute
   '/napravleniya/$slug': typeof NapravleniyaSlugRoute
   '/napravleniya/statsionar': typeof NapravleniyaStatsionarRoute
+  '/poliklinika/$slug': typeof PoliklinikaSlugRoute
   '/uslugi/$slug': typeof UslugiSlugRoute
   '/vrachi/$slug': typeof VrachiSlugRoute
   '/checkups/': typeof CheckupsIndexRoute
@@ -338,6 +344,7 @@ export interface FileRoutesByFullPath {
   '/diagnostika/': typeof DiagnostikaIndexRoute
   '/hirurgiya/': typeof HirurgiyaIndexRoute
   '/napravleniya/': typeof NapravleniyaIndexRoute
+  '/poliklinika/': typeof PoliklinikaIndexRoute
   '/uslugi/': typeof UslugiIndexRoute
   '/vrachi/': typeof VrachiIndexRoute
   '/admin/banners': typeof AuthenticatedAdminBannersRoute
@@ -369,7 +376,6 @@ export interface FileRoutesByTo {
   '/checkups-v2': typeof CheckupsV2Route
   '/glavnaya-v2': typeof GlavnayaV2Route
   '/glavnaya-v3': typeof GlavnayaV3Route
-  '/poliklinika': typeof PoliklinikaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travmpunkt': typeof TravmpunktRoute
   '/checkups/$slug': typeof CheckupsSlugRoute
@@ -379,6 +385,7 @@ export interface FileRoutesByTo {
   '/hirurgiya/$slug': typeof HirurgiyaSlugRoute
   '/napravleniya/$slug': typeof NapravleniyaSlugRoute
   '/napravleniya/statsionar': typeof NapravleniyaStatsionarRoute
+  '/poliklinika/$slug': typeof PoliklinikaSlugRoute
   '/uslugi/$slug': typeof UslugiSlugRoute
   '/vrachi/$slug': typeof VrachiSlugRoute
   '/checkups': typeof CheckupsIndexRoute
@@ -386,6 +393,7 @@ export interface FileRoutesByTo {
   '/diagnostika': typeof DiagnostikaIndexRoute
   '/hirurgiya': typeof HirurgiyaIndexRoute
   '/napravleniya': typeof NapravleniyaIndexRoute
+  '/poliklinika': typeof PoliklinikaIndexRoute
   '/uslugi': typeof UslugiIndexRoute
   '/vrachi': typeof VrachiIndexRoute
   '/admin/banners': typeof AuthenticatedAdminBannersRoute
@@ -419,7 +427,6 @@ export interface FileRoutesById {
   '/checkups-v2': typeof CheckupsV2Route
   '/glavnaya-v2': typeof GlavnayaV2Route
   '/glavnaya-v3': typeof GlavnayaV3Route
-  '/poliklinika': typeof PoliklinikaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travmpunkt': typeof TravmpunktRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
@@ -430,6 +437,7 @@ export interface FileRoutesById {
   '/hirurgiya/$slug': typeof HirurgiyaSlugRoute
   '/napravleniya/$slug': typeof NapravleniyaSlugRoute
   '/napravleniya/statsionar': typeof NapravleniyaStatsionarRoute
+  '/poliklinika/$slug': typeof PoliklinikaSlugRoute
   '/uslugi/$slug': typeof UslugiSlugRoute
   '/vrachi/$slug': typeof VrachiSlugRoute
   '/checkups/': typeof CheckupsIndexRoute
@@ -437,6 +445,7 @@ export interface FileRoutesById {
   '/diagnostika/': typeof DiagnostikaIndexRoute
   '/hirurgiya/': typeof HirurgiyaIndexRoute
   '/napravleniya/': typeof NapravleniyaIndexRoute
+  '/poliklinika/': typeof PoliklinikaIndexRoute
   '/uslugi/': typeof UslugiIndexRoute
   '/vrachi/': typeof VrachiIndexRoute
   '/_authenticated/admin/banners': typeof AuthenticatedAdminBannersRoute
@@ -470,7 +479,6 @@ export interface FileRouteTypes {
     | '/checkups-v2'
     | '/glavnaya-v2'
     | '/glavnaya-v3'
-    | '/poliklinika'
     | '/sitemap.xml'
     | '/travmpunkt'
     | '/admin'
@@ -481,6 +489,7 @@ export interface FileRouteTypes {
     | '/hirurgiya/$slug'
     | '/napravleniya/$slug'
     | '/napravleniya/statsionar'
+    | '/poliklinika/$slug'
     | '/uslugi/$slug'
     | '/vrachi/$slug'
     | '/checkups/'
@@ -488,6 +497,7 @@ export interface FileRouteTypes {
     | '/diagnostika/'
     | '/hirurgiya/'
     | '/napravleniya/'
+    | '/poliklinika/'
     | '/uslugi/'
     | '/vrachi/'
     | '/admin/banners'
@@ -519,7 +529,6 @@ export interface FileRouteTypes {
     | '/checkups-v2'
     | '/glavnaya-v2'
     | '/glavnaya-v3'
-    | '/poliklinika'
     | '/sitemap.xml'
     | '/travmpunkt'
     | '/checkups/$slug'
@@ -529,6 +538,7 @@ export interface FileRouteTypes {
     | '/hirurgiya/$slug'
     | '/napravleniya/$slug'
     | '/napravleniya/statsionar'
+    | '/poliklinika/$slug'
     | '/uslugi/$slug'
     | '/vrachi/$slug'
     | '/checkups'
@@ -536,6 +546,7 @@ export interface FileRouteTypes {
     | '/diagnostika'
     | '/hirurgiya'
     | '/napravleniya'
+    | '/poliklinika'
     | '/uslugi'
     | '/vrachi'
     | '/admin/banners'
@@ -568,7 +579,6 @@ export interface FileRouteTypes {
     | '/checkups-v2'
     | '/glavnaya-v2'
     | '/glavnaya-v3'
-    | '/poliklinika'
     | '/sitemap.xml'
     | '/travmpunkt'
     | '/_authenticated/admin'
@@ -579,6 +589,7 @@ export interface FileRouteTypes {
     | '/hirurgiya/$slug'
     | '/napravleniya/$slug'
     | '/napravleniya/statsionar'
+    | '/poliklinika/$slug'
     | '/uslugi/$slug'
     | '/vrachi/$slug'
     | '/checkups/'
@@ -586,6 +597,7 @@ export interface FileRouteTypes {
     | '/diagnostika/'
     | '/hirurgiya/'
     | '/napravleniya/'
+    | '/poliklinika/'
     | '/uslugi/'
     | '/vrachi/'
     | '/_authenticated/admin/banners'
@@ -619,7 +631,6 @@ export interface RootRouteChildren {
   CheckupsV2Route: typeof CheckupsV2Route
   GlavnayaV2Route: typeof GlavnayaV2Route
   GlavnayaV3Route: typeof GlavnayaV3Route
-  PoliklinikaRoute: typeof PoliklinikaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TravmpunktRoute: typeof TravmpunktRoute
   CheckupsSlugRoute: typeof CheckupsSlugRoute
@@ -629,6 +640,7 @@ export interface RootRouteChildren {
   HirurgiyaSlugRoute: typeof HirurgiyaSlugRoute
   NapravleniyaSlugRoute: typeof NapravleniyaSlugRoute
   NapravleniyaStatsionarRoute: typeof NapravleniyaStatsionarRoute
+  PoliklinikaSlugRoute: typeof PoliklinikaSlugRoute
   UslugiSlugRoute: typeof UslugiSlugRoute
   VrachiSlugRoute: typeof VrachiSlugRoute
   CheckupsIndexRoute: typeof CheckupsIndexRoute
@@ -636,6 +648,7 @@ export interface RootRouteChildren {
   DiagnostikaIndexRoute: typeof DiagnostikaIndexRoute
   HirurgiyaIndexRoute: typeof HirurgiyaIndexRoute
   NapravleniyaIndexRoute: typeof NapravleniyaIndexRoute
+  PoliklinikaIndexRoute: typeof PoliklinikaIndexRoute
   UslugiIndexRoute: typeof UslugiIndexRoute
   VrachiIndexRoute: typeof VrachiIndexRoute
 }
@@ -696,13 +709,6 @@ declare module '@tanstack/react-router' {
       path: '/glavnaya-v3'
       fullPath: '/glavnaya-v3'
       preLoaderRoute: typeof GlavnayaV3RouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/poliklinika': {
-      id: '/poliklinika'
-      path: '/poliklinika'
-      fullPath: '/poliklinika'
-      preLoaderRoute: typeof PoliklinikaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -808,6 +814,20 @@ declare module '@tanstack/react-router' {
       path: '/napravleniya/statsionar'
       fullPath: '/napravleniya/statsionar'
       preLoaderRoute: typeof NapravleniyaStatsionarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/poliklinika/': {
+      id: '/poliklinika/'
+      path: '/poliklinika'
+      fullPath: '/poliklinika/'
+      preLoaderRoute: typeof PoliklinikaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/poliklinika/$slug': {
+      id: '/poliklinika/$slug'
+      path: '/poliklinika/$slug'
+      fullPath: '/poliklinika/$slug'
+      preLoaderRoute: typeof PoliklinikaSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/uslugi/': {
@@ -1053,7 +1073,6 @@ const rootRouteChildren: RootRouteChildren = {
   CheckupsV2Route: CheckupsV2Route,
   GlavnayaV2Route: GlavnayaV2Route,
   GlavnayaV3Route: GlavnayaV3Route,
-  PoliklinikaRoute: PoliklinikaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TravmpunktRoute: TravmpunktRoute,
   CheckupsSlugRoute: CheckupsSlugRoute,
@@ -1063,6 +1082,7 @@ const rootRouteChildren: RootRouteChildren = {
   HirurgiyaSlugRoute: HirurgiyaSlugRoute,
   NapravleniyaSlugRoute: NapravleniyaSlugRoute,
   NapravleniyaStatsionarRoute: NapravleniyaStatsionarRoute,
+  PoliklinikaSlugRoute: PoliklinikaSlugRoute,
   UslugiSlugRoute: UslugiSlugRoute,
   VrachiSlugRoute: VrachiSlugRoute,
   CheckupsIndexRoute: CheckupsIndexRoute,
@@ -1070,6 +1090,7 @@ const rootRouteChildren: RootRouteChildren = {
   DiagnostikaIndexRoute: DiagnostikaIndexRoute,
   HirurgiyaIndexRoute: HirurgiyaIndexRoute,
   NapravleniyaIndexRoute: NapravleniyaIndexRoute,
+  PoliklinikaIndexRoute: PoliklinikaIndexRoute,
   UslugiIndexRoute: UslugiIndexRoute,
   VrachiIndexRoute: VrachiIndexRoute,
 }

@@ -66,6 +66,7 @@ export async function listSurgeryDirections(): Promise<SurgeryDirection[]> {
     .from("surgery_directions")
     .select(DIRECTION_SELECT)
     .eq("is_active", true)
+    .lt("sort_order", 100)
     .order("sort_order", { ascending: true });
   if (error) throw error;
   return data ?? [];
