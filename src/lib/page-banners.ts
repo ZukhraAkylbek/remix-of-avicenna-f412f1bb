@@ -3,7 +3,7 @@ export type BannerSlide = { image: string; alt: string; caption?: string; href?:
 
 const s = (image: string, alt: string): BannerSlide => ({ image, alt });
 
-export const PAGE_BANNERS: Record<string, BannerSlide[]> = {
+export const PAGE_BANNERS = {
   poliklinika: [
     s("/assets/doctor-patient-hero.webp", "Консультация врача в поликлинике «Авиценна»"),
     s("/assets/checkup-doctors.jpg", "Врачи поликлиники «Авиценна»"),
@@ -44,4 +44,4 @@ export const PAGE_BANNERS: Record<string, BannerSlide[]> = {
     s("/assets/about-mission.webp", "Команда клиники «Авиценна»"),
     s("/assets/image.webp", "Клиника «Авиценна»"),
   ],
-};
+} satisfies Record<string, BannerSlide[]>;
