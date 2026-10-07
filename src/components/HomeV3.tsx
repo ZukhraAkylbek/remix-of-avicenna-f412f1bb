@@ -487,7 +487,7 @@ export function HomeV3() {
           </div>
           <Reveal delay={160}>
             <div className="mt-6 grid grid-cols-3 gap-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
-              {CLINIC_STATS.map((stat) => (
+              {clinicStats.map((stat) => (
                 <div
                   key={stat.label}
                   className="bg-surface-soft border-border flex flex-col items-center gap-2 rounded-2xl border p-3 text-center sm:p-5"
@@ -510,14 +510,14 @@ export function HomeV3() {
         {/* Новости и специальные предложения */}
         <Section tone="soft" eyebrow="" title="Новости и специальные предложения">
           <div className="hidden gap-4 lg:grid lg:grid-cols-3">
-            {OFFER_CARDS.slice(0, 3).map((item, index) => (
+            {offerCards.slice(0, 3).map((item, index) => (
               <Reveal key={item.title} delay={index * 60} className="h-full">
                 <OfferCard item={item} className="h-full w-full" />
               </Reveal>
             ))}
           </div>
           <div className="lg:hidden">
-            <OffersMarquee />
+            <OffersMarquee items={offerCards} />
           </div>
         </Section>
 
