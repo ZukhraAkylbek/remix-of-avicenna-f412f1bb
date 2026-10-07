@@ -6,6 +6,7 @@ import { Armchair, Microscope, Stethoscope, ArrowUpRight } from "lucide-react";
 import { Editable } from "@/components/live-edit/LiveEdit";
 import { CLINIC } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
+import privacyPolicy from "@/assets/politika-konfidenczialnosti.docx.asset.json";
 
 const PARTNERS = [
   {
