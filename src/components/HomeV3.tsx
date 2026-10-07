@@ -569,7 +569,7 @@ export function HomeV3() {
             <div className="marquee-track-quarter flex w-max">
               {[0, 1, 2, 3].map((copy) => (
                 <div key={copy} className="flex shrink-0 gap-4 pr-4" aria-hidden={copy > 0}>
-                  {REVIEWS.map((review) => (
+                  {reviews.map((review) => (
                     <ReviewCard
                       review={review}
                       key={`mobile-${copy}-${review.text}`}
@@ -586,7 +586,7 @@ export function HomeV3() {
             <div className="marquee-track-quarter flex w-max">
               {[0, 1, 2, 3].map((copy) => (
                 <div key={copy} className="flex shrink-0 gap-4 pr-4" aria-hidden={copy > 0}>
-                  {REVIEWS.map((review) => (
+                  {reviews.map((review) => (
                     <ReviewCard review={review} key={`${copy}-${review.text}`} />
                   ))}
                 </div>
@@ -594,6 +594,7 @@ export function HomeV3() {
             </div>
           </div>
         </Section>
+        )}
 
         {/* Часто задаваемые вопросы */}
         <FaqAccordion />
