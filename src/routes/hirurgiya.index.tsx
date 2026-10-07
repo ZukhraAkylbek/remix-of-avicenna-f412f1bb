@@ -238,7 +238,7 @@ export function DoctorsGrid({
   );
 }
 
-function SurgeryDoctorsGrid({ doctors }: { doctors: ClinicDoctor[] }) {
+export function SurgeryDoctorsGrid({ doctors }: { doctors: ClinicDoctor[] }) {
   return (
     <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {doctors.slice(0, 6).map((doctor) => (
