@@ -11,6 +11,10 @@ bun install
 bun run dev
 ```
 
+## Перенос на свой сервер (VPS)
+
+Пошаговая инструкция: [DEPLOY-VPS.md](./DEPLOY-VPS.md) — Docker (рекомендуется) или Node.js 22 + Nginx + HTTPS. По умолчанию сборка идёт под свой сервер (`nitro preset node-server`); для Vercel используйте `vercel.json` (он сам задаёт `NITRO_PRESET=vercel`).
+
 ## Самостоятельный деплой на Vercel
 
 Проект уже настроен для сборки под Vercel (`nitro: { preset: "vercel" }` в `vite.config.ts` и `vercel.json`).
