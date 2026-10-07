@@ -6,6 +6,7 @@ import { Copy, Upload, Trash2 } from "lucide-react";
 
 import { PageHeader, Panel } from "@/components/admin/PageHeader";
 import { Button } from "@/components/ui/button";
+import { compressImage } from "@/lib/compress-image";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE_IMAGES_BUCKET } from "@/lib/site-content";
 
@@ -59,11 +60,12 @@ function AdminMedia() {
     setBusy(true);
     try {
       for (const file of Array.from(fileList)) {
-        const ext = file.name.split(".").pop() ?? "jpg";
+        const blob = await compressImage(file);
+        const ext = blob.type === "image/webp" ? "webp" : (file.name.split(".").pop() ?? "jpg");
         const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
         const { error } = await supabase.storage
           .from(SITE_IMAGES_BUCKET)
-          .upload(path, file, { upsert: false, contentType: file.type });
+          .upload(path, blob, { upsert: false, contentType: blob.type || file.type });
         if (error) throw new Error(error.message);
       }
       toast.success("Загружено");

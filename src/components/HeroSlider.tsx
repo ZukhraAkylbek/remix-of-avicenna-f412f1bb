@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+
+import { activeHeroSlidesQueryOptions } from "@/lib/hero-slides.queries";
 
 import aboutHeroAsset from "@/assets/chat/about-hero.webp";
 import asianFamilyHeroAsset from "@/assets/chat/asian-family-hero.webp";
@@ -11,10 +14,10 @@ type HeroSlide = {
   alt: string;
   eyebrow: string;
   title: string;
-  highlight?: string;
+  highlight?: string | undefined;
   text: string;
-  ctaLabel: string;
-  ctaHref: string;
+  ctaLabel?: string | undefined;
+  ctaHref?: string | undefined;
 };
 
 /** Новости и акции в баннерной зоне главной: добавьте объект — слайд появится сам. */
@@ -56,7 +59,21 @@ const AUTOPLAY_MS = 6000;
 export function HeroSlider() {
   const [index, setIndex] = useState(0);
   const timer = useRef<number | null>(null);
-  const count = HERO_SLIDES.length;
+  const { data } = useQuery(activeHeroSlidesQueryOptions());
+  const dbSlides: HeroSlide[] = (data ?? [])
+    .filter((s) => s.displayUrl)
+    .map((s) => ({
+      image: s.displayUrl,
+      alt: s.title ?? "",
+      eyebrow: s.eyebrow ?? "",
+      title: s.title ?? "",
+      highlight: s.highlight ?? undefined,
+      text: s.subtitle ?? "",
+      ctaLabel: s.cta_label ?? undefined,
+      ctaHref: s.cta_href ?? undefined,
+    }));
+  const slides = dbSlides.length > 0 ? dbSlides : HERO_SLIDES;
+  const count = slides.length;
 
   const restart = useCallback(() => {
     if (timer.current) window.clearInterval(timer.current);
@@ -86,8 +103,8 @@ export function HeroSlider() {
         className="flex h-full transition-transform duration-700 ease-out motion-reduce:transition-none"
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
-        {HERO_SLIDES.map((slide, i) => (
-          <div key={slide.alt} className="relative h-full w-full shrink-0" aria-hidden={i !== index}>
+        {slides.map((slide, i) => (
+          <div key={i} className="relative h-full w-full shrink-0" aria-hidden={i !== index}>
             <img
               src={slide.image}
               alt={slide.alt}
@@ -125,12 +142,14 @@ export function HeroSlider() {
                 {slide.text}
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
+                {slide.ctaLabel && slide.ctaHref && (
                 <Link
                   to={slide.ctaHref as "/"}
                   className="gradient-accent text-accent-foreground inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-[16px] font-extrabold transition-all hover:-translate-y-0.5 hover:brightness-105"
                 >
                   {slide.ctaLabel}
                 </Link>
+                )}
                 <Link
                   to="/uslugi"
                   className="border-border bg-background/80 text-foreground hover:border-brand-green inline-flex items-center gap-2 rounded-2xl border px-6 py-3.5 text-[16px] font-extrabold transition-colors"
@@ -163,9 +182,9 @@ export function HeroSlider() {
 
       {/* Точки */}
       <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-        {HERO_SLIDES.map((slide, i) => (
+        {slides.map((slide, i) => (
           <button
-            key={slide.alt}
+            key={i}
             type="button"
             aria-label={`Баннер ${i + 1}`}
             onClick={() => goTo(i)}

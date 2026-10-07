@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { compressImage } from "@/lib/compress-image";
 import { supabase } from "@/integrations/supabase/client";
 import {
   HERO_BUCKET,
@@ -58,7 +59,7 @@ function AdminHero() {
       values,
     }: {
       id: string;
-      values: Partial<Pick<HeroSlideWithUrl, "title" | "subtitle" | "sort_order" | "is_active">>;
+      values: Partial<Pick<HeroSlideWithUrl, "title" | "subtitle" | "eyebrow" | "highlight" | "cta_label" | "cta_href" | "sort_order" | "is_active">>;
     }) => {
       const { error } = await supabase.from("hero_slides").update(values).eq("id", id);
       if (error) throw error;
@@ -85,11 +86,12 @@ function AdminHero() {
   const onUpload = async (file: File) => {
     setUploading(true);
     try {
-      const ext = file.name.split(".").pop() ?? "jpg";
+      const blob = await compressImage(file);
+      const ext = blob.type === "image/webp" ? "webp" : (file.name.split(".").pop() ?? "jpg");
       const path = `slides/${crypto.randomUUID()}.${ext}`;
       const { error: uploadError } = await supabase.storage
         .from(HERO_BUCKET)
-        .upload(path, file, { contentType: file.type });
+        .upload(path, blob, { contentType: blob.type || file.type });
       if (uploadError) throw uploadError;
 
       const nextOrder = (slides?.length ?? 0) + 1;
@@ -174,19 +176,36 @@ function AdminHero() {
               />
               <div className="space-y-3">
                 <Input
+                  defaultValue={slide.eyebrow ?? ""}
+                  placeholder="Надпись над заголовком"
+                  onBlur={(e) => update.mutate({ id: slide.id, values: { eyebrow: e.target.value || null } })}
+                />
+                <Input
                   defaultValue={slide.title ?? ""}
                   placeholder="Заголовок"
-                  onBlur={(e) =>
-                    update.mutate({ id: slide.id, values: { title: e.target.value } })
-                  }
+                  onBlur={(e) => update.mutate({ id: slide.id, values: { title: e.target.value } })}
+                />
+                <Input
+                  defaultValue={slide.highlight ?? ""}
+                  placeholder="Выделенная часть"
+                  onBlur={(e) => update.mutate({ id: slide.id, values: { highlight: e.target.value || null } })}
                 />
                 <Input
                   defaultValue={slide.subtitle ?? ""}
-                  placeholder="Подзаголовок"
-                  onBlur={(e) =>
-                    update.mutate({ id: slide.id, values: { subtitle: e.target.value } })
-                  }
+                  placeholder="Текст"
+                  onBlur={(e) => update.mutate({ id: slide.id, values: { subtitle: e.target.value } })}
                 />
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Input
+                    defaultValue={slide.cta_label ?? ""}
+                    placeholder="Текст кнопки"
+                    onBlur={(e) => update.mutate({ id: slide.id, values: { cta_label: e.target.value || null } })}
+                  />
+                  <CtaHrefField
+                    value={slide.cta_href ?? ""}
+                    onSave={(v) => update.mutate({ id: slide.id, values: { cta_href: v || null } })}
+                  />
+                </div>
                 <div className="flex flex-wrap items-center gap-4">
                   <div className="flex items-center gap-2">
                     <Label htmlFor={`order-${slide.id}`} className="text-sm">
@@ -231,6 +250,50 @@ function AdminHero() {
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+const SITE_PAGES = [
+  ["/", "Главная"],
+  ["/poliklinika", "Поликлиника"],
+  ["/diagnostika", "Диагностика"],
+  ["/vrachi", "Врачи"],
+  ["/travmpunkt", "Травмпункт"],
+  ["/hirurgiya", "Хирургия"],
+  ["/napravleniya/statsionar", "Стационар"],
+  ["/checkups", "Чекап"],
+  ["/about", "О нас"],
+] as const;
+
+function CtaHrefField({ value, onSave }: { value: string; onSave: (v: string) => void }) {
+  const [text, setText] = useState(value);
+  const known = SITE_PAGES.some(([href]) => href === text);
+  return (
+    <div className="flex gap-2">
+      <select
+        aria-label="Ссылка кнопки"
+        className="border-input bg-background h-9 rounded-md border px-2 text-sm"
+        value={known ? text : ""}
+        onChange={(e) => {
+          if (!e.target.value) return;
+          setText(e.target.value);
+          onSave(e.target.value);
+        }}
+      >
+        <option value="">Своя ссылка…</option>
+        {SITE_PAGES.map(([href, label]) => (
+          <option key={href} value={href}>
+            {label}
+          </option>
+        ))}
+      </select>
+      <Input
+        value={text}
+        placeholder="Ссылка кнопки"
+        onChange={(e) => setText(e.target.value)}
+        onBlur={() => onSave(text.trim())}
+      />
     </div>
   );
 }
