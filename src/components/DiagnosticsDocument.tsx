@@ -4,6 +4,7 @@ import { DIAGNOSTIC_IMAGES } from "@/lib/hq-images";
 import documentContent from "@/data/diagnostics-document.json";
 import { DiagnosticsIcon } from "@/components/DiagnosticsIcon";
 import { BOOKING_URL } from "@/lib/site-config";
+import { Editable } from "@/components/live-edit/LiveEdit";
 
 export const diagnosticDocuments = documentContent;
 
@@ -24,7 +25,10 @@ export const SHORT_INTROS: Record<string, string> = {
 
 type DocumentBlock = (typeof documentContent)[number]["blocks"][number];
 
-function renderBlocks(blocks: DocumentBlock[]) {
+function renderBlocks(blocks: DocumentBlock[], slug: string) {
+  const E = (i: number, text: string, label: string, multiline = false, className?: string) => (
+    <Editable ekey={`diag.${slug}.${i}`} label={label} fallback={text} multiline={multiline} {...(className ? { className } : {})} />
+  );
   const sections: React.ReactNode[] = [];
 
   for (let index = 0; index < blocks.length;) {
@@ -38,14 +42,15 @@ function renderBlocks(blocks: DocumentBlock[]) {
         <div key={index} className="bg-about-canvas py-8 sm:py-10"><section className="border-about-line bg-about-mint mx-auto max-w-5xl rounded-2xl border p-5 sm:p-7">
           <div className="flex items-center gap-3">
             <span className="bg-about-icon text-about-teal grid size-10 shrink-0 place-items-center rounded-full"><Clock3 className="size-5" aria-hidden="true" /></span>
-            <h2 className="text-about-ink text-xl font-bold sm:text-2xl">{block.text}</h2>
+            <h2 className="text-about-ink text-xl font-bold sm:text-2xl">{E(index, block.text, "Заголовок")}</h2>
           </div>
           <div className="mt-5 divide-y divide-about-line border-y border-about-line">
             {blocks.slice(index + 1, end).map((item, offset) => {
+              const bi = index + 1 + offset;
               const colon = item.text.indexOf(":");
               const isHours = colon > 0 && colon < 26 && /\d{2}:\d{2}|выходной|графику|круглосуточно/i.test(item.text.slice(colon + 1));
               return <div key={offset} className="py-3 text-sm leading-relaxed sm:text-base">
-                {isHours ? <div className="flex flex-wrap justify-between gap-x-4 gap-y-1"><span className="text-about-copy">{item.text.slice(0, colon)}</span><span className="text-about-ink font-semibold">{item.text.slice(colon + 1).trim()}</span></div> : <p className="text-about-copy">{item.type === "bullet" ? "• " : ""}{item.text}</p>}
+                {isHours ? <div className="flex flex-wrap justify-between gap-x-4 gap-y-1">{E(bi, item.text, "Строка графика", false, "text-about-copy")}</div> : <p className="text-about-copy">{item.type === "bullet" ? "• " : ""}{E(bi, item.text, "Строка графика")}</p>}
               </div>;
             })}
           </div>
@@ -58,23 +63,24 @@ function renderBlocks(blocks: DocumentBlock[]) {
     if (block.type === "heading" && block.text === "Часто задаваемые вопросы") {
       let end = index + 1;
       while (end < blocks.length && blocks[end]?.type !== "heading") end++;
-      const answers: { title: string; text: string[] }[] = [];
-      for (const item of blocks.slice(index + 1, end)) {
-        if (item.type === "question") answers.push({ title: item.text, text: [] });
+      const answers: { title: string; i: number; text: { text: string; i: number }[] }[] = [];
+      blocks.slice(index + 1, end).forEach((item, offset) => {
+        const bi = index + 1 + offset;
+        if (item.type === "question") answers.push({ title: item.text, i: bi, text: [] });
         else {
           const answer = answers.at(-1);
-          if (answer) answer.text.push(item.text);
+          if (answer) answer.text.push({ text: item.text, i: bi });
         }
-      }
+      });
       sections.push(
         <section key={index} className="bg-about-mint py-8 sm:py-10"><div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <h2 className="text-about-ink text-2xl font-bold sm:text-3xl">{block.text}</h2>
+          <h2 className="text-about-ink text-2xl font-bold sm:text-3xl">{E(index, block.text, "Заголовок")}</h2>
           <div className="mt-6 grid items-start gap-3 lg:grid-cols-2">
             {answers.map((answer) => <details key={answer.title} className="group border-about-line bg-card rounded-2xl border">
               <summary className="text-about-ink flex cursor-pointer list-none items-center justify-between gap-4 p-4 font-semibold [&::-webkit-details-marker]:hidden">
-                <span>{answer.title}</span><Plus className="text-about-teal size-5 shrink-0 transition-transform group-open:rotate-45" aria-hidden="true" />
+                <span>{E(answer.i, answer.title, "Вопрос")}</span><Plus className="text-about-teal size-5 shrink-0 transition-transform group-open:rotate-45" aria-hidden="true" />
               </summary>
-              <div className="text-about-copy space-y-2 px-4 pb-4 text-sm leading-relaxed">{answer.text.map((text, answerIndex) => <p key={answerIndex}>{text}</p>)}</div>
+              <div className="text-about-copy space-y-2 px-4 pb-4 text-sm leading-relaxed">{answer.text.map((t) => <p key={t.i}>{E(t.i, t.text, "Ответ", true)}</p>)}</div>
             </details>)}
           </div>
         </div></section>
@@ -86,20 +92,21 @@ function renderBlocks(blocks: DocumentBlock[]) {
     if (block.type === "heading" || index === 0) {
       let end = index + 1;
       while (end < blocks.length && blocks[end]?.type !== "heading") end++;
-      const body = blocks.slice(block.type === "heading" ? index + 1 : index, end);
+      const start = block.type === "heading" ? index + 1 : index;
+      const body = blocks.slice(start, end).map((item, offset) => ({ ...item, bi: start + offset }));
       const bullets = body.filter((item) => item.type === "bullet");
       sections.push(
         <section key={index} className={`${sections.length % 2 ? "bg-about-mint" : "bg-about-canvas"} py-8 sm:py-10`}>
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            {block.type === "heading" && <h2 className="text-about-ink text-2xl font-extrabold tracking-tight sm:text-3xl">{block.text}</h2>}
+            {block.type === "heading" && <h2 className="text-about-ink text-2xl font-extrabold tracking-tight sm:text-3xl">{E(index, block.text, "Заголовок")}</h2>}
             <div className="mt-5 max-w-4xl space-y-4">
               {body.filter((item) => item.type !== "bullet").map((item, i) => item.type === "question"
-                ? <h3 key={i} className="text-about-ink pt-2 text-lg font-bold">{item.text}</h3>
-                : <p key={i} className="text-about-copy text-base leading-relaxed sm:text-lg">{item.text}</p>)}
+                ? <h3 key={i} className="text-about-ink pt-2 text-lg font-bold">{E(item.bi, item.text, "Подзаголовок")}</h3>
+                : <p key={i} className="text-about-copy text-base leading-relaxed sm:text-lg">{E(item.bi, item.text, "Абзац", true)}</p>)}
             </div>
             {bullets.length > 0 && <ul className="mt-5 grid gap-x-8 gap-y-3 md:grid-cols-2">
               {bullets.map((item, i) => <li key={i} className="text-about-copy flex items-start gap-3 text-base leading-relaxed sm:text-lg">
-                <span className="bg-about-icon text-about-teal mt-0.5 grid size-7 shrink-0 place-items-center rounded-full"><Check className="size-4" aria-hidden="true" /></span>{item.text}
+                <span className="bg-about-icon text-about-teal mt-0.5 grid size-7 shrink-0 place-items-center rounded-full"><Check className="size-4" aria-hidden="true" /></span>{E(item.bi, item.text, "Пункт списка")}
               </li>)}
             </ul>}
           </div>
@@ -113,25 +120,28 @@ function renderBlocks(blocks: DocumentBlock[]) {
   return sections;
 }
 
-export function DiagnosticsDocument({ slug }: { slug: string }) {
+type DbItem = { title: string; subtitle: string | null; image_url: string | null } | null;
+
+export function DiagnosticsDocument({ slug, item = null }: { slug: string; item?: DbItem }) {
   const entry = diagnosticDocuments.find((document) => document.slug === slug);
   if (!entry) return null;
-  const image = DIAGNOSTIC_IMAGES[slug];
+  const image = item?.image_url || DIAGNOSTIC_IMAGES[slug];
+  const title = item?.title || entry.title;
   const intro = entry.blocks.find((block) => block.type === "paragraph")?.text;
   return (
     <>
       <section className="bg-about-mint">
         <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-8 sm:px-6 sm:py-10 lg:grid-cols-2">
           <div>
-            <DiagnosticsIcon title={entry.title} icon={entry.icon} className="bg-about-icon text-about-teal size-12 rounded-full" />
-            <h1 className="text-about-ink mt-5 text-2xl leading-[1.08] font-extrabold tracking-tight sm:text-4xl lg:text-5xl">{entry.title} в Бишкеке</h1>
-            <p className="text-about-copy mt-4 max-w-2xl text-base leading-relaxed sm:text-lg">{SHORT_INTROS[slug] ?? intro}</p>
+            <DiagnosticsIcon title={title} icon={entry.icon} className="bg-about-icon text-about-teal size-12 rounded-full" />
+            <h1 className="text-about-ink mt-5 text-2xl leading-[1.08] font-extrabold tracking-tight sm:text-4xl lg:text-5xl">{title} в Бишкеке</h1>
+            <p className="text-about-copy mt-4 max-w-2xl text-base leading-relaxed sm:text-lg">{item?.subtitle || SHORT_INTROS[slug] || intro}</p>
             <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="bg-brand-green text-brand-white hover:bg-brand-green-dark mt-7 inline-flex items-center gap-2 rounded-md px-6 py-3.5 font-extrabold transition-colors"><CalendarCheck className="size-5" /> Записаться</a>
           </div>
-          {image && <img src={image} alt={entry.title} width={1280} height={896} className="aspect-[4/3] w-full rounded-2xl border border-about-line object-cover" />}
+          {image && <img src={image} alt={title} width={1280} height={896} className="aspect-[4/3] w-full rounded-2xl border border-about-line object-cover" />}
         </div>
       </section>
-      {renderBlocks(entry.blocks)}
+      {renderBlocks(entry.blocks, slug)}
       <div className="bg-about-canvas py-8"><div className="mx-auto max-w-7xl px-4 sm:px-6">
         <Link to="/diagnostika" className="text-about-teal inline-flex font-bold hover:underline">← Все направления диагностики</Link>
       </div></div>

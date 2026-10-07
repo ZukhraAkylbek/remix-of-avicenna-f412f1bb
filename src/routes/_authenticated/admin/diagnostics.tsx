@@ -193,6 +193,10 @@ function AdminDiagnostics() {
     if (sections) setOrder(sections);
   }, [sections]);
 
+  useEffect(() => {
+    if (items) setItemOrder(items);
+  }, [items]);
+
   const persistOrder = useMutation({
     mutationFn: async (rows: SectionRow[]) => {
       await Promise.all(

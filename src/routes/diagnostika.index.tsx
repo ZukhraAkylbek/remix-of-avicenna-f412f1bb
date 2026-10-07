@@ -64,7 +64,7 @@ function PageShell({ children }: { children: React.ReactNode }) {
 
 function DiagnosticsPage() {
   const { data } = useSuspenseQuery(diagnosticsPageQueryOptions());
-  const { sections, categories, symptoms } = data;
+  const { sections, categories, symptoms, items } = data;
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const section = (key: string) => sections.find((s) => s.key === key) ?? null;
@@ -82,7 +82,21 @@ function DiagnosticsPage() {
     "ehokg-doppler": "funk", endoskopiya: "endo", "dyhatelny-test": "funk",
     "laboratornaya-diagnostika": "lab", spirometriya: "funk", videokolposkopiya: "funk",
   };
-  const filtered = useMemo(() => diagnosticDocuments.filter((item) => !activeCategory || documentCategories[item.slug] === activeCategory), [activeCategory]);
+  const cards = useMemo(
+    () =>
+      items.length > 0
+        ? items.map((i) => ({ slug: i.slug, title: i.title, icon: i.icon, image_url: i.image_url, category: i.category_key, text: i.subtitle ?? "" }))
+        : diagnosticDocuments.map((d) => ({
+            slug: d.slug,
+            title: d.title,
+            icon: d.icon as string | null,
+            image_url: null as string | null,
+            category: documentCategories[d.slug] ?? null,
+            text: SHORT_INTROS[d.slug] ?? d.blocks.find((block) => block.type === "paragraph")?.text ?? "",
+          })),
+    [items],
+  );
+  const filtered = useMemo(() => cards.filter((item) => !activeCategory || item.category === activeCategory), [cards, activeCategory]);
 
   const bookingUrl = hero?.primary_url || BOOKING_URL;
 
@@ -200,6 +214,7 @@ function DiagnosticsPage() {
                         <div className="flex items-center gap-2.5">
                           <DiagnosticsIcon
                             icon={item.icon}
+                            imageUrl={item.image_url}
                             title={item.title}
                             className="size-10 rounded-xl sm:size-12 sm:rounded-2xl"
                           />
@@ -209,7 +224,7 @@ function DiagnosticsPage() {
                         {item.title}
                       </h3>
                       <p className="text-about-copy relative mt-2 hidden line-clamp-3 text-[14px] leading-snug font-medium sm:block sm:text-[15px]">
-                        {SHORT_INTROS[item.slug] ?? item.blocks.find((block) => block.type === "paragraph")?.text}
+                        {item.text}
                       </p>
 
                       <div className="relative mt-auto hidden items-end justify-between gap-3 pt-5 sm:flex sm:pt-6">
