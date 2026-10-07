@@ -14,10 +14,10 @@ type HeroSlide = {
   alt: string;
   eyebrow: string;
   title: string;
-  highlight?: string;
+  highlight?: string | undefined;
   text: string;
-  ctaLabel?: string;
-  ctaHref?: string;
+  ctaLabel?: string | undefined;
+  ctaHref?: string | undefined;
 };
 
 /** Новости и акции в баннерной зоне главной: добавьте объект — слайд появится сам. */
