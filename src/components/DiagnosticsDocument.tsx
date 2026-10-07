@@ -125,7 +125,7 @@ export function DiagnosticsDocument({ slug }: { slug: string }) {
           <div>
             <DiagnosticsIcon title={entry.title} icon={entry.icon} className="bg-about-icon text-about-teal size-12 rounded-full" />
             <h1 className="text-about-ink mt-5 text-2xl leading-[1.08] font-extrabold tracking-tight sm:text-4xl lg:text-5xl">{entry.title} в Бишкеке</h1>
-            <p className="text-about-copy mt-4 max-w-2xl text-base leading-relaxed sm:text-lg">{intro}</p>
+            <p className="text-about-copy mt-4 max-w-2xl text-base leading-relaxed sm:text-lg">{SHORT_INTROS[slug] ?? intro}</p>
             <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="bg-brand-green text-brand-white hover:bg-brand-green-dark mt-7 inline-flex items-center gap-2 rounded-md px-6 py-3.5 font-extrabold transition-colors"><CalendarCheck className="size-5" /> Записаться</a>
           </div>
           {image && <img src={image} alt={entry.title} width={1280} height={896} className="aspect-[4/3] w-full rounded-2xl border border-about-line object-cover" />}
