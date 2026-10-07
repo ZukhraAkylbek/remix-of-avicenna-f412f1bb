@@ -68,11 +68,14 @@ function DiagnosticsPage() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const section = (key: string) => sections.find((s) => s.key === key) ?? null;
-  const hero = section("hero");
+  // Fallbacks so the page renders even when the database has no content yet
+  const fb = (title: string, subtitle: string | null = null) =>
+    ({ title, subtitle, body: null, primary_label: null, primary_url: null, secondary_label: null, secondary_url: null, image_url: null }) as any;
+  const hero = section("hero") ?? fb("Диагностика в Бишкеке", "УЗИ, КТ, рентген, ЭКГ, лабораторные анализы и эндоскопия в сети клиник «Авиценна».");
   const navigator = section("navigator");
-  const catalog = section("catalog");
+  const catalog = section("catalog") ?? fb("Виды исследований", "Выберите исследование, чтобы узнать подробности и подготовку.");
   const advantages = section("advantages");
-  const cta = section("cta");
+  const cta = section("cta") ?? fb("Запишитесь на диагностику", "Подберём удобное время и филиал.");
 
   const documentCategories: Record<string, string> = {
     kt: "xray", rentgen: "xray", uzi: "uzi", ekg: "funk", holter: "funk",
