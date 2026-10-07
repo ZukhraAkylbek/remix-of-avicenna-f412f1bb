@@ -354,6 +354,58 @@ function OfferCard({
 
 
 export function HomeV3() {
+  const { data: homeItems } = useSuspenseQuery(homeItemsQueryOptions());
+  const byGroup = (grp: HomeItem["grp"]) => homeItems.filter((i) => i.grp === grp);
+
+  const routeRows = byGroup("route");
+  const routeCards =
+    routeRows.length > 0
+      ? routeRows.map((i) => ({ title: i.title, href: i.href ?? "/", tone: i.tone ?? "pastel-mint" }))
+      : ROUTE_CARDS;
+
+  const specialtyRows = byGroup("specialty");
+  const specialtyPills =
+    specialtyRows.length > 0
+      ? specialtyRows.map((i) => ({ name: i.title, icon: iconOf(i.icon), href: i.href ?? "/vrachi" }))
+      : SPECIALTY_PILLS;
+
+  const statRows = byGroup("stat");
+  const clinicStats =
+    statRows.length > 0
+      ? statRows.map((i) => ({ value: i.value ?? "", label: i.title, icon: iconOf(i.icon) }))
+      : CLINIC_STATS;
+
+  const offerRows = byGroup("offer");
+  const offerCards: OfferItem[] =
+    offerRows.length > 0
+      ? offerRows.map((i) => ({
+          tag: i.tag,
+          title: i.title,
+          description: i.text,
+          price: i.price,
+          oldPrice: i.old_price,
+          href: i.href ?? "/",
+          image: i.image_url ?? aboutHeroAsset,
+          tone: i.tone,
+        }))
+      : OFFER_CARDS.map((o) => ({
+          tag: o.tag,
+          title: o.title,
+          description: o.description,
+          price: o.price ?? null,
+          oldPrice: o.oldPrice ?? null,
+          href: o.href,
+          image: o.image,
+          tone: o.tone,
+        }));
+
+  const reviewRows = byGroup("review");
+  const reviews = reviewRows.map((i) => ({
+    text: i.text ?? "",
+    src: i.source ?? "Другое",
+    rating: i.rating,
+  }));
+
   return (
     <div className="bg-background min-h-screen">
       <SiteHeader />
