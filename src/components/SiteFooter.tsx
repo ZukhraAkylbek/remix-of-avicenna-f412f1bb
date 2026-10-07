@@ -1,7 +1,35 @@
 import logo from "@/assets/chat/logo-avicenna-kg.webp";
+import expresslabLogo from "@/assets/partners/expresslab-logo.svg";
+import kokomerenLogo from "@/assets/partners/kokomeren-logo.png";
+import corpusLogo from "@/assets/partners/corpus-logo-cropped.jpg";
+import { Armchair, Microscope, Stethoscope, ArrowUpRight } from "lucide-react";
 import { Editable } from "@/components/live-edit/LiveEdit";
 import { CLINIC } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
+
+const PARTNERS = [
+  {
+    name: "Экспресс Плюс",
+    icon: Microscope,
+    line: "Лабораторная диагностика",
+    href: "https://expresslab.kg/",
+    logo: expresslabLogo,
+  },
+  {
+    name: "Көкөмерен",
+    icon: Stethoscope,
+    line: "Медтехника и реагенты",
+    href: "https://kokomeren.kg/",
+    logo: kokomerenLogo,
+  },
+  {
+    name: "Corpus",
+    icon: Armchair,
+    line: "Производство мебели",
+    href: undefined,
+    logo: corpusLogo,
+  },
+];
 
 export function SiteFooter() {
   return (
