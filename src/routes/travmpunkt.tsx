@@ -1,19 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Link, createFileRoute } from "@tanstack/react-router";
-import {
-  AlertTriangle,
-  ArrowRight,
-  Baby,
-  Bone,
-  Building2,
-  CalendarDays,
-  Check,
-  Clock3,
-  MapPin,
-  Phone,
-  Syringe,
-  UserRound,
-} from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { AlertTriangle, Baby, Clock3, MapPin, Phone } from "lucide-react";
 
 import { SiteFooter } from "@/components/SiteFooter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
