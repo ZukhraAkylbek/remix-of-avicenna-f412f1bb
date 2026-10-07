@@ -28,6 +28,7 @@ function pluralize(n: number, one: string, few: string, many: string) {
 }
 
 import { Reveal } from "@/components/Reveal";
+import { AdvantagesGrid } from "@/components/AdvantagesGrid";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SiteHeader } from "@/components/SiteHeader";
