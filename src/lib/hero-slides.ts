@@ -7,43 +7,35 @@ export type HeroSlide = {
   image_url: string;
   title: string | null;
   subtitle: string | null;
+  eyebrow: string | null;
+  highlight: string | null;
+  cta_label: string | null;
+  cta_href: string | null;
   sort_order: number;
   is_active: boolean;
 };
 
 export type HeroSlideWithUrl = HeroSlide & { displayUrl: string };
 
-const isAbsolute = (value: string) => /^https?:\/\//i.test(value);
+const COLUMNS =
+  "id, image_url, title, subtitle, eyebrow, highlight, cta_label, cta_href, sort_order, is_active";
 
-/** Приватный бакет: для показа картинок формируем подписанные ссылки. */
-export async function withDisplayUrls(slides: HeroSlide[]): Promise<HeroSlideWithUrl[]> {
-  const paths = slides.map((s) => s.image_url).filter((url) => !isAbsolute(url));
+export function heroImageUrl(value: string): string {
+  if (!value) return "";
+  if (value.startsWith("/") || /^https?:\/\//i.test(value)) return value;
+  return supabase.storage.from(HERO_BUCKET).getPublicUrl(value).data.publicUrl;
+}
 
-  const signed = new Map<string, string>();
-  if (paths.length > 0) {
-    const { data } = await supabase.storage
-      .from(HERO_BUCKET)
-      .createSignedUrls(paths, 60 * 60 * 6);
-    data?.forEach((item) => {
-      if (item.path && item.signedUrl) signed.set(item.path, item.signedUrl);
-    });
-  }
-
-  return slides.map((slide) => ({
-    ...slide,
-    displayUrl: isAbsolute(slide.image_url)
-      ? slide.image_url
-      : (signed.get(slide.image_url) ?? ""),
-  }));
+export function withDisplayUrls(slides: HeroSlide[]): HeroSlideWithUrl[] {
+  return slides.map((slide) => ({ ...slide, displayUrl: heroImageUrl(slide.image_url) }));
 }
 
 export async function fetchActiveHeroSlides(): Promise<HeroSlideWithUrl[]> {
   const { data, error } = await supabase
     .from("hero_slides")
-    .select("id, image_url, title, subtitle, sort_order, is_active")
+    .select(COLUMNS)
     .eq("is_active", true)
     .order("sort_order", { ascending: true });
-
   if (error) throw error;
   return withDisplayUrls(data ?? []);
 }
@@ -51,9 +43,8 @@ export async function fetchActiveHeroSlides(): Promise<HeroSlideWithUrl[]> {
 export async function fetchAllHeroSlides(): Promise<HeroSlideWithUrl[]> {
   const { data, error } = await supabase
     .from("hero_slides")
-    .select("id, image_url, title, subtitle, sort_order, is_active")
+    .select(COLUMNS)
     .order("sort_order", { ascending: true });
-
   if (error) throw error;
   return withDisplayUrls(data ?? []);
 }
