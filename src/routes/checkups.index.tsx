@@ -86,6 +86,7 @@ function CheckupsPage() {
   const [showAllAnalyses, setShowAllAnalyses] = useState(false);
   useEffect(() => { setShowAllAnalyses(false); }, [active?.id]);
   const byBadge = (badge: string) => cards.filter((c) => c.badge === badge);
+  const openCard = (card: CheckupCard) => { setFromMini(false); setActive(card); };
 
   return (
     <div className="min-h-screen bg-about-canvas">
