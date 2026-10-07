@@ -85,11 +85,11 @@ const CONSULTATION_REASONS = [
   "Подбор индивидуального плана лечения",
 ];
 
-const DIAGNOSTICS = [
-  { title: "Лабораторные исследования", text: "Широкий спектр анализов для точной диагностики." },
-  { title: "УЗИ, КТ и рентген", text: "Современные исследования в одном медицинском центре." },
-  { title: "Эндоскопические исследования", text: "ЭГДС и колоноскопия, в том числе под наркозом." },
-  { title: "Функциональная диагностика", text: "Оценка работы сердца, лёгких и других систем." },
+const DIAGNOSTICS: { title: string; text: string; href: string; external?: boolean }[] = [
+  { title: "Лабораторные исследования", text: "Анализы ведём в собственной лаборатории «Экспресс Плюс».", href: "https://expresslab.kg/", external: true },
+  { title: "УЗИ, КТ и рентген", text: "Современные исследования в одном медицинском центре.", href: "/diagnostika" },
+  { title: "Эндоскопические исследования", text: "ЭГДС и колоноскопия, в том числе под наркозом.", href: "/diagnostika" },
+  { title: "Функциональная диагностика", text: "Оценка работы сердца, лёгких и других систем.", href: "/diagnostika" },
 ];
 
 const FAQS = [
@@ -115,10 +115,19 @@ export const Route = createFileRoute("/poliklinika")({
   component: PolyclinicPage,
 });
 
-function PolyclinicHeading({ title, description }: { title: string; description?: string }) {
+function PolyclinicHeading({ title, description, href }: { title: string; description?: string; href?: string }) {
   return (
     <div>
-      <h2 className="text-about-ink text-2xl leading-tight font-extrabold sm:text-3xl">{title}</h2>
+      <h2 className="text-about-ink text-2xl leading-tight font-extrabold sm:text-3xl">
+        {href ? (
+          <Link to={href} className="hover:text-about-teal inline-flex items-center gap-2 transition-colors">
+            {title}
+            <ArrowRight className="size-5 shrink-0" />
+          </Link>
+        ) : (
+          title
+        )}
+      </h2>
       {description && <p className="text-about-copy mt-3 max-w-2xl text-sm leading-relaxed sm:text-base">{description}</p>}
     </div>
   );
@@ -229,11 +238,19 @@ function PolyclinicPage() {
 
         <section className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <PolyclinicHeading title="Современная диагностика" description="Все необходимые исследования можно пройти в клинике." />
+            <PolyclinicHeading title="Современная диагностика" description="Все необходимые исследования можно пройти в клинике." href="/diagnostika" />
             <div className="mt-5 grid gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
               <img src="/assets/uslugi-hero.jpg" alt="Диагностическое оборудование клиники" className="hidden lg:block h-60 w-full rounded-2xl object-cover" />
               <div className="grid gap-3 sm:grid-cols-2">
-                {DIAGNOSTICS.map((item, index) => <div key={item.title} className="border-about-line bg-about-canvas flex gap-3 rounded-2xl border p-4"><span className="bg-about-icon text-about-teal grid size-10 shrink-0 place-items-center rounded-full"><Microscope className="size-5" /></span><div><h3 className="text-about-ink text-sm font-bold">{item.title}</h3><p className="text-about-copy mt-1 text-[13px] leading-relaxed">{item.text}</p></div></div>)}
+                {DIAGNOSTICS.map((item) => {
+                  const cls = "border-about-line bg-about-canvas hover:border-brand-green flex gap-3 rounded-2xl border p-4 transition-colors";
+                  const inner = <><span className="bg-about-icon text-about-teal grid size-10 shrink-0 place-items-center rounded-full"><Microscope className="size-5" /></span><div><h3 className="text-about-ink text-sm font-bold">{item.title}</h3><p className="text-about-copy mt-1 text-[13px] leading-relaxed">{item.text}</p></div></>;
+                  return item.external ? (
+                    <a key={item.title} href={item.href} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>
+                  ) : (
+                    <Link key={item.title} to={item.href} className={cls}>{inner}</Link>
+                  );
+                })}
               </div>
             </div>
           </div>
