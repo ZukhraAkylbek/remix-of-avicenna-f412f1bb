@@ -3,6 +3,7 @@ import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { ArrowRight, Check, MessageCircle, Plus, ShieldCheck, Sparkles, Stethoscope, UserRound } from "lucide-react";
 import { useState } from "react";
 
+import { AdvantagesGrid } from "@/components/AdvantagesGrid";
 import { Reveal } from "@/components/Reveal";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";

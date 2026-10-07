@@ -12,6 +12,7 @@ import {
   UserRound,
 } from "lucide-react";
 
+import { AdvantagesGrid } from "@/components/AdvantagesGrid";
 import { DiagnosticsIcon } from "@/components/DiagnosticsIcon";
 import { DiagnosticsDocument, diagnosticDocuments } from "@/components/DiagnosticsDocument";
 import { SiteFooter } from "@/components/SiteFooter";
