@@ -271,7 +271,7 @@ function DirectionPage() {
   const clinicDoctors = doctors.length === 0 ? fallbackDoctors(slug) : [];
   const category = SLUG_CATEGORY[slug];
   const { intro, blocks } = parseBody(data?.body);
-  const aboutTitle = data?.about_title?.trim() || "О направление".replace("направление", "направлении");
+  const aboutTitle = data?.about_title?.trim() || "О направлении";
 
 
   const rowTitles = (value: string | null | undefined, fallback: string[]) => {
