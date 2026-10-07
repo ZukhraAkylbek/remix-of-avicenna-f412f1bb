@@ -24,7 +24,6 @@ import {
   Sparkles,
   MessageSquare,
   Home,
-  Images,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
