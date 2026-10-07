@@ -176,7 +176,7 @@ function StatsionarPage() {
                 ул. Бакаева, 106 — главный корпус
               </p>
             </div>
-            <div className="relative">
+            <div className="relative hidden lg:block">
               <img
                 src="/assets/about-hero.webp"
                 alt="Стационар клиники Авиценна"
@@ -219,7 +219,7 @@ function StatsionarPage() {
               src="/assets/image-2.webp"
               alt="Палата стационара"
               loading="lazy"
-              className="aspect-[4/3] w-full rounded-2xl border border-about-line object-cover"
+              className="hidden lg:block aspect-[4/3] w-full rounded-2xl border border-about-line object-cover"
             />
             <div>
               <StatsionarHeading

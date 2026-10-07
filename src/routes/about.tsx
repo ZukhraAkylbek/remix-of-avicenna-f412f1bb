@@ -368,7 +368,7 @@ function AboutPage() {
                   </p>
                 </div>
 
-                <div className="min-h-64 overflow-hidden rounded-t-[42%] lg:min-h-[420px] lg:rounded-t-none lg:rounded-l-[42%]">
+                <div className="hidden lg:block min-h-64 overflow-hidden rounded-t-[42%] lg:min-h-[420px] lg:rounded-t-none lg:rounded-l-[42%]">
                   <img
                     src={receptionPhoto}
                     alt="Светлая современная зона регистрации клиники с растениями"
