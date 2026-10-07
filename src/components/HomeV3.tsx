@@ -562,6 +562,7 @@ export function HomeV3() {
         <BranchesWithMap />
 
         {/* Отзывы */}
+        {reviews.length > 0 && (
         <Section tone="soft" eyebrow="Доверие" title="Отзывы пациентов">
           {/* Mobile: scrolling marquee */}
           <div className="group marquee-mask relative overflow-hidden md:hidden">
