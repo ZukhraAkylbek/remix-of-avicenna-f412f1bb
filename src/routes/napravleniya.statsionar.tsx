@@ -1,3 +1,4 @@
+import statsionarBlock2 from "@/assets/statsionar-block2.png";
 import { BannerSlider } from "@/components/BannerSlider";
 import { PAGE_BANNERS } from "@/lib/page-banners";
 import { createFileRoute } from "@tanstack/react-router";
@@ -215,7 +216,7 @@ function StatsionarPage() {
         <section className="bg-about-mint border-y border-about-line py-8 sm:py-10">
           <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-2">
             <img
-              src="/assets/image-2.webp"
+              src={statsionarBlock2}
               alt="Палата стационара"
               loading="lazy"
               className="hidden lg:block aspect-[4/3] w-full rounded-2xl border border-about-line object-cover"
