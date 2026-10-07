@@ -55,7 +55,7 @@ export const Route = createFileRoute("/checkups/")({
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(checkupCardsQueryOptions()),
   component: CheckupsPage,
-  errorComponent: ({ error }) => <div role="alert" className="p-6">{error.message}</div>,
+  errorComponent: ({ error }) => <div role="alert" className="p-6">{String((error as Error)?.message ?? error)}</div>,
   notFoundComponent: () => <div className="p-6">Не найдено</div>,
 });
 
