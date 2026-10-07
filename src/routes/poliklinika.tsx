@@ -130,7 +130,7 @@ function PolyclinicFaq() {
         return (
           <div key={item.question} className="border-about-line bg-about-canvas rounded-2xl border">
             <dt>
-              <Button variant="ghost" onClick={() => setOpen(isOpen ? null : index)} aria-expanded={isOpen} className="text-about-ink h-auto w-full justify-between gap-4 rounded-2xl p-4 text-left shadow-none hover:bg-transparent">
+              <Button variant="ghost" onClick={() => setOpen(isOpen ? null : index)} aria-expanded={isOpen} className="text-about-ink hover:text-about-ink h-auto w-full justify-between gap-4 rounded-2xl p-4 text-left shadow-none hover:bg-transparent">
                 <span className="whitespace-normal text-sm font-semibold sm:text-base">{item.question}</span>
                 <Plus className={`text-about-teal size-5 shrink-0 transition-transform ${isOpen ? "rotate-45" : ""}`} aria-hidden="true" />
               </Button>
