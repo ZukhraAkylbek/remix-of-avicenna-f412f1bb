@@ -153,6 +153,7 @@ function RootComponent() {
             <Outlet />
           </div>
           <MobileNavBar />
+          <ScrollToTop />
           <LeadPopup />
         </LiveEditProvider>
       </LanguageProvider>

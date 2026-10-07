@@ -16,14 +16,14 @@ export function ScrollToTop() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (!visible) return null;
-
   return (
     <button
       type="button"
       aria-label="Наверх"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="fixed right-4 bottom-[92px] z-40 grid size-12 place-items-center rounded-full bg-brand-green text-brand-white shadow-lg transition-opacity lg:bottom-6"
+      className={`fixed right-4 bottom-[92px] z-40 grid size-12 place-items-center rounded-full bg-brand-green text-brand-white shadow-lg transition-opacity duration-300 lg:bottom-6 ${
+        visible ? "opacity-100" : "pointer-events-none opacity-0"
+      }`}
     >
       <ArrowUp size={24} />
     </button>
