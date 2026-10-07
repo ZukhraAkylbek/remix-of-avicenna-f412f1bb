@@ -196,19 +196,19 @@ function PolyclinicPage() {
                   return (
                   <Reveal key={item.name} delay={index * 20}>
                     {item.surgery ? (
-                    <Link to="/hirurgiya/$slug" params={{ slug: item.surgery }} className="border-about-line hover:border-about-teal group flex h-full items-center gap-2 rounded-2xl border bg-about-canvas p-3 transition-colors sm:gap-3 sm:p-4">
+                    <Link to="/hirurgiya/$slug" params={{ slug: item.surgery }} className="border-about-line hover:border-about-teal group flex h-full items-center gap-2 rounded-2xl border bg-about-canvas p-2.5 transition-colors sm:gap-3 sm:p-4">
                       <span className="bg-about-icon text-about-teal grid size-8 shrink-0 place-items-center rounded-full sm:size-10">
                         <Icon className="size-4 sm:size-5" aria-hidden="true" />
                       </span>
-                      <span className="text-about-ink min-w-0 flex-1 text-[13px] font-semibold sm:text-sm">{item.name}</span>
+                      <span className="text-about-ink min-w-0 flex-1 text-[12px] leading-tight font-semibold break-words hyphens-auto sm:text-sm">{item.name}</span>
                       <Plus className="text-about-teal hidden size-5 shrink-0 transition-transform group-hover:rotate-90 sm:block" aria-hidden="true" />
                     </Link>
                     ) : (
-                    <Link to="/vrachi" search={{ category: item.category }} hash="vrachi" className="border-about-line hover:border-about-teal group flex h-full items-center gap-2 rounded-2xl border bg-about-canvas p-3 transition-colors sm:gap-3 sm:p-4">
+                    <Link to="/vrachi" search={{ category: item.category }} hash="vrachi" className="border-about-line hover:border-about-teal group flex h-full items-center gap-2 rounded-2xl border bg-about-canvas p-2.5 transition-colors sm:gap-3 sm:p-4">
                       <span className="bg-about-icon text-about-teal grid size-8 shrink-0 place-items-center rounded-full sm:size-10">
                         <Icon className="size-4 sm:size-5" aria-hidden="true" />
                       </span>
-                      <span className="text-about-ink min-w-0 flex-1 text-[13px] font-semibold sm:text-sm">{item.name}</span>
+                      <span className="text-about-ink min-w-0 flex-1 text-[12px] leading-tight font-semibold break-words hyphens-auto sm:text-sm">{item.name}</span>
                       <Plus className="text-about-teal hidden size-5 shrink-0 transition-transform group-hover:rotate-90 sm:block" aria-hidden="true" />
                     </Link>
                     )}
