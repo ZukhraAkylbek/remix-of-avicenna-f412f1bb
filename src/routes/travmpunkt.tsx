@@ -386,42 +386,44 @@ function TraumaHeading({
 
 function TraumaDoctorCard({ doctor }: { doctor: ClinicDoctor }) {
   return (
-    <article className="flex flex-col rounded-2xl border border-about-line bg-white p-4">
+    <article className="flex flex-row items-start gap-3 rounded-2xl border border-about-line bg-white p-3 sm:flex-col sm:gap-0 sm:p-4">
       {doctor.photo ? (
         <img
           src={doctor.photo}
           alt={doctor.name}
           loading="lazy"
-          className="aspect-[4/3] w-full rounded-xl object-cover"
+          className="size-20 shrink-0 rounded-full object-cover sm:aspect-[4/3] sm:size-auto sm:w-full sm:rounded-xl"
         />
       ) : (
-        <div className="grid aspect-[4/3] w-full place-items-center rounded-xl bg-about-icon text-about-teal">
-          <UserRound className="size-16" aria-hidden="true" />
+        <div className="bg-about-icon text-about-teal grid size-20 shrink-0 place-items-center rounded-full sm:aspect-[4/3] sm:size-auto sm:w-full sm:rounded-xl">
+          <UserRound className="size-8 sm:size-16" aria-hidden="true" />
         </div>
       )}
-      <h3 className="mt-3 text-base font-bold text-brand-green">{doctor.name}</h3>
-      <p className="mt-1.5 inline-flex w-fit rounded-full bg-about-icon px-3 py-1 text-xs font-semibold text-about-teal">
-        {doctor.specialty}
-      </p>
-      <div className="mt-3 flex flex-col gap-1.5 text-xs text-about-copy">
-        <span className="inline-flex items-center gap-1.5">
-          <Building2 className="size-3.5 text-about-teal" aria-hidden="true" />
-          {doctor.branch}
-        </span>
-        {doctor.experience != null && (
+      <div className="min-w-0 flex-1 sm:contents">
+        <h3 className="mt-0 text-base font-bold text-brand-green sm:mt-4">{doctor.name}</h3>
+        <p className="mt-1.5 inline-flex w-fit rounded-full bg-about-icon px-3 py-1 text-xs font-semibold text-about-teal sm:mt-3">
+          {doctor.specialty}
+        </p>
+        <div className="mt-2 flex flex-col gap-1 text-xs text-about-copy sm:mt-4 sm:gap-1.5">
           <span className="inline-flex items-center gap-1.5">
-            <CalendarDays className="size-3.5 text-about-teal" aria-hidden="true" />
-            Стаж: {experienceLabel(doctor.experience)}
+            <Building2 className="size-3.5 text-about-teal" aria-hidden="true" />
+            {doctor.branch}
           </span>
-        )}
+          {doctor.experience != null && (
+            <span className="inline-flex items-center gap-1.5">
+              <CalendarDays className="size-3.5 text-about-teal" aria-hidden="true" />
+              Стаж: {experienceLabel(doctor.experience)}
+            </span>
+          )}
+        </div>
+        <Link
+          to="/vrachi/$slug"
+          params={{ slug: doctor.slug }}
+          className="mt-3 block h-9 rounded-md border border-about-teal px-4 py-2 text-center text-sm font-semibold leading-none text-about-teal transition-colors hover:border-brand-green hover:bg-brand-green hover:text-white sm:mt-auto"
+        >
+          Подробнее
+        </Link>
       </div>
-      <Link
-        to="/vrachi/$slug"
-        params={{ slug: doctor.slug }}
-        className="mt-auto block rounded-md border border-about-teal px-4 py-2.5 text-center text-sm font-semibold text-about-teal transition-colors hover:border-brand-green hover:bg-brand-green hover:text-white"
-      >
-        Подробнее
-      </Link>
     </article>
   );
 }
