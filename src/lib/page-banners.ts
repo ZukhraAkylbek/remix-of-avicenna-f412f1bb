@@ -1,3 +1,7 @@
+import { queryOptions, useQuery } from "@tanstack/react-query";
+
+import { supabase } from "@/integrations/supabase/client";
+
 // Позже эти данные будут приходить из админки
 export type BannerSlide = { image: string; alt: string; caption?: string; href?: string; position?: string };
 
@@ -45,3 +49,32 @@ export const PAGE_BANNERS = {
     s("/assets/image.webp", "Клиника «Авиценна»"),
   ],
 } satisfies Record<string, BannerSlide[]>;
+
+type BannerRow = { page_key: string; image_url: string; alt: string | null; caption: string | null; href: string | null; position: string | null };
+
+export const pageBannersQueryOptions = queryOptions({
+  queryKey: ["page-banners"],
+  queryFn: async (): Promise<BannerRow[]> => {
+    const { data, error } = await supabase
+      .from("page_banners")
+      .select("page_key, image_url, alt, caption, href, position")
+      .eq("is_active", true)
+      .order("sort_order");
+    if (error) return [];
+    return (data ?? []) as BannerRow[];
+  },
+  staleTime: 60_000,
+});
+
+export function usePageBanners(pageKey: string, fallback: BannerSlide[]): BannerSlide[] {
+  const { data } = useQuery(pageBannersQueryOptions);
+  const rows = (data ?? []).filter((r) => r.page_key === pageKey && r.image_url);
+  if (!rows.length) return fallback;
+  return rows.map((r) => ({
+    image: r.image_url,
+    alt: r.alt ?? "",
+    ...(r.caption ? { caption: r.caption } : {}),
+    ...(r.href ? { href: r.href } : {}),
+    ...(r.position ? { position: r.position } : {}),
+  }));
+}

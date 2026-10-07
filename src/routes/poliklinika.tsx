@@ -1,5 +1,5 @@
 import { BannerSlider } from "@/components/BannerSlider";
-import { PAGE_BANNERS } from "@/lib/page-banners";
+import { PAGE_BANNERS, usePageBanners } from "@/lib/page-banners";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   Activity,
@@ -173,7 +173,7 @@ function PolyclinicPage() {
               </div>
             </Reveal>
             <div className="relative mt-6 h-[220px] overflow-hidden rounded-2xl sm:h-[280px] lg:mt-0 lg:h-full">
-              <BannerSlider slides={PAGE_BANNERS.poliklinika} />
+              <BannerSlider slides={usePageBanners("poliklinika", PAGE_BANNERS.poliklinika)} />
               <div className="from-about-mint/30 absolute inset-0 bg-gradient-to-r to-transparent" />
               <div className="bg-about-canvas/95 absolute right-0 bottom-0 hidden max-w-[290px] rounded-tl-2xl p-4 backdrop-blur-sm sm:block">
                 {["Более 100 врачей", "Полный диагностический спектр", "Онлайн-запись 24/7"].map((item) => <p key={item} className="text-about-ink flex items-center gap-2 py-1 text-xs font-semibold"><Check className="text-about-teal size-4" />{item}</p>)}

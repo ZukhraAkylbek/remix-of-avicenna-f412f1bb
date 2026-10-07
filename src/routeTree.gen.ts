@@ -38,6 +38,7 @@ import { Route as UslugiSlugRouteImport } from './routes/uslugi.$slug'
 import { Route as VrachiIndexRouteImport } from './routes/vrachi.index'
 import { Route as VrachiSlugRouteImport } from './routes/vrachi.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminBannersRouteImport } from './routes/_authenticated/admin/banners'
 import { Route as AuthenticatedAdminBranchesRouteImport } from './routes/_authenticated/admin/branches'
 import { Route as AuthenticatedAdminCheckupsRouteImport } from './routes/_authenticated/admin/checkups'
 import { Route as AuthenticatedAdminContentRouteImport } from './routes/_authenticated/admin/content'
@@ -201,6 +202,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRouteRoute,
 } as any)
+const AuthenticatedAdminBannersRoute =
+  AuthenticatedAdminBannersRouteImport.update({
+    id: '/banners',
+    path: '/banners',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedAdminBranchesRoute =
   AuthenticatedAdminBranchesRouteImport.update({
     id: '/branches',
@@ -333,6 +340,7 @@ export interface FileRoutesByFullPath {
   '/napravleniya/': typeof NapravleniyaIndexRoute
   '/uslugi/': typeof UslugiIndexRoute
   '/vrachi/': typeof VrachiIndexRoute
+  '/admin/banners': typeof AuthenticatedAdminBannersRoute
   '/admin/branches': typeof AuthenticatedAdminBranchesRoute
   '/admin/checkups': typeof AuthenticatedAdminCheckupsRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
@@ -380,6 +388,7 @@ export interface FileRoutesByTo {
   '/napravleniya': typeof NapravleniyaIndexRoute
   '/uslugi': typeof UslugiIndexRoute
   '/vrachi': typeof VrachiIndexRoute
+  '/admin/banners': typeof AuthenticatedAdminBannersRoute
   '/admin/branches': typeof AuthenticatedAdminBranchesRoute
   '/admin/checkups': typeof AuthenticatedAdminCheckupsRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
@@ -430,6 +439,7 @@ export interface FileRoutesById {
   '/napravleniya/': typeof NapravleniyaIndexRoute
   '/uslugi/': typeof UslugiIndexRoute
   '/vrachi/': typeof VrachiIndexRoute
+  '/_authenticated/admin/banners': typeof AuthenticatedAdminBannersRoute
   '/_authenticated/admin/branches': typeof AuthenticatedAdminBranchesRoute
   '/_authenticated/admin/checkups': typeof AuthenticatedAdminCheckupsRoute
   '/_authenticated/admin/content': typeof AuthenticatedAdminContentRoute
@@ -480,6 +490,7 @@ export interface FileRouteTypes {
     | '/napravleniya/'
     | '/uslugi/'
     | '/vrachi/'
+    | '/admin/banners'
     | '/admin/branches'
     | '/admin/checkups'
     | '/admin/content'
@@ -527,6 +538,7 @@ export interface FileRouteTypes {
     | '/napravleniya'
     | '/uslugi'
     | '/vrachi'
+    | '/admin/banners'
     | '/admin/branches'
     | '/admin/checkups'
     | '/admin/content'
@@ -576,6 +588,7 @@ export interface FileRouteTypes {
     | '/napravleniya/'
     | '/uslugi/'
     | '/vrachi/'
+    | '/_authenticated/admin/banners'
     | '/_authenticated/admin/branches'
     | '/_authenticated/admin/checkups'
     | '/_authenticated/admin/content'
@@ -832,6 +845,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/banners': {
+      id: '/_authenticated/admin/banners'
+      path: '/banners'
+      fullPath: '/admin/banners'
+      preLoaderRoute: typeof AuthenticatedAdminBannersRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/admin/branches': {
       id: '/_authenticated/admin/branches'
       path: '/branches'
@@ -962,6 +982,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminBannersRoute: typeof AuthenticatedAdminBannersRoute
   AuthenticatedAdminBranchesRoute: typeof AuthenticatedAdminBranchesRoute
   AuthenticatedAdminCheckupsRoute: typeof AuthenticatedAdminCheckupsRoute
   AuthenticatedAdminContentRoute: typeof AuthenticatedAdminContentRoute
@@ -985,6 +1006,7 @@ interface AuthenticatedAdminRouteRouteChildren {
 
 const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
   {
+    AuthenticatedAdminBannersRoute: AuthenticatedAdminBannersRoute,
     AuthenticatedAdminBranchesRoute: AuthenticatedAdminBranchesRoute,
     AuthenticatedAdminCheckupsRoute: AuthenticatedAdminCheckupsRoute,
     AuthenticatedAdminContentRoute: AuthenticatedAdminContentRoute,

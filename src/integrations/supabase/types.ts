@@ -561,6 +561,48 @@ export type Database = {
           },
         ]
       }
+      page_banners: {
+        Row: {
+          alt: string | null
+          caption: string | null
+          created_at: string
+          href: string | null
+          id: string
+          image_url: string
+          is_active: boolean
+          page_key: string
+          position: string | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          alt?: string | null
+          caption?: string | null
+          created_at?: string
+          href?: string | null
+          id?: string
+          image_url: string
+          is_active?: boolean
+          page_key: string
+          position?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          alt?: string | null
+          caption?: string | null
+          created_at?: string
+          href?: string | null
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          page_key?: string
+          position?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       pages: {
         Row: {
           blocks: Json

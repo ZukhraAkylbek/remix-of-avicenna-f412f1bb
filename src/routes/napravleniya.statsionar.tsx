@@ -1,6 +1,6 @@
 import statsionarBlock2 from "@/assets/statsionar-block2.png";
 import { BannerSlider } from "@/components/BannerSlider";
-import { PAGE_BANNERS } from "@/lib/page-banners";
+import { PAGE_BANNERS, usePageBanners } from "@/lib/page-banners";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   BedDouble,
@@ -181,7 +181,7 @@ function StatsionarPage() {
             </div>
             <div className="relative hidden aspect-[4/3] w-full overflow-hidden rounded-2xl border border-about-line lg:block lg:h-[380px]">
               <BannerSlider
-                slides={[{ image: "/assets/statsionar-hero.jpg", alt: "Стационар клиники «Авиценна»" }, ...PAGE_BANNERS.statsionar.slice(0, 2)]}
+                slides={usePageBanners("statsionar", [{ image: "/assets/statsionar-hero.jpg", alt: "Стационар клиники «Авиценна»" }, ...PAGE_BANNERS.statsionar.slice(0, 2)])}
               />
             </div>
           </div>

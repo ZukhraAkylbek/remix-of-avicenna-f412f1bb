@@ -1,5 +1,5 @@
 import { BannerSlider } from "@/components/BannerSlider";
-import { PAGE_BANNERS } from "@/lib/page-banners";
+import { PAGE_BANNERS, usePageBanners } from "@/lib/page-banners";
 import { useEffect, useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { checkupCardsQueryOptions, parseParagraphs, parseSections } from "@/lib/checkups.queries";
@@ -104,10 +104,10 @@ function CheckupsPage() {
         <section className="mx-auto max-w-7xl px-4 pt-4 pb-10 sm:px-6 sm:pt-6 sm:pb-12">
           <div className="border-about-line relative min-h-[460px] overflow-hidden rounded-2xl border sm:min-h-[420px]">
             <BannerSlider
-              slides={[
+              slides={usePageBanners("checkups", [
                 { image: asianFamilyHeroAsset, alt: "Семья, заботящаяся о здоровье", position: "70% bottom" },
                 ...PAGE_BANNERS.checkups.slice(0, 2),
-              ]}
+              ])}
             />
             <div className="from-about-mint via-about-mint/90 absolute inset-0 bg-gradient-to-r to-transparent" />
             <div className="relative flex h-full max-w-xl flex-col justify-start p-5 sm:justify-center sm:p-9">

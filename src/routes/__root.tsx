@@ -17,6 +17,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { SiteTypography } from "@/components/SiteTypography";
 import { LanguageProvider } from "@/lib/i18n";
 import { fetchSiteContent } from "@/lib/site-content";
+import { pageBannersQueryOptions } from "@/lib/page-banners";
 import appCss from "../styles.css?url";
 
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -89,6 +90,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       queryFn: fetchSiteContent,
       staleTime: 60_000,
     });
+    await context.queryClient.ensureQueryData(pageBannersQueryOptions);
   },
   head: () => ({
     meta: [
