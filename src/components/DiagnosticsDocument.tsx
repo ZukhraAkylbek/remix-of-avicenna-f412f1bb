@@ -131,7 +131,7 @@ export function DiagnosticsDocument({ slug }: { slug: string }) {
           {image && <img src={image} alt={entry.title} width={1280} height={896} className="aspect-[4/3] w-full rounded-2xl border border-about-line object-cover" />}
         </div>
       </section>
-      {renderBlocks(entry.blocks.filter((block) => block.text !== intro))}
+      {renderBlocks(entry.blocks)}
       <div className="bg-about-canvas py-8"><div className="mx-auto max-w-7xl px-4 sm:px-6">
         <Link to="/diagnostika" className="text-about-teal inline-flex font-bold hover:underline">← Все направления диагностики</Link>
       </div></div>
