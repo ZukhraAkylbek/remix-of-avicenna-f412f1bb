@@ -473,7 +473,6 @@ function DoctorsPage() {
                     Записаться на приём
                   </a>
                 </Button>
-                <ContactButtons />
               </div>
             </Reveal>
             <div className="relative mt-6 hidden h-60 overflow-hidden rounded-2xl lg:mt-0 lg:block lg:h-full">
