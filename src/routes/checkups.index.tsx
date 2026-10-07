@@ -92,15 +92,15 @@ function CheckupsPage() {
       <Breadcrumbs items={[{ label: "Чекапы" }]} />
       <main>
         <section className="mx-auto max-w-7xl px-4 pt-4 pb-10 sm:px-6 sm:pt-6 sm:pb-12">
-          <div className="border-about-line relative h-[350px] overflow-hidden rounded-2xl border sm:h-[380px]">
+          <div className="border-about-line relative min-h-[460px] overflow-hidden rounded-2xl border sm:min-h-[420px]">
             <BannerSlider
               slides={[
-                { image: asianFamilyHeroAsset, alt: "Семья, заботящаяся о здоровье", position: "70% center" },
+                { image: asianFamilyHeroAsset, alt: "Семья, заботящаяся о здоровье", position: "70% bottom" },
                 ...PAGE_BANNERS.checkups.slice(0, 2),
               ]}
             />
             <div className="from-about-mint via-about-mint/90 absolute inset-0 bg-gradient-to-r to-transparent" />
-            <div className="relative flex h-full max-w-xl flex-col justify-center p-5 sm:p-9">
+            <div className="relative flex h-full max-w-xl flex-col justify-start p-5 sm:justify-center sm:p-9">
               <p className="text-about-teal text-xs font-bold uppercase">Комплексная диагностика</p>
               <h1 className="text-about-ink mt-3 text-3xl leading-tight font-extrabold sm:text-5xl">
                 Чекапы для уверенности в здоровье
@@ -115,7 +115,6 @@ function CheckupsPage() {
                 <Button asChild variant="outline" className="border-about-teal bg-background/80 text-about-ink hover:bg-about-icon">
                   <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Получить консультацию</a>
                 </Button>
-                <ContactButtons />
               </div>
             </div>
           </div>
