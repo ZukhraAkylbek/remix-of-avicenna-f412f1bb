@@ -12,7 +12,7 @@ const STEPS = [
 
 export function ProcessSteps({ title }: { title?: string }) {
   return (
-    <section id="process" className="border-border border-t py-14 sm:py-20">
+    <section id="process" className="bg-about-canvas py-8 sm:py-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading ekey="process" eyebrow="Процесс" title={title ?? "Как проходит лечение"} />
 
@@ -20,7 +20,7 @@ export function ProcessSteps({ title }: { title?: string }) {
           {STEPS.map((step, index) => (
             <li key={step.title} className="relative flex gap-5 pb-8 last:pb-0">
               <span
-                className="border-border absolute top-9 bottom-0 left-[15px] w-px border-l last:hidden"
+                className="border-about-line absolute top-9 bottom-0 left-[15px] w-px border-l last:hidden"
                 aria-hidden="true"
               />
               <span className="bg-brand-green text-brand-white relative z-10 grid size-8 shrink-0 place-items-center rounded-full text-xs font-bold">
@@ -32,7 +32,7 @@ export function ProcessSteps({ title }: { title?: string }) {
                   label={`Шаг ${index + 1} — заголовок`}
                   fallback={step.title}
                   as="h3"
-                  className="text-foreground block text-lg font-bold sm:text-xl"
+                  className="text-about-ink block text-lg font-bold sm:text-xl"
                 />
                 <Editable
                   ekey={`process.${index + 1}_text`}
@@ -40,7 +40,7 @@ export function ProcessSteps({ title }: { title?: string }) {
                   fallback={step.text}
                   multiline
                   as="p"
-                  className="text-muted-foreground mt-1 text-base"
+                  className="text-about-copy mt-1 text-base"
                 />
               </div>
             </li>

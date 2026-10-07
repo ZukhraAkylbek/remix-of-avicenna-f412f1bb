@@ -93,17 +93,17 @@ export const Route = createFileRoute("/napravleniya/$slug")({
   },
   component: SpecialtyPage,
   notFoundComponent: () => (
-    <div className="bg-background min-h-screen">
+    <div className="bg-about-canvas min-h-screen">
       <SiteHeader />
       <Breadcrumbs items={[{ label: "Направления" }]} />
       <main className="mx-auto max-w-3xl px-4 py-20 text-center">
-        <h1 className="text-foreground text-4xl font-extrabold">Направление не найдено</h1>
-        <p className="text-muted-foreground mt-4 text-lg">
+        <h1 className="text-about-ink text-4xl font-extrabold">Направление не найдено</h1>
+        <p className="text-about-copy mt-4 text-lg">
           Возможно, страница переехала. Посмотрите все направления клиники.
         </p>
         <Link
           to="/napravleniya"
-          className="bg-accent text-accent-foreground mt-8 inline-flex rounded-md px-7 py-4 text-base font-semibold"
+          className="bg-brand-green text-brand-white hover:bg-brand-green-dark mt-8 inline-flex rounded-md px-7 py-4 text-base font-semibold transition-colors"
         >
           Все направления
         </Link>
@@ -119,18 +119,18 @@ function SpecialtyPage() {
   if (!data) return null;
 
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-about-canvas min-h-screen">
       <SiteHeader />
       <Breadcrumbs items={[{ label: "Направления" }, { label: data.name }]} />
       <main>
-        <section className="border-border border-b">
-          <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.3fr_1fr] lg:py-16">
+        <section className="bg-about-mint">
+          <div className="mx-auto grid max-w-7xl gap-10 px-4 py-8 sm:px-6 sm:py-10 lg:grid-cols-[1.3fr_1fr]">
             <div>
-              <h1 className="text-foreground mt-5 text-4xl leading-[1.08] font-extrabold sm:text-5xl lg:text-6xl">
+              <h1 className="text-about-ink mt-5 text-2xl leading-[1.08] font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
                 {data.h1_title}
               </h1>
               {data.intro && (
-                <p className="text-muted-foreground mt-5 max-w-2xl text-lg leading-relaxed sm:text-xl">
+                <p className="text-about-copy mt-5 max-w-2xl text-lg leading-relaxed sm:text-xl">
                   {data.intro}
                 </p>
               )}
@@ -139,13 +139,13 @@ function SpecialtyPage() {
                   href={BOOKING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-accent text-accent-foreground rounded-md px-7 py-4 text-base font-semibold transition-opacity hover:opacity-90"
+                  className="bg-brand-green text-brand-white hover:bg-brand-green-dark rounded-md px-7 py-4 text-base font-semibold transition-colors"
                 >
                   Записаться на приём
                 </a>
                 <a
                   href={`tel:${CLINIC.phones[0]}`}
-                  className="border-border text-foreground hover:border-foreground inline-flex items-center gap-2 rounded-md border px-7 py-4 text-base font-semibold transition-colors"
+                  className="border-about-line text-about-ink hover:border-brand-green inline-flex items-center gap-2 rounded-md border px-7 py-4 text-base font-semibold transition-colors"
                 >
                   <Phone className="size-4" aria-hidden="true" />
                   +996 779 909 009
@@ -153,17 +153,17 @@ function SpecialtyPage() {
               </div>
             </div>
 
-            <dl className="border-border grid content-start gap-px self-start border sm:grid-cols-2 lg:grid-cols-1">
+            <dl className="border-about-line grid content-start gap-px self-start rounded-2xl border bg-card sm:grid-cols-2 lg:grid-cols-1">
               {[
                 { term: "Врачей направления", value: String(data.doctors.length || "—") },
                 { term: "Приём", value: "По записи, без очереди" },
                 { term: "Филиалы", value: "2 в Бишкеке" },
               ].map((item) => (
-                <div key={item.term} className="border-border border p-5">
-                  <dt className="text-muted-foreground text-xs font-semibold tracking-[0.12em] uppercase">
+                <div key={item.term} className="border-about-line border-t p-5 first:border-t-0">
+                  <dt className="text-about-teal text-xs font-semibold tracking-[0.12em] uppercase">
                     {item.term}
                   </dt>
-                  <dd className="text-foreground mt-2 text-lg font-bold">{item.value}</dd>
+                  <dd className="text-about-ink mt-2 text-lg font-bold">{item.value}</dd>
                 </div>
               ))}
             </dl>
@@ -171,45 +171,45 @@ function SpecialtyPage() {
         </section>
 
         {data.body && (
-          <section className="border-border border-b py-14 sm:py-20">
+          <section className="bg-about-canvas py-8 sm:py-10">
             <div className="mx-auto max-w-3xl px-4 sm:px-6">
               <p className="eyebrow">О направлении</p>
-              <h2 className="text-foreground mt-3 text-3xl font-extrabold sm:text-4xl">
+              <h2 className="text-about-ink mt-3 text-2xl font-extrabold tracking-tight sm:text-3xl">
                 Что мы лечим
               </h2>
-              <p className="text-muted-foreground mt-5 text-lg leading-relaxed">{data.body}</p>
+              <p className="text-about-copy mt-5 text-lg leading-relaxed">{data.body}</p>
             </div>
           </section>
         )}
 
         {data.doctors.length > 0 && (
-          <section className="border-border border-b py-14 sm:py-20">
+          <section className="bg-about-mint py-8 sm:py-10">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <SectionHeading eyebrow="Специалисты" title="Врачи направления" />
               <div className="mt-10 grid gap-px sm:grid-cols-2 lg:grid-cols-3">
                 {data.doctors.map((doctor) => (
                   <article
                     key={doctor.slug}
-                    className="border-border hover:bg-surface-soft border p-6 transition-colors"
+                    className="border-about-line bg-card hover:border-brand-green rounded-2xl border p-6 transition-colors"
                     itemScope
                     itemType="https://schema.org/Physician"
                   >
-                    <h3 className="text-foreground text-xl font-bold" itemProp="name">
+                    <h3 className="text-about-ink text-xl font-bold" itemProp="name">
                       {doctor.full_name}
                     </h3>
                     {doctor.job_title && (
-                      <p className="text-brand-green mt-1 text-sm font-semibold" itemProp="jobTitle">
+                      <p className="text-about-teal mt-1 text-sm font-semibold" itemProp="jobTitle">
                         {doctor.job_title}
                       </p>
                     )}
                     {doctor.experience_years != null && (
-                      <p className="text-muted-foreground mt-3 text-sm">
+                      <p className="text-about-copy mt-3 text-sm">
                         Стаж: {doctor.experience_years} лет
                       </p>
                     )}
                     {doctor.bio && (
                       <p
-                        className="text-muted-foreground mt-3 text-base leading-relaxed"
+                        className="text-about-copy mt-3 text-base leading-relaxed"
                         itemProp="description"
                       >
                         {doctor.bio}
@@ -227,11 +227,11 @@ function SpecialtyPage() {
         <FaqAccordion faqs={data.faqs} />
         <ConsultCta defaultSlug={slug} />
 
-        <section className="border-border border-t py-10">
+        <section className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Link
               to="/napravleniya"
-              className="text-foreground hover:text-brand-green inline-flex items-center gap-2 text-lg font-bold"
+              className="text-about-ink hover:text-about-teal inline-flex items-center gap-2 text-lg font-bold"
             >
               Все направления
               <ChevronRight className="size-5" aria-hidden="true" />

@@ -23,7 +23,7 @@ const ADVANTAGES = [
 
 export function WhyUs({ title }: { title?: string }) {
   return (
-    <section id="preimushchestva" className="border-border border-t py-14 sm:py-20">
+    <section id="preimushchestva" className="bg-about-mint py-8 sm:py-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
           ekey="why"
