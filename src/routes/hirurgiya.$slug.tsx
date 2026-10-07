@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { ArrowRight, Check, MessageCircle, Plus, ShieldCheck, Sparkles, Stethoscope, UserRound } from "lucide-react";
+import { ArrowRight, Check, Plus, ShieldCheck, Sparkles, Stethoscope, UserRound } from "lucide-react";
 import { useState } from "react";
 
 import { AdvantagesGrid } from "@/components/AdvantagesGrid";
@@ -13,12 +13,52 @@ import { CLINIC, absoluteUrl, faqPageJsonLd } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
 import { specialtyImage } from "@/lib/specialty-images";
 import { parseRows, surgeryDirectionQueryOptions } from "@/lib/surgery.queries";
-import { DoctorsGrid } from "./hirurgiya.index";
+import { DoctorsGrid, SurgeryDoctorsGrid } from "./hirurgiya.index";
+import { ContactButtons } from "@/components/ContactButtons";
+import { CLINIC_DOCTORS } from "@/lib/clinic-doctors";
 
 const truncate = (value: string, max = 158) =>
   value.length <= max ? value : `${value.slice(0, max - 1).trimEnd()}…`;
 
-const WHATSAPP_URL = `https://wa.me/${(CLINIC.phones[0] ?? "").replace(/\D/g, "")}`;
+const SLUG_CATEGORY: Record<string, string> = {
+  urologiya: "urologiya",
+  ginekologiya: "ginekologiya",
+  travmatologiya: "travmatologiya",
+  mammologiya: "onkologiya",
+  "obshchaya-hirurgiya": "hirurgiya",
+  proktologiya: "hirurgiya",
+  flebologiya: "hirurgiya",
+};
+const SLUG_SPECIALTY: Record<string, string> = { proktologiya: "проктолог", flebologiya: "флеболог" };
+
+function fallbackDoctors(slug: string) {
+  const category = SLUG_CATEGORY[slug];
+  if (!category) return [];
+  const term = SLUG_SPECIALTY[slug];
+  if (term) {
+    const bySpec = CLINIC_DOCTORS.filter((d) => d.specialty.toLowerCase().includes(term));
+    if (bySpec.length > 0) return bySpec.slice(0, 6);
+  }
+  return CLINIC_DOCTORS.filter((d) => d.category === category).slice(0, 6);
+}
+
+function parseBody(body: string | null | undefined) {
+  const intro: string[] = [];
+  const blocks: { title: string; paragraphs: string[] }[] = [];
+  for (const chunk of (body ?? "").split(/\n\s*\n/)) {
+    const lines = chunk.trim().split("\n");
+    if (!lines[0]) continue;
+    if (lines[0].startsWith("## ")) {
+      const rest = lines.slice(1).join("\n").trim();
+      blocks.push({ title: lines[0].slice(3).trim(), paragraphs: rest ? [rest] : [] });
+    } else if (blocks.length > 0) {
+      blocks[blocks.length - 1].paragraphs.push(chunk.trim());
+    } else {
+      intro.push(chunk.trim());
+    }
+  }
+  return { intro, blocks };
+}
 
 const DEFAULT_SUBTITLE =
   "Современные операции с использованием малоинвазивных технологий. Подходы и материалы помощи взрослым пациентам.";
@@ -179,7 +219,7 @@ function BulletList({ title, items }: { title: string; items: string[] }) {
   return (
     <div>
       <h3 className="text-about-ink text-lg font-bold sm:text-xl">{title}</h3>
-      <ul className="mt-4 grid gap-x-8 gap-y-2.5 sm:grid-cols-2">
+      <ul className="mt-4 grid gap-y-2.5">
         {items.map((item) => (
           <li key={item} className="flex items-start gap-2.5">
             <span className="bg-about-icon text-about-teal mt-0.5 grid size-5 shrink-0 place-items-center rounded-full">
@@ -235,9 +275,13 @@ function DirectionPage() {
   const subtitle = data?.subtitle?.trim() || DEFAULT_SUBTITLE;
   const image = data?.image_url || DIRECTION_IMAGES[slug] || specialtyImage(slug);
   const doctors = data?.doctors ?? [];
+  const clinicDoctors = doctors.length === 0 ? fallbackDoctors(slug) : [];
+  const category = SLUG_CATEGORY[slug];
+  const { intro, blocks } = parseBody(data?.body);
+  const aboutTitle = data?.about_title?.trim() || "О направлении";
 
   const dbAdvantages = parseRows(data?.advantages);
-  const advantages = (dbAdvantages.length > 0 ? dbAdvantages : DEFAULT_ADVANTAGES).slice(0, 4);
+  const advantages = dbAdvantages.length > 0 ? dbAdvantages : DEFAULT_ADVANTAGES;
 
   const rowTitles = (value: string | null | undefined, fallback: string[]) => {
     const rows = parseRows(value).map((row) => row.title);
@@ -246,6 +290,7 @@ function DirectionPage() {
   const symptoms = rowTitles(data?.symptoms, DEFAULT_SYMPTOMS);
   const diseases = rowTitles(data?.diseases, DEFAULT_DISEASES);
   const procedures = rowTitles(data?.procedures, DEFAULT_PROCEDURES);
+  const diagnostics = rowTitles(data?.diagnostics, []);
 
   const dbFaq = parseRows(data?.faq);
   const faqItems = dbFaq.length > 0 ? dbFaq : DEFAULT_FAQ;
@@ -285,16 +330,7 @@ function DirectionPage() {
                     Записаться на консультацию
                   </a>
                 </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="border-about-line text-about-ink bg-about-canvas px-3 text-[13px] shadow-none sm:px-4 sm:text-sm"
-                >
-                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                    <MessageCircle className="size-4" aria-hidden="true" />
-                    Задать вопрос
-                  </a>
-                </Button>
+                <ContactButtons />
               </div>
             </Reveal>
             <img
@@ -305,76 +341,136 @@ function DirectionPage() {
           </div>
         </section>
 
-        <section className="bg-about-canvas py-10 sm:py-12">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <Heading title="Почему пациенты выбирают хирургию «Авиценны»" />
-            <AdvantagesGrid
-              items={advantages.map((item, index) => ({
-                icon: ADVANTAGE_ICONS[index % ADVANTAGE_ICONS.length] ?? UserRound,
-                title: item.title,
-                text: item.text ?? "",
-              }))}
-            />
-          </div>
-        </section>
-
-        <section className="bg-about-mint py-10 sm:py-12">
-          <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6">
-            <BulletList title="Когда необходима консультация хирурга" items={symptoms} />
-            <BulletList title="Какие заболевания мы лечим" items={diseases} />
-            <BulletList title="Какие операции мы выполняем" items={procedures} />
-          </div>
-        </section>
-
-        {doctors.length > 0 && (
-          <section id="vrachi" className="bg-about-canvas py-10 sm:py-12">
+        {intro.length > 0 && (
+          <section className="bg-about-canvas py-8 sm:py-10">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
-              <div className="flex flex-wrap items-end justify-between gap-3">
-                <Heading title="Наши специалисты" />
-                <Link
-                  to="/vrachi"
-                  className="text-about-teal inline-flex items-center gap-1.5 text-[13px] font-semibold sm:text-sm"
-                >
-                  Все врачи направления
-                  <ArrowRight className="size-4" aria-hidden="true" />
-                </Link>
+              <Heading title={aboutTitle} />
+              <div className="mt-5 max-w-3xl space-y-3">
+                {intro.map((p) => (
+                  <p key={p} className="text-about-copy text-[13px] leading-relaxed whitespace-pre-line sm:text-base">
+                    {p}
+                  </p>
+                ))}
               </div>
-              <DoctorsGrid doctors={doctors} />
             </div>
           </section>
         )}
 
-        <section id="faq" className="bg-about-mint py-10 sm:py-12">
+        <section className="bg-about-mint py-8 sm:py-10">
+          <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-2">
+            <BulletList title="Какие заболевания мы лечим" items={diseases} />
+            <BulletList title="Когда стоит обратиться к врачу" items={symptoms} />
+          </div>
+        </section>
+
+        {diagnostics.length > 0 && (
+          <section className="bg-about-canvas py-8 sm:py-10">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6">
+              <BulletList title="Диагностика в «Авиценне»" items={diagnostics} />
+              <Link
+                to="/diagnostika"
+                className="text-about-teal mt-5 inline-flex items-center gap-1.5 text-[13px] font-semibold sm:text-sm"
+              >
+                Все исследования
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+            </div>
+          </section>
+        )}
+
+        <section className="bg-about-mint py-8 sm:py-10">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6">
+            <BulletList title="Операции и лечение" items={procedures} />
+            {blocks.length > 0 && (
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                {blocks.map((block) => (
+                  <article key={block.title} className="border-about-line bg-card rounded-2xl border p-5">
+                    <h3 className="text-about-ink text-base font-bold sm:text-lg">{block.title}</h3>
+                    <div className="mt-2 space-y-2">
+                      {block.paragraphs.map((p) => (
+                        <p key={p} className="text-about-copy text-[13px] leading-relaxed whitespace-pre-line sm:text-sm">
+                          {p}
+                        </p>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className="bg-about-canvas py-8 sm:py-10">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6">
+            <Heading title="Почему пациенты выбирают «Авиценну»" />
+            <div className="mt-5">
+              <AdvantagesGrid
+                items={advantages.map((item, index) => ({
+                  icon: ADVANTAGE_ICONS[index % ADVANTAGE_ICONS.length] ?? UserRound,
+                  title: item.title,
+                  text: item.text ?? "",
+                }))}
+              />
+            </div>
+          </div>
+        </section>
+
+        {(doctors.length > 0 || clinicDoctors.length > 0) && (
+          <section id="vrachi" className="bg-about-mint py-8 sm:py-10">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6">
+              <div className="flex flex-wrap items-end justify-between gap-3">
+                <Heading title="Наши врачи" />
+                <Link
+                  to="/vrachi"
+                  search={category ? ({ category } as never) : undefined}
+                  className="text-about-teal inline-flex items-center gap-1.5 text-[13px] font-semibold sm:text-sm"
+                >
+                  Все врачи
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </Link>
+              </div>
+              {doctors.length > 0 ? (
+                <DoctorsGrid doctors={doctors} />
+              ) : (
+                <SurgeryDoctorsGrid doctors={clinicDoctors} />
+              )}
+            </div>
+          </section>
+        )}
+
+        <section id="faq" className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Heading title="Часто задаваемые вопросы" />
             <Faq items={faqItems} />
           </div>
         </section>
 
-        <section className="bg-about-canvas py-10 sm:py-12">
+        <section className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
               <h2 className="text-about-ink text-2xl font-extrabold sm:text-3xl lg:text-4xl">
-                Забота о вашем здоровье
+                Запишитесь на консультацию
               </h2>
               <p className="text-about-copy mt-3 max-w-xl text-[13px] leading-relaxed sm:text-base">
-                Запишитесь на консультацию — врач осмотрит, объяснит варианты лечения и составит
-                понятный план действий.
+                Врач осмотрит, объяснит варианты лечения и составит понятный план действий.
               </p>
-              <Button
-                asChild
-                className="bg-brand-green text-brand-white hover:bg-brand-green-dark mt-6 w-fit shadow-none"
-              >
-                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                  Записаться на консультацию
-                </a>
-              </Button>
+              <div className="mt-6 flex flex-wrap gap-2 sm:gap-3">
+                <Button
+                  asChild
+                  className="bg-brand-green text-brand-white hover:bg-brand-green-dark w-fit shadow-none"
+                >
+                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                    Записаться на консультацию
+                  </a>
+                </Button>
+                <ContactButtons />
+              </div>
             </div>
             <img
               src={image}
               alt="Консультация хирурга"
               loading="lazy"
-              className="h-48 w-full rounded-2xl object-cover sm:h-60"
+              className="hidden h-48 w-full rounded-2xl object-cover sm:h-60 lg:block"
             />
           </div>
         </section>
