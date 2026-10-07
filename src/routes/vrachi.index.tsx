@@ -376,45 +376,47 @@ function DoctorsDirectory({ doctors, initialCategory }: { doctors: ClinicDoctor[
           {visibleDoctors.map((doctor) => (
             <article
               key={doctor.slug}
-              className="border-about-line bg-about-canvas flex min-w-0 flex-col rounded-2xl border p-4"
+              className="border-about-line bg-about-canvas flex flex-row items-start gap-3 rounded-2xl border p-3 sm:flex-col sm:gap-0 sm:p-4"
             >
               {doctor.photo ? (
                 <img
                   src={doctor.photo}
                   alt={doctor.name}
                   loading="lazy"
-                  className="aspect-[4/3] w-full rounded-xl object-cover object-top"
+                  className="size-20 shrink-0 rounded-full object-cover object-top sm:aspect-[4/3] sm:size-auto sm:w-full sm:rounded-xl"
                 />
               ) : (
-                <span className="bg-about-icon text-about-teal grid aspect-[4/3] w-full place-items-center rounded-xl">
-                  <UserRound className="size-16" aria-hidden="true" />
+                <span className="bg-about-icon text-about-teal grid size-20 shrink-0 place-items-center rounded-full sm:aspect-[4/3] sm:size-auto sm:w-full sm:rounded-xl">
+                  <UserRound className="size-8 sm:size-16" aria-hidden="true" />
                 </span>
               )}
-              <h3 className="text-about-ink mt-4 text-lg leading-snug font-bold">{doctor.name}</h3>
-              <p className="bg-about-icon text-about-teal mt-3 w-fit rounded-full px-3 py-1 text-[13px] font-semibold">
-                {doctor.specialty}
-              </p>
-              <div className="mt-4 space-y-2">
-                <p className="text-about-copy flex items-center gap-2 text-[13px] sm:text-sm">
-                  <Building2 className="text-about-teal size-4 shrink-0" aria-hidden="true" />
-                  {doctor.branch}
+              <div className="min-w-0 flex-1 sm:contents">
+                <h3 className="text-about-ink text-base leading-snug font-bold sm:mt-4 sm:text-lg">{doctor.name}</h3>
+                <p className="bg-about-icon text-about-teal mt-1.5 w-fit rounded-full px-3 py-1 text-[13px] font-semibold sm:mt-3">
+                  {doctor.specialty}
                 </p>
-                {doctor.experience != null && (
+                <div className="mt-2 space-y-1 sm:mt-4 sm:space-y-2">
                   <p className="text-about-copy flex items-center gap-2 text-[13px] sm:text-sm">
-                    <CalendarDays className="text-about-teal size-4 shrink-0" aria-hidden="true" />
-                    Стаж: {experienceLabel(doctor.experience)}
+                    <Building2 className="text-about-teal size-4 shrink-0" aria-hidden="true" />
+                    {doctor.branch}
                   </p>
-                )}
+                  {doctor.experience != null && (
+                    <p className="text-about-copy flex items-center gap-2 text-[13px] sm:text-sm">
+                      <CalendarDays className="text-about-teal size-4 shrink-0" aria-hidden="true" />
+                      Стаж: {experienceLabel(doctor.experience)}
+                    </p>
+                  )}
+                </div>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="border-about-teal text-about-ink hover:bg-brand-green hover:border-brand-green hover:text-white mt-3 h-9 w-full bg-transparent text-sm shadow-none sm:mt-auto sm:h-10"
+                >
+                  <Link to="/vrachi/$slug" params={{ slug: doctor.slug }}>
+                    Подробнее
+                  </Link>
+                </Button>
               </div>
-              <Button
-                asChild
-                variant="outline"
-                className="border-about-teal text-about-ink hover:bg-brand-green hover:border-brand-green hover:text-white mt-auto w-full bg-transparent shadow-none"
-              >
-                <Link to="/vrachi/$slug" params={{ slug: doctor.slug }}>
-                  Подробнее
-                </Link>
-              </Button>
             </article>
           ))}
         </div>
