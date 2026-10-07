@@ -262,8 +262,7 @@ function Faq({ items }: { items: { title: string; text?: string }[] }) {
   );
 }
 
-function DirectionPage() {
-  const { slug } = Route.useParams();
+export function DirectionBody({ slug }: { slug: string }) {
   const { data } = useSuspenseQuery(surgeryDirectionQueryOptions(slug));
 
   const name = data?.title || DIRECTION_TITLES[slug] || "Хирургия";
@@ -289,51 +288,7 @@ function DirectionPage() {
   const faqItems = dbFaq.length > 0 ? dbFaq : DEFAULT_FAQ;
 
   return (
-    <div className="bg-about-canvas min-h-screen">
-      <SiteHeader breadcrumb={name} />
-      <Breadcrumbs items={[{ label: "Хирургия", href: "/hirurgiya" }, { label: name }]} />
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            faqPageJsonLd(
-              faqItems.map((item) => ({ question: item.title, answer: item.text ?? "" })),
-            ),
-          ),
-        }}
-      />
-
-      <main>
-        <section className="bg-about-mint">
-          <div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 sm:px-6 sm:py-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
-            <Reveal className="flex flex-col justify-center lg:pr-10">
-              <h1 className="text-about-ink mt-3 max-w-2xl text-2xl leading-[1.1] font-extrabold sm:text-4xl lg:text-5xl">
-                {name} в Бишкеке
-              </h1>
-              <p className="text-about-copy mt-3 max-w-2xl text-[13px] leading-relaxed sm:text-base">
-                {subtitle}
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2 sm:gap-3">
-                <Button
-                  asChild
-                  className="bg-brand-green text-brand-white hover:bg-brand-green-dark px-3 text-[13px] shadow-none sm:px-4 sm:text-sm"
-                >
-                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                    Записаться на консультацию
-                  </a>
-                </Button>
-                <ContactButtons />
-              </div>
-            </Reveal>
-            <img
-              src={image}
-              alt={name}
-              className="h-48 w-full rounded-2xl object-cover lg:h-[300px]"
-            />
-          </div>
-        </section>
-
+    <>
         {intro.length > 0 && (
           <section className="bg-about-canvas py-8 sm:py-10">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -462,6 +417,66 @@ function DirectionPage() {
             />
           </div>
         </section>
+    </>
+  );
+}
+
+function DirectionPage() {
+  const { slug } = Route.useParams();
+  const { data } = useSuspenseQuery(surgeryDirectionQueryOptions(slug));
+  const name = data?.title || DIRECTION_TITLES[slug] || "Хирургия";
+  const subtitle = data?.subtitle?.trim() || DEFAULT_SUBTITLE;
+  const image = data?.image_url || DIRECTION_IMAGES[slug] || specialtyImage(slug);
+  const dbFaq = parseRows(data?.faq);
+  const faqItems = dbFaq.length > 0 ? dbFaq : DEFAULT_FAQ;
+
+  return (
+    <div className="bg-about-canvas min-h-screen">
+      <SiteHeader breadcrumb={name} />
+      <Breadcrumbs items={[{ label: "Хирургия", href: "/hirurgiya" }, { label: name }]} />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            faqPageJsonLd(
+              faqItems.map((item) => ({ question: item.title, answer: item.text ?? "" })),
+            ),
+          ),
+        }}
+      />
+
+      <main>
+        <section className="bg-about-mint">
+          <div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 sm:px-6 sm:py-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+            <Reveal className="flex flex-col justify-center lg:pr-10">
+              <h1 className="text-about-ink mt-3 max-w-2xl text-2xl leading-[1.1] font-extrabold sm:text-4xl lg:text-5xl">
+                {name} в Бишкеке
+              </h1>
+              <p className="text-about-copy mt-3 max-w-2xl text-[13px] leading-relaxed sm:text-base">
+                {subtitle}
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2 sm:gap-3">
+                <Button
+                  asChild
+                  className="bg-brand-green text-brand-white hover:bg-brand-green-dark px-3 text-[13px] shadow-none sm:px-4 sm:text-sm"
+                >
+                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                    Записаться на консультацию
+                  </a>
+                </Button>
+                <ContactButtons />
+              </div>
+            </Reveal>
+            <img
+              src={image}
+              alt={name}
+              className="h-48 w-full rounded-2xl object-cover lg:h-[300px]"
+            />
+          </div>
+        </section>
+
+        <DirectionBody slug={slug} />
       </main>
       <SiteFooter />
     </div>
