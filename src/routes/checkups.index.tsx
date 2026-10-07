@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 
 import asianFamilyHeroAsset from "@/assets/chat/asian-family-hero.webp";
+import clinicExterior from "@/assets/about-clinic-exterior.jpg";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CheckupIcon } from "@/components/checkups/CheckupIcon";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -213,6 +214,24 @@ function CheckupsPage() {
                   </span>
                 </Link>
               </Button>
+
+              {/* Корпоративные чекапы */}
+              <div className="border-about-line bg-about-mint lg:col-span-12 overflow-hidden rounded-2xl border lg:flex lg:items-stretch">
+                <div className="p-5 sm:p-7 lg:max-w-xl lg:flex-1">
+                  <span className="bg-brand-green text-brand-white grid size-11 place-items-center rounded-full"><UsersRound className="size-5" /></span>
+                  <h3 className="text-about-ink mt-4 text-xl font-extrabold">Корпоративные чекапы</h3>
+                  <p className="text-about-copy mt-2 text-sm leading-relaxed">Обследование для сотрудников компании: подберём программу и график под ваше расписание.</p>
+                  <div className="mt-5 flex flex-wrap gap-3">
+                    <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark">
+                      <a href="https://wa.me/996779909009?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%BA%D0%BE%D1%80%D0%BF%D0%BE%D1%80%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B9%20%D1%87%D0%B5%D0%BA%D0%B0%D0%BF." target="_blank" rel="noopener noreferrer"><CalendarCheck className="size-4" />Записаться для сотрудников</a>
+                    </Button>
+                    <ContactButtons />
+                  </div>
+                </div>
+                <div className="min-h-[190px] overflow-hidden lg:w-[46%]">
+                  <img src={clinicExterior} alt="Здание клиники «Авиценна»" className="animate-ken-burns size-full object-cover" />
+                </div>
+              </div>
             </div>
           </div>
         </section>

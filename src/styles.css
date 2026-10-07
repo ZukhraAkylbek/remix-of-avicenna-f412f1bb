@@ -490,6 +490,20 @@
   animation: shimmer-pulse 2.2s ease-in-out infinite;
 }
 
+@keyframes ken-burns {
+  0%,
+  100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.09) translateY(-1.5%);
+  }
+}
+
+@utility animate-ken-burns {
+  animation: ken-burns 16s ease-in-out infinite;
+}
+
 @keyframes marquee-scroll {
   from {
     transform: translateX(0);
