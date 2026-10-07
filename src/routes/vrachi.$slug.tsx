@@ -1,3 +1,4 @@
+import { clinicDoctorsQueryOptions, useClinicDoctors, photoStyle, withFallback } from "@/lib/clinic-doctors.queries";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowRight, Banknote, Clock, MapPin, MessageCircle, UserRound } from "lucide-react";
 
@@ -8,17 +9,16 @@ import { Button } from "@/components/ui/button";
 import { CLINIC, absoluteUrl } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
 import {
-  CLINIC_DOCTORS,
   categoryName,
   experienceLabel,
-  findDoctor,
 } from "@/lib/clinic-doctors";
 
 const WHATSAPP_URL = `https://wa.me/${(CLINIC.phones?.[0] ?? "996779909009").replace(/\D/g, "")}`;
 
 export const Route = createFileRoute("/vrachi/$slug")({
-  loader: ({ params }) => {
-    const doctor = findDoctor(params.slug);
+  loader: async ({ params, context }) => {
+    const rows = await context.queryClient.ensureQueryData(clinicDoctorsQueryOptions);
+    const doctor = withFallback(rows).find((d) => d.slug === params.slug);
     if (!doctor) throw notFound();
     return { doctor };
   },
@@ -58,7 +58,8 @@ export const Route = createFileRoute("/vrachi/$slug")({
 
 function DoctorPage() {
   const { doctor } = Route.useLoaderData();
-  const colleagues = CLINIC_DOCTORS.filter(
+  const all = useClinicDoctors();
+  const colleagues = all.filter(
     (d) => d.category === doctor.category && d.slug !== doctor.slug,
   );
   const facts = [
@@ -76,7 +77,7 @@ function DoctorPage() {
           <div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 sm:px-6 sm:py-10 md:grid-cols-[260px_1fr] md:items-center">
             <div className="border-about-line bg-about-canvas mx-auto aspect-[4/5] w-48 overflow-hidden rounded-2xl border sm:w-60 md:w-full">
               {doctor.photo ? (
-                <img src={doctor.photo} alt={doctor.name} className="h-full w-full object-cover object-top" />
+                <img src={doctor.photo} alt={doctor.name} style={photoStyle(doctor)} className="h-full w-full object-cover" />
               ) : (
                 <span className="text-about-teal grid h-full place-items-center">
                   <UserRound className="size-16" aria-hidden="true" />
@@ -135,7 +136,7 @@ function DoctorPage() {
                     className="border-about-line hover:border-about-teal flex items-center gap-3 rounded-2xl border p-4 transition-colors"
                   >
                     {d.photo ? (
-                      <img src={d.photo} alt="" loading="lazy" className="size-14 shrink-0 rounded-full object-cover object-top" />
+                      <img src={d.photo} alt="" loading="lazy" style={photoStyle(d)} className="size-14 shrink-0 rounded-full object-cover" />
                     ) : (
                       <span className="bg-about-icon text-about-teal grid size-14 shrink-0 place-items-center rounded-full">
                         <UserRound className="size-6" />

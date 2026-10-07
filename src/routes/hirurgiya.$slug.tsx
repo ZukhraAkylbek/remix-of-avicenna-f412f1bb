@@ -20,7 +20,7 @@ import { ADVANTAGES } from "./about";
 
 import { DoctorsGrid, SurgeryDoctorsGrid } from "./hirurgiya.index";
 import { ContactButtons } from "@/components/ContactButtons";
-import { CLINIC_DOCTORS } from "@/lib/clinic-doctors";
+import { clinicDoctorsQueryOptions, useClinicDoctors, type DbClinicDoctor } from "@/lib/clinic-doctors.queries";
 
 const truncate = (value: string, max = 158) =>
   value.length <= max ? value : `${value.slice(0, max - 1).trimEnd()}…`;
@@ -36,7 +36,7 @@ const SLUG_CATEGORY: Record<string, string> = {
 };
 const SLUG_SPECIALTY: Record<string, string> = { proktologiya: "проктолог", flebologiya: "флеболог" };
 
-function fallbackDoctors(slug: string) {
+function fallbackDoctors(slug: string, CLINIC_DOCTORS: DbClinicDoctor[]) {
   const category = SLUG_CATEGORY[slug];
   if (!category) return [];
   const term = SLUG_SPECIALTY[slug];
@@ -137,6 +137,7 @@ const DIRECTION_IMAGES: Record<string, string> = {
 
 export const Route = createFileRoute("/hirurgiya/$slug")({
   loader: async ({ params, context }) => {
+    void context.queryClient.ensureQueryData(clinicDoctorsQueryOptions);
     const direction = await context.queryClient.ensureQueryData(
       surgeryDirectionQueryOptions(params.slug),
     );
@@ -272,7 +273,8 @@ export function DirectionBody({ slug }: { slug: string }) {
   const subtitle = data?.subtitle?.trim() || DEFAULT_SUBTITLE;
   const image = SURGERY_IMAGES[slug] || data?.image_url || DIRECTION_IMAGES[slug] || specialtyImage(slug);
   const doctors = data?.doctors ?? [];
-  const clinicDoctors = doctors.length === 0 ? fallbackDoctors(slug) : [];
+  const allDoctors = useClinicDoctors();
+  const clinicDoctors = doctors.length === 0 ? fallbackDoctors(slug, allDoctors) : [];
   const category = SLUG_CATEGORY[slug];
   const { intro, blocks } = parseBody(data?.body);
   const aboutTitle = data?.about_title?.trim() || "О направлении";

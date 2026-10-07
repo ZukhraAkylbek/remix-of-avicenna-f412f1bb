@@ -4,7 +4,8 @@ import { Search, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { checkupPageQueryOptions } from "@/lib/checkups.queries";
-import { CLINIC_DOCTORS, DOCTOR_CATEGORIES } from "@/lib/clinic-doctors";
+import { DOCTOR_CATEGORIES } from "@/lib/clinic-doctors";
+import { useClinicDoctors } from "@/lib/clinic-doctors.queries";
 import { pagesQueryOptions } from "@/lib/pages.queries";
 import { specialtiesQueryOptions } from "@/lib/specialties.queries";
 
@@ -35,6 +36,7 @@ export function SiteSearch({ className = "" }: { className?: string }) {
   const checkups = useQuery({ ...checkupPageQueryOptions(), enabled });
   const pages = useQuery({ ...pagesQueryOptions(), enabled });
 
+  const clinicDoctors = useClinicDoctors();
   const index = useMemo<Hit[]>(() => {
     const hits: Hit[] = [...STATIC_HITS];
     for (const s of specialties.data ?? []) {
@@ -63,7 +65,7 @@ export function SiteSearch({ className = "" }: { className?: string }) {
         to: `/vrachi?category=${cat.slug}#vrachi`,
       });
     }
-    for (const d of CLINIC_DOCTORS) {
+    for (const d of clinicDoctors) {
       hits.push({
         title: d.name,
         subtitle: d.specialty,
@@ -72,7 +74,7 @@ export function SiteSearch({ className = "" }: { className?: string }) {
       });
     }
     return hits;
-  }, [specialties.data, checkups.data, pages.data]);
+  }, [specialties.data, checkups.data, pages.data, clinicDoctors]);
 
   const results = useMemo(() => {
     const query = norm(q);

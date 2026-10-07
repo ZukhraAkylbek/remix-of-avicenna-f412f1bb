@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 
 import { CrudManager } from "@/components/admin/CrudManager";
 import { PageHeader } from "@/components/admin/PageHeader";
-import { supabase } from "@/integrations/supabase/client";
+import { DOCTOR_CATEGORIES } from "@/lib/clinic-doctors";
+import { CLINIC } from "@/lib/clinic";
 
 export const Route = createFileRoute("/_authenticated/admin/doctors")({
   head: () => ({
@@ -20,18 +20,6 @@ export const Route = createFileRoute("/_authenticated/admin/doctors")({
 });
 
 function AdminDoctors() {
-  const { data: specialties } = useQuery({
-    queryKey: ["admin-specialty-options"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("specialties")
-        .select("id, name")
-        .order("name", { ascending: true });
-      if (error) throw error;
-      return data ?? [];
-    },
-  });
-
   return (
     <>
       <PageHeader
@@ -42,26 +30,41 @@ function AdminDoctors() {
       <CrudManager
         table="doctors"
         queryKey="admin-doctors"
-        select="id, specialty_id, slug, full_name, job_title, photo_url, bio, experience_years, education, sort_order, is_active"
+        select="id, slug, full_name, job_title, category, branch, price, photo_url, photo_position, bio, experience_years, education, sort_order, is_active"
         titleField="full_name"
         subtitleField="job_title"
         addLabel="Добавить врача"
         searchFields={["full_name", "job_title", "slug"]}
-        defaults={{ is_active: true, sort_order: 100 }}
+        defaults={{ is_active: true, sort_order: 100, photo_position: "50% 20%" }}
         fields={[
           { name: "full_name", label: "ФИО", type: "text" },
-          { name: "slug", label: "Адрес (slug)", type: "text" },
-          { name: "job_title", label: "Должность", type: "text" },
+          { name: "slug", label: "Адрес (slug)", type: "text", hint: "латиницей, например ivanov-ivan" },
+          { name: "job_title", label: "Должность/специальность", type: "text" },
+          { name: "category", label: "Категория", type: "select", options: DOCTOR_CATEGORIES.map((c) => ({ value: c.slug, label: c.name })) },
           {
-            name: "specialty_id",
-            label: "Направление",
+            name: "branch",
+            label: "Филиал",
             type: "select",
-            options: (specialties ?? []).map((s) => ({ value: s.id, label: s.name })),
+            options: CLINIC.branches.map((b) => {
+              const short = b.street.replace(/^ул\.\s*/, "").replace(/,\s*/, " ");
+              return { value: short, label: short };
+            }),
           },
+          { name: "price", label: "Цена", type: "text" },
           { name: "experience_years", label: "Опыт, лет", type: "number" },
+          { name: "photo_url", label: "Фото", type: "image" },
+          {
+            name: "photo_position",
+            label: "Кадр фото",
+            type: "select",
+            options: [
+              { value: "50% 0%", label: "Верх" },
+              { value: "50% 20%", label: "Лицо (по умолчанию)" },
+              { value: "50% 50%", label: "Центр" },
+            ],
+          },
           { name: "education", label: "Образование", type: "textarea" },
           { name: "bio", label: "О враче", type: "textarea" },
-          { name: "photo_url", label: "Ссылка на фото", type: "text", hint: "Загрузите файл в разделе «Медиа» и вставьте ссылку" },
           { name: "sort_order", label: "Порядок", type: "number" },
           { name: "is_active", label: "Публикация", type: "switch" },
         ]}

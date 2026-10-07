@@ -356,6 +356,7 @@ export type Database = {
           id: string
           is_active: boolean
           job_title: string | null
+          photo_position: string | null
           photo_url: string | null
           price: string | null
           slug: string
@@ -374,6 +375,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           job_title?: string | null
+          photo_position?: string | null
           photo_url?: string | null
           price?: string | null
           slug: string
@@ -392,6 +394,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           job_title?: string | null
+          photo_position?: string | null
           photo_url?: string | null
           price?: string | null
           slug?: string
