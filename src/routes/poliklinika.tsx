@@ -173,7 +173,7 @@ function PolyclinicPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <div className="flex flex-wrap items-end justify-between gap-3">
               <PolyclinicHeading title="Направления поликлиники" />
-              <Link to="/vrachi" className="text-about-teal inline-flex items-center gap-2 text-sm font-semibold">Все специалисты <ArrowRight className="size-4" /></Link>
+              <Link to="/vrachi" className="text-about-teal inline-flex items-center gap-2 text-sm font-semibold">Все направления <ArrowRight className="size-4" /></Link>
             </div>
             <div className="mt-5 grid gap-5 lg:grid-cols-[280px_1fr]">
               <img src="/assets/checkup-doctors.jpg" alt="Врачи поликлиники «Авиценна»" className="hidden h-full max-h-[560px] w-full rounded-2xl object-cover lg:block" />
