@@ -195,7 +195,11 @@ export function SiteFooter() {
             <span>© {new Date().getFullYear()} Медицинская клиника «Авиценна», Бишкек</span>
             <span>Лицензия «Авиценна КейДжи» № 3823</span>
           </div>
-          <a href="#faq" className="hover:text-foreground">
+          <a
+            href={privacyPolicy.url}
+            download="Политика конфиденциальности Авиценна.docx"
+            className="hover:text-foreground"
+          >
             Политика конфиденциальности
           </a>
         </div>
