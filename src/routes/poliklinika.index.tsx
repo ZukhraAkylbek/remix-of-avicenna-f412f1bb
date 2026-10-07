@@ -25,6 +25,10 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
+import { Editable } from "@/components/live-edit/LiveEdit";
+import { homeItemsQueryOptions } from "@/lib/home-items";
 
 import doctorPatientHeroAsset from "@/assets/chat/doctor-patient-hero.webp";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -112,23 +116,46 @@ export const Route = createFileRoute("/poliklinika/")({
     links: [{ rel: "canonical", href: absoluteUrl("/poliklinika") || "/poliklinika" }],
     scripts: [{ type: "application/ld+json", children: JSON.stringify(faqPageJsonLd(FAQS)) }],
   }),
+  loader: ({ context }) => {
+    void context.queryClient.prefetchQuery(homeItemsQueryOptions());
+  },
   component: PolyclinicPage,
 });
 
-function PolyclinicHeading({ title, description, href }: { title: string; description?: string; href?: string }) {
+const SPEC_ICONS: Record<string, LucideIcon> = {
+  Stethoscope, Baby, HeartPulse, Brain, Activity, Microscope, Venus, Mars, BriefcaseMedical, Bone, Ear, Hospital, ShieldCheck, Users,
+};
+
+type SpecCard = { name: string; icon: LucideIcon; href: string };
+
+function useSpecialists(): SpecCard[] {
+  const { data } = useQuery(homeItemsQueryOptions());
+  const rows = (data ?? []).filter((r) => r.grp === "poli_spec");
+  if (rows.length > 0) {
+    return rows.map((r) => ({ name: r.title, icon: SPEC_ICONS[r.icon ?? ""] ?? Stethoscope, href: r.href || "/vrachi" }));
+  }
+  return POLYCLINIC_SPECIALISTS.map((i) => ({
+    name: i.name,
+    icon: i.icon,
+    href: i.surgery ? `/hirurgiya/${i.surgery}` : `/vrachi?category=${i.category}#vrachi`,
+  }));
+}
+
+function PolyclinicHeading({ ekey, title, description, href }: { ekey: string; title: string; description?: string; href?: string }) {
+  const t = <Editable ekey={`poliklinika.${ekey}.title`} label="Заголовок раздела" fallback={title} />;
   return (
     <div>
       <h2 className="text-about-ink text-2xl leading-tight font-extrabold sm:text-3xl">
         {href ? (
           <Link to={href} className="hover:text-about-teal inline-flex items-center gap-2 transition-colors">
-            {title}
+            {t}
             <ArrowRight className="size-5 shrink-0" />
           </Link>
         ) : (
-          title
+          t
         )}
       </h2>
-      {description && <p className="text-about-copy mt-3 max-w-2xl text-sm leading-relaxed sm:text-base">{description}</p>}
+      {description && <Editable as="p" ekey={`poliklinika.${ekey}.description`} label="Описание раздела" multiline fallback={description} className="text-about-copy mt-3 max-w-2xl text-sm leading-relaxed sm:text-base" />}
     </div>
   );
 }
@@ -143,11 +170,11 @@ function PolyclinicFaq() {
           <div key={item.question} className="border-about-line bg-about-canvas rounded-2xl border">
             <dt>
               <Button variant="ghost" onClick={() => setOpen(isOpen ? null : index)} aria-expanded={isOpen} className="text-about-ink hover:text-about-ink h-auto w-full justify-between gap-4 rounded-2xl p-4 text-left shadow-none hover:bg-transparent">
-                <span className="whitespace-normal text-sm font-semibold sm:text-base">{item.question}</span>
+                <Editable ekey={`poliklinika.faq.${index}.question`} label="Вопрос" fallback={item.question} className="whitespace-normal text-sm font-semibold sm:text-base" />
                 <Plus className={`text-about-teal size-5 shrink-0 transition-transform ${isOpen ? "rotate-45" : ""}`} aria-hidden="true" />
               </Button>
             </dt>
-            {isOpen && <dd className="text-about-copy border-about-line border-t p-4 text-[13px] leading-relaxed sm:text-sm">{item.answer}</dd>}
+            {isOpen && <Editable as="dd" ekey={`poliklinika.faq.${index}.answer`} label="Ответ" multiline fallback={item.answer} className="text-about-copy border-about-line border-t p-4 text-[13px] leading-relaxed sm:text-sm" />}
           </div>
         );
       })}
@@ -156,6 +183,12 @@ function PolyclinicFaq() {
 }
 
 function PolyclinicPage() {
+  const specialists = useSpecialists();
+  const benefits = BENEFITS.map((b, i) => ({
+    icon: b.icon,
+    title: <Editable ekey={`poliklinika.benefits.${i}.title`} label="Преимущество" fallback={b.title} />,
+    text: <Editable ekey={`poliklinika.benefits.${i}.text`} label="Текст преимущества" multiline fallback={b.text} />,
+  }));
   return (
     <div className="bg-about-canvas min-h-screen">
       <SiteHeader breadcrumb="Поликлиника" />
@@ -164,9 +197,9 @@ function PolyclinicPage() {
         <section className="bg-about-mint">
           <div className="mx-auto grid max-w-7xl overflow-hidden px-4 py-4 sm:px-6 sm:py-6 lg:h-[380px] lg:grid-cols-[1.08fr_0.92fr] lg:py-8">
             <Reveal className="flex flex-col justify-center lg:pr-10">
-              <p className="text-about-teal text-sm font-semibold">Многопрофильная помощь</p>
-              <h1 className="text-about-ink mt-2 max-w-2xl text-3xl leading-[1.08] font-extrabold sm:text-4xl lg:text-5xl">Поликлиника в Бишкеке</h1>
-              <p className="text-about-copy mt-3 max-w-2xl text-[13px] leading-relaxed sm:text-base">Современный многопрофильный медицинский центр, где вы сможете получить консультации врача, пройти диагностику, сдать анализы и начать лечение в одном месте.</p>
+              <Editable as="p" ekey="poliklinika.hero.eyebrow" label="Надзаголовок" fallback="Многопрофильная помощь" className="text-about-teal text-sm font-semibold" />
+              <Editable as="h1" ekey="poliklinika.hero.title" label="Заголовок" fallback="Поликлиника в Бишкеке" className="text-about-ink mt-2 max-w-2xl text-3xl leading-[1.08] font-extrabold sm:text-4xl lg:text-5xl" />
+              <Editable as="p" ekey="poliklinika.hero.text" label="Текст баннера" multiline fallback="Современный многопрофильный медицинский центр, где вы сможете получить консультации врача, пройти диагностику, сдать анализы и начать лечение в одном месте." className="text-about-copy mt-3 max-w-2xl text-[13px] leading-relaxed sm:text-base" />
               <div className="mt-4 flex flex-wrap gap-2 sm:gap-3">
                 <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark px-3 text-xs shadow-none sm:px-4 sm:text-sm"><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на приём</a></Button>
                 <ContactButtons />
@@ -185,34 +218,32 @@ function PolyclinicPage() {
         <section id="specialists" className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <div className="flex flex-wrap items-end justify-between gap-3">
-              <PolyclinicHeading title="Направления поликлиники" />
+              <PolyclinicHeading ekey="specialists" title="Направления поликлиники" />
               <Link to="/vrachi" className="text-about-teal inline-flex items-center gap-2 text-sm font-semibold">Все врачи <ArrowRight className="size-4" /></Link>
             </div>
             <div className="mt-5 grid gap-5 lg:grid-cols-[280px_1fr]">
               <img src="/assets/checkup-doctors.jpg" alt="Врачи поликлиники «Авиценна»" className="hidden h-full max-h-[560px] w-full rounded-2xl object-cover lg:block" />
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 sm:gap-3">
-                {POLYCLINIC_SPECIALISTS.map((item, index) => {
+                {specialists.map((item, index) => {
                   const Icon = item.icon;
+                  const cls = "border-about-line hover:border-about-teal group flex h-full items-center gap-2 rounded-2xl border bg-about-canvas p-2.5 transition-colors sm:gap-3 sm:p-4";
+                  const inner = (
+                    <>
+                      <span className="bg-about-icon text-about-teal grid size-8 shrink-0 place-items-center rounded-full sm:size-10">
+                        <Icon className="size-4 sm:size-5" aria-hidden="true" />
+                      </span>
+                      <span className="text-about-ink min-w-0 flex-1 text-[12px] leading-tight font-semibold break-words hyphens-auto sm:text-sm">{item.name}</span>
+                      <Plus className="text-about-teal hidden size-5 shrink-0 transition-transform group-hover:rotate-90 sm:block" aria-hidden="true" />
+                    </>
+                  );
                   return (
-                  <Reveal key={item.name} delay={index * 20}>
-                    {item.surgery ? (
-                    <Link to="/hirurgiya/$slug" params={{ slug: item.surgery }} className="border-about-line hover:border-about-teal group flex h-full items-center gap-2 rounded-2xl border bg-about-canvas p-2.5 transition-colors sm:gap-3 sm:p-4">
-                      <span className="bg-about-icon text-about-teal grid size-8 shrink-0 place-items-center rounded-full sm:size-10">
-                        <Icon className="size-4 sm:size-5" aria-hidden="true" />
-                      </span>
-                      <span className="text-about-ink min-w-0 flex-1 text-[12px] leading-tight font-semibold break-words hyphens-auto sm:text-sm">{item.name}</span>
-                      <Plus className="text-about-teal hidden size-5 shrink-0 transition-transform group-hover:rotate-90 sm:block" aria-hidden="true" />
-                    </Link>
-                    ) : (
-                    <Link to="/vrachi" search={{ category: item.category }} hash="vrachi" className="border-about-line hover:border-about-teal group flex h-full items-center gap-2 rounded-2xl border bg-about-canvas p-2.5 transition-colors sm:gap-3 sm:p-4">
-                      <span className="bg-about-icon text-about-teal grid size-8 shrink-0 place-items-center rounded-full sm:size-10">
-                        <Icon className="size-4 sm:size-5" aria-hidden="true" />
-                      </span>
-                      <span className="text-about-ink min-w-0 flex-1 text-[12px] leading-tight font-semibold break-words hyphens-auto sm:text-sm">{item.name}</span>
-                      <Plus className="text-about-teal hidden size-5 shrink-0 transition-transform group-hover:rotate-90 sm:block" aria-hidden="true" />
-                    </Link>
-                    )}
-                  </Reveal>
+                    <Reveal key={`${item.name}-${index}`} delay={index * 20}>
+                      {/^https?:/.test(item.href) ? (
+                        <a href={item.href} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>
+                      ) : (
+                        <Link to={item.href} className={cls}>{inner}</Link>
+                      )}
+                    </Reveal>
                   );
                 })}
               </div>
@@ -222,29 +253,29 @@ function PolyclinicPage() {
 
         <section className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <PolyclinicHeading title="Почему пациенты выбирают «Авиценну»" />
-            <AdvantagesGrid items={BENEFITS} compact />
+            <PolyclinicHeading ekey="benefits" title="Почему пациенты выбирают «Авиценну»" />
+            <AdvantagesGrid items={benefits} compact />
           </div>
         </section>
 
         <section className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <PolyclinicHeading title="Когда стоит обратиться к врачу" description="Не откладывайте приём, если симптомы повторяются, усиливаются или мешают привычной жизни." />
+            <PolyclinicHeading ekey="reasons" title="Когда стоит обратиться к врачу" description="Не откладывайте приём, если симптомы повторяются, усиливаются или мешают привычной жизни." />
             <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
-              {CONSULTATION_REASONS.map((item) => <div key={item} className="border-about-line flex items-center gap-3 rounded-2xl border p-4"><span className="bg-about-icon text-about-teal grid size-9 shrink-0 place-items-center rounded-full"><Check className="size-4" /></span><span className="text-about-ink min-w-0 flex-1 text-[12px] font-semibold leading-snug break-words hyphens-auto sm:text-sm">{item}</span></div>)}
+              {CONSULTATION_REASONS.map((item, i) => <div key={item} className="border-about-line flex items-center gap-3 rounded-2xl border p-4"><span className="bg-about-icon text-about-teal grid size-9 shrink-0 place-items-center rounded-full"><Check className="size-4" /></span><Editable ekey={`poliklinika.reasons.${i}`} label="Причина обращения" fallback={item} className="text-about-ink min-w-0 flex-1 text-[12px] font-semibold leading-snug break-words hyphens-auto sm:text-sm" /></div>)}
             </div>
           </div>
         </section>
 
         <section className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <PolyclinicHeading title="Современная диагностика" description="Все необходимые исследования можно пройти в клинике." href="/diagnostika" />
+            <PolyclinicHeading ekey="diagnostics" title="Современная диагностика" description="Все необходимые исследования можно пройти в клинике." href="/diagnostika" />
             <div className="mt-5 grid gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
               <img src="/assets/uslugi-hero.jpg" alt="Диагностическое оборудование клиники" className="hidden lg:block h-60 w-full rounded-2xl object-cover" />
               <div className="grid gap-3 sm:grid-cols-2">
-                {DIAGNOSTICS.map((item) => {
+                {DIAGNOSTICS.map((item, i) => {
                   const cls = "border-about-line bg-about-canvas hover:border-brand-green flex gap-3 rounded-2xl border p-4 transition-colors";
-                  const inner = <><span className="bg-about-icon text-about-teal grid size-10 shrink-0 place-items-center rounded-full"><Microscope className="size-5" /></span><div><h3 className="text-about-ink text-sm font-bold">{item.title}</h3><p className="text-about-copy mt-1 text-[13px] leading-relaxed">{item.text}</p></div></>;
+                  const inner = <><span className="bg-about-icon text-about-teal grid size-10 shrink-0 place-items-center rounded-full"><Microscope className="size-5" /></span><div><Editable as="h3" ekey={`poliklinika.diagnostics.${i}.title`} label="Исследование" fallback={item.title} className="text-about-ink text-sm font-bold" /><Editable as="p" ekey={`poliklinika.diagnostics.${i}.text`} label="Описание исследования" multiline fallback={item.text} className="text-about-copy mt-1 text-[13px] leading-relaxed" /></div></>;
                   return item.external ? (
                     <a key={item.title} href={item.href} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>
                   ) : (
@@ -257,12 +288,12 @@ function PolyclinicPage() {
         </section>
 
         <section className="bg-about-mint py-8 sm:py-10">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6"><PolyclinicHeading title="Часто задаваемые вопросы" /><PolyclinicFaq /></div>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6"><PolyclinicHeading ekey="faq" title="Часто задаваемые вопросы" /><PolyclinicFaq /></div>
         </section>
 
         <section className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-            <div><h2 className="text-about-ink text-2xl font-extrabold sm:text-3xl">Забота о вашем здоровье</h2><p className="text-about-copy mt-3 max-w-xl text-sm leading-relaxed sm:text-base">Запишитесь на консультацию — администратор поможет выбрать специалиста и удобное время.</p><div className="mt-6 flex flex-wrap gap-2 sm:gap-3"><Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark shadow-none"><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на консультацию</a></Button><ContactButtons /></div></div>
+            <div><Editable as="h2" ekey="poliklinika.cta.title" label="Заголовок финального блока" fallback="Забота о вашем здоровье" className="text-about-ink text-2xl font-extrabold sm:text-3xl" /><Editable as="p" ekey="poliklinika.cta.text" label="Текст финального блока" multiline fallback="Запишитесь на консультацию — администратор поможет выбрать специалиста и удобное время." className="text-about-copy mt-3 max-w-xl text-sm leading-relaxed sm:text-base" /><div className="mt-6 flex flex-wrap gap-2 sm:gap-3"><Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark shadow-none"><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на консультацию</a></Button><ContactButtons /></div></div>
             <img src={doctorPatientHeroAsset} alt="Врач консультирует пациента" className="hidden lg:block h-60 w-full rounded-2xl object-cover" />
           </div>
         </section>

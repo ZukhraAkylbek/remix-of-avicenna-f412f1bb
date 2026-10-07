@@ -2,7 +2,7 @@ import { queryOptions } from "@tanstack/react-query";
 
 import { supabase } from "@/integrations/supabase/client";
 
-export type HomeItemGroup = "route" | "specialty" | "stat" | "offer" | "review";
+export type HomeItemGroup = "route" | "specialty" | "stat" | "offer" | "review" | "poli_spec";
 
 export type HomeItem = {
   id: string;
