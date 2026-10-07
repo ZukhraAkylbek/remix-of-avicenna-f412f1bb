@@ -52,6 +52,7 @@ import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminMobileNavRouteImport } from './routes/_authenticated/admin/mobile-nav'
 import { Route as AuthenticatedAdminNapravleniyaRouteImport } from './routes/_authenticated/admin/napravleniya'
 import { Route as AuthenticatedAdminPagesRouteImport } from './routes/_authenticated/admin/pages'
+import { Route as AuthenticatedAdminPoliklinikaRouteImport } from './routes/_authenticated/admin/poliklinika'
 import { Route as AuthenticatedAdminPopupsRouteImport } from './routes/_authenticated/admin/popups'
 import { Route as AuthenticatedAdminSeoRouteImport } from './routes/_authenticated/admin/seo'
 import { Route as AuthenticatedAdminServicesRouteImport } from './routes/_authenticated/admin/services'
@@ -282,6 +283,12 @@ const AuthenticatedAdminPagesRoute = AuthenticatedAdminPagesRouteImport.update({
   path: '/pages',
   getParentRoute: () => AuthenticatedAdminRouteRoute,
 } as any)
+const AuthenticatedAdminPoliklinikaRoute =
+  AuthenticatedAdminPoliklinikaRouteImport.update({
+    id: '/poliklinika',
+    path: '/poliklinika',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedAdminPopupsRoute =
   AuthenticatedAdminPopupsRouteImport.update({
     id: '/popups',
@@ -360,6 +367,7 @@ export interface FileRoutesByFullPath {
   '/admin/mobile-nav': typeof AuthenticatedAdminMobileNavRoute
   '/admin/napravleniya': typeof AuthenticatedAdminNapravleniyaRoute
   '/admin/pages': typeof AuthenticatedAdminPagesRoute
+  '/admin/poliklinika': typeof AuthenticatedAdminPoliklinikaRoute
   '/admin/popups': typeof AuthenticatedAdminPopupsRoute
   '/admin/seo': typeof AuthenticatedAdminSeoRoute
   '/admin/services': typeof AuthenticatedAdminServicesRoute
@@ -409,6 +417,7 @@ export interface FileRoutesByTo {
   '/admin/mobile-nav': typeof AuthenticatedAdminMobileNavRoute
   '/admin/napravleniya': typeof AuthenticatedAdminNapravleniyaRoute
   '/admin/pages': typeof AuthenticatedAdminPagesRoute
+  '/admin/poliklinika': typeof AuthenticatedAdminPoliklinikaRoute
   '/admin/popups': typeof AuthenticatedAdminPopupsRoute
   '/admin/seo': typeof AuthenticatedAdminSeoRoute
   '/admin/services': typeof AuthenticatedAdminServicesRoute
@@ -461,6 +470,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/mobile-nav': typeof AuthenticatedAdminMobileNavRoute
   '/_authenticated/admin/napravleniya': typeof AuthenticatedAdminNapravleniyaRoute
   '/_authenticated/admin/pages': typeof AuthenticatedAdminPagesRoute
+  '/_authenticated/admin/poliklinika': typeof AuthenticatedAdminPoliklinikaRoute
   '/_authenticated/admin/popups': typeof AuthenticatedAdminPopupsRoute
   '/_authenticated/admin/seo': typeof AuthenticatedAdminSeoRoute
   '/_authenticated/admin/services': typeof AuthenticatedAdminServicesRoute
@@ -513,6 +523,7 @@ export interface FileRouteTypes {
     | '/admin/mobile-nav'
     | '/admin/napravleniya'
     | '/admin/pages'
+    | '/admin/poliklinika'
     | '/admin/popups'
     | '/admin/seo'
     | '/admin/services'
@@ -562,6 +573,7 @@ export interface FileRouteTypes {
     | '/admin/mobile-nav'
     | '/admin/napravleniya'
     | '/admin/pages'
+    | '/admin/poliklinika'
     | '/admin/popups'
     | '/admin/seo'
     | '/admin/services'
@@ -613,6 +625,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/mobile-nav'
     | '/_authenticated/admin/napravleniya'
     | '/_authenticated/admin/pages'
+    | '/_authenticated/admin/poliklinika'
     | '/_authenticated/admin/popups'
     | '/_authenticated/admin/seo'
     | '/_authenticated/admin/services'
@@ -956,6 +969,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminPagesRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/poliklinika': {
+      id: '/_authenticated/admin/poliklinika'
+      path: '/poliklinika'
+      fullPath: '/admin/poliklinika'
+      preLoaderRoute: typeof AuthenticatedAdminPoliklinikaRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/admin/popups': {
       id: '/_authenticated/admin/popups'
       path: '/popups'
@@ -1015,6 +1035,7 @@ interface AuthenticatedAdminRouteRouteChildren {
   AuthenticatedAdminMobileNavRoute: typeof AuthenticatedAdminMobileNavRoute
   AuthenticatedAdminNapravleniyaRoute: typeof AuthenticatedAdminNapravleniyaRoute
   AuthenticatedAdminPagesRoute: typeof AuthenticatedAdminPagesRoute
+  AuthenticatedAdminPoliklinikaRoute: typeof AuthenticatedAdminPoliklinikaRoute
   AuthenticatedAdminPopupsRoute: typeof AuthenticatedAdminPopupsRoute
   AuthenticatedAdminSeoRoute: typeof AuthenticatedAdminSeoRoute
   AuthenticatedAdminServicesRoute: typeof AuthenticatedAdminServicesRoute
@@ -1039,6 +1060,7 @@ const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren
     AuthenticatedAdminMobileNavRoute: AuthenticatedAdminMobileNavRoute,
     AuthenticatedAdminNapravleniyaRoute: AuthenticatedAdminNapravleniyaRoute,
     AuthenticatedAdminPagesRoute: AuthenticatedAdminPagesRoute,
+    AuthenticatedAdminPoliklinikaRoute: AuthenticatedAdminPoliklinikaRoute,
     AuthenticatedAdminPopupsRoute: AuthenticatedAdminPopupsRoute,
     AuthenticatedAdminSeoRoute: AuthenticatedAdminSeoRoute,
     AuthenticatedAdminServicesRoute: AuthenticatedAdminServicesRoute,
