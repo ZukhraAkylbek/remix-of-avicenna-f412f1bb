@@ -1,0 +1,3 @@
+- [x] Diagnostics section pages: surgery-style design + photos
+- [x] Surgery HQ images
+- [x] Statsionar 2nd block: uploaded photo

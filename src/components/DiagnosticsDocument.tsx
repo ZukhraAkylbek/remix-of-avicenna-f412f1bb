@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { CalendarCheck, Clock3, Plus } from "lucide-react";
+import { CalendarCheck, Check, Clock3, Plus } from "lucide-react";
+import { DIAGNOSTIC_IMAGES } from "@/lib/hq-images";
 import documentContent from "@/data/diagnostics-document.json";
 import { DiagnosticsIcon } from "@/components/DiagnosticsIcon";
 import { BOOKING_URL } from "@/lib/site-config";
@@ -19,7 +20,7 @@ function renderBlocks(blocks: DocumentBlock[]) {
       let end = index + 1;
       while (end < blocks.length && blocks[end]?.type !== "heading") end++;
       sections.push(
-        <section key={index} className="border-about-line bg-about-mint mt-10 rounded-2xl border p-5 sm:p-7">
+        <div key={index} className="bg-about-canvas py-8 sm:py-10"><section className="border-about-line bg-about-mint mx-auto max-w-5xl rounded-2xl border p-5 sm:p-7">
           <div className="flex items-center gap-3">
             <span className="bg-about-icon text-about-teal grid size-10 shrink-0 place-items-center rounded-full"><Clock3 className="size-5" aria-hidden="true" /></span>
             <h2 className="text-about-ink text-xl font-bold sm:text-2xl">{block.text}</h2>
@@ -33,7 +34,7 @@ function renderBlocks(blocks: DocumentBlock[]) {
               </div>;
             })}
           </div>
-        </section>
+        </section></div>
       );
       index = end;
       continue;
@@ -51,7 +52,7 @@ function renderBlocks(blocks: DocumentBlock[]) {
         }
       }
       sections.push(
-        <section key={index} className="mt-12">
+        <section key={index} className="bg-about-mint py-8 sm:py-10"><div className="mx-auto max-w-7xl px-4 sm:px-6">
           <h2 className="text-about-ink text-2xl font-bold sm:text-3xl">{block.text}</h2>
           <div className="mt-6 grid items-start gap-3 lg:grid-cols-2">
             {answers.map((answer) => <details key={answer.title} className="group border-about-line bg-card rounded-2xl border">
@@ -61,16 +62,37 @@ function renderBlocks(blocks: DocumentBlock[]) {
               <div className="text-about-copy space-y-2 px-4 pb-4 text-sm leading-relaxed">{answer.text.map((text, answerIndex) => <p key={answerIndex}>{text}</p>)}</div>
             </details>)}
           </div>
-        </section>
+        </div></section>
       );
       index = end;
       continue;
     }
 
-    if (block.type === "heading") sections.push(<h2 key={index} className="text-about-ink pt-8 text-2xl font-bold sm:text-3xl">{block.text}</h2>);
-    else if (block.type === "question") sections.push(<h3 key={index} className="text-about-ink pt-5 text-lg font-bold">{block.text}</h3>);
-    else if (block.type === "bullet") sections.push(<p key={index} className="text-about-copy flex gap-3 pl-2 leading-relaxed"><span className="text-about-teal">•</span><span>{block.text}</span></p>);
-    else sections.push(<p key={index} className="text-about-copy leading-relaxed">{block.text}</p>);
+    if (block.type === "heading" || index === 0) {
+      let end = index + 1;
+      while (end < blocks.length && blocks[end]?.type !== "heading") end++;
+      const body = blocks.slice(block.type === "heading" ? index + 1 : index, end);
+      const bullets = body.filter((item) => item.type === "bullet");
+      sections.push(
+        <section key={index} className={`${sections.length % 2 ? "bg-about-mint" : "bg-about-canvas"} py-8 sm:py-10`}>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6">
+            {block.type === "heading" && <h2 className="text-about-ink text-2xl font-extrabold tracking-tight sm:text-3xl">{block.text}</h2>}
+            <div className="mt-5 max-w-4xl space-y-4">
+              {body.filter((item) => item.type !== "bullet").map((item, i) => item.type === "question"
+                ? <h3 key={i} className="text-about-ink pt-2 text-lg font-bold">{item.text}</h3>
+                : <p key={i} className="text-about-copy text-base leading-relaxed sm:text-lg">{item.text}</p>)}
+            </div>
+            {bullets.length > 0 && <ul className="mt-5 grid gap-x-8 gap-y-3 md:grid-cols-2">
+              {bullets.map((item, i) => <li key={i} className="text-about-copy flex items-start gap-3 text-base leading-relaxed sm:text-lg">
+                <span className="bg-about-icon text-about-teal mt-0.5 grid size-7 shrink-0 place-items-center rounded-full"><Check className="size-4" aria-hidden="true" /></span>{item.text}
+              </li>)}
+            </ul>}
+          </div>
+        </section>
+      );
+      index = end;
+      continue;
+    }
     index++;
   }
   return sections;
@@ -79,20 +101,25 @@ function renderBlocks(blocks: DocumentBlock[]) {
 export function DiagnosticsDocument({ slug }: { slug: string }) {
   const entry = diagnosticDocuments.find((document) => document.slug === slug);
   if (!entry) return null;
+  const image = DIAGNOSTIC_IMAGES[slug];
+  const intro = entry.blocks.find((block) => block.type === "paragraph")?.text;
   return (
     <>
-      <section className="border-b border-border bg-surface-soft/40">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
-          <DiagnosticsIcon title={entry.title} icon={entry.icon} />
-          <h1 className="mt-5 max-w-4xl text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl">{entry.title} в Бишкеке</h1>
-          <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">{entry.blocks.find((block) => block.type === "paragraph")?.text}</p>
-          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="mt-7 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-primary-foreground hover:bg-primary/90"><CalendarCheck className="size-5" /> Уточнить условия</a>
+      <section className="bg-about-mint">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-8 sm:px-6 sm:py-10 lg:grid-cols-2">
+          <div>
+            <DiagnosticsIcon title={entry.title} icon={entry.icon} className="bg-about-icon text-about-teal size-12 rounded-full" />
+            <h1 className="text-about-ink mt-5 text-2xl leading-[1.08] font-extrabold tracking-tight sm:text-4xl lg:text-5xl">{entry.title} в Бишкеке</h1>
+            <p className="text-about-copy mt-4 max-w-2xl text-base leading-relaxed sm:text-lg">{intro}</p>
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="bg-brand-green text-brand-white hover:bg-brand-green-dark mt-7 inline-flex items-center gap-2 rounded-md px-6 py-3.5 font-extrabold transition-colors"><CalendarCheck className="size-5" /> Записаться</a>
+          </div>
+          {image && <img src={image} alt={entry.title} width={1280} height={896} className="aspect-[4/3] w-full rounded-2xl border border-about-line object-cover" />}
         </div>
       </section>
-      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
-        <div className="space-y-4">{renderBlocks(entry.blocks)}</div>
-        <Link to="/diagnostika" className="mt-12 inline-flex font-bold text-primary hover:underline">← Все направления диагностики</Link>
-      </div>
+      {renderBlocks(entry.blocks.filter((block) => block.text !== intro))}
+      <div className="bg-about-canvas py-8"><div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <Link to="/diagnostika" className="text-about-teal inline-flex font-bold hover:underline">← Все направления диагностики</Link>
+      </div></div>
     </>
   );
 }
