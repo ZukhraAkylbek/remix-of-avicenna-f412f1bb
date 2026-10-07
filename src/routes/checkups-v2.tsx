@@ -32,7 +32,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { absoluteUrl } from "@/lib/clinic";
-import { BOOKING_URL } from "@/lib/site-config";
+/** Ссылка WhatsApp с сообщением о выбранном чекапе */
+function waHref(title?: string) {
+  const text = title
+    ? `Здравствуйте! Хочу записаться на чекап: ${title}.`
+    : "Здравствуйте! Хочу записаться на чекап.";
+  return `https://wa.me/996779909009?text=${encodeURIComponent(text)}`;
+}
 
 const TITLE = "Чекапы — новая программа | Авиценна";
 const DESCRIPTION =
@@ -132,7 +138,7 @@ function CheckupsV2Page() {
                   <a href="#programs">Выбрать чекап</a>
                 </Button>
                 <Button asChild variant="outline" className="border-about-teal bg-background/80 text-about-ink hover:bg-about-icon">
-                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Получить консультацию</a>
+                  <a href={waHref()} target="_blank" rel="noopener noreferrer">Получить консультацию</a>
                 </Button>
               </div>
             </div>
@@ -242,7 +248,7 @@ function CheckupsV2Page() {
                 <p className="text-about-copy mt-2 max-w-2xl text-sm leading-relaxed">Программы профилактического обследования сотрудников с удобной организацией для компаний.</p>
               </div>
               <Button asChild variant="outline" className="border-about-teal text-about-ink hover:bg-about-icon">
-                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Обсудить программу</a>
+                <a href={waHref()} target="_blank" rel="noopener noreferrer">Обсудить программу</a>
               </Button>
             </div>
           </div>
@@ -287,7 +293,7 @@ function CheckupsV2Page() {
               <p className="mt-3 max-w-2xl text-sm leading-relaxed opacity-80">Оставьте заявку — администратор поможет выбрать программу и удобное время.</p>
             </div>
             <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark mt-5 shrink-0 lg:mt-0">
-              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer"><CalendarCheck className="size-4" />Оставить заявку</a>
+              <a href={waHref()} target="_blank" rel="noopener noreferrer"><CalendarCheck className="size-4" />Оставить заявку</a>
             </Button>
           </div>
         </section>
@@ -318,7 +324,7 @@ function CheckupsV2Page() {
               </ul>
               <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
                 <strong className="text-brand-green text-xl">{activeMini.price}</strong>
-                <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark"><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться</a></Button>
+                <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark"><a href={waHref(activeMini.title)} target="_blank" rel="noopener noreferrer">Записаться</a></Button>
               </div>
             </div>
           )}
@@ -349,7 +355,7 @@ function ProgramGroup({
         <h3 className="text-about-ink mt-4 text-xl font-extrabold">{title}</h3>
         <div className="mt-auto space-y-2 pt-5">
           {programs.map((program) => (
-            <a key={program.label} href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="border-about-line bg-background/85 text-about-ink hover:border-brand-green flex items-center justify-between gap-2 rounded-xl border px-3 py-2.5 text-xs font-bold transition-colors sm:text-sm">
+            <a key={program.label} href={waHref(program.label)} target="_blank" rel="noopener noreferrer" className="border-about-line bg-background/85 text-about-ink hover:border-brand-green flex items-center justify-between gap-2 rounded-xl border px-3 py-2.5 text-xs font-bold transition-colors sm:text-sm">
               <span className="min-w-0 truncate">{program.label}</span><span className="text-about-teal flex shrink-0 items-center gap-1"><span className="w-[6rem] text-right tabular-nums">{program.price}</span><ChevronRight className="size-4" /></span>
             </a>
           ))}
