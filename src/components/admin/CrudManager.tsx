@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Pencil, Plus, Trash2 } from "lucide-react";
+import { GripVertical, Pencil, Plus, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -141,6 +141,45 @@ export function CrudManager({
       keys.some((key) => String(row[key] ?? "").toLowerCase().includes(term)),
     );
   }, [rows, search, searchFields, titleField]);
+
+  // Drag-and-drop reordering (native HTML5), only when not searching and sorted by sort_order
+  const canDrag = orderBy.column === "sort_order" && !search.trim();
+  const [dragId, setDragId] = useState<string | null>(null);
+  const [ordered, setOrdered] = useState<Row[] | null>(null);
+  useEffect(() => setOrdered(null), [rows]);
+  const displayRows = ordered ?? filtered;
+
+  const handleDrop = (targetId: string) => {
+    if (!dragId || dragId === targetId || !rows) return;
+    const list = [...(ordered ?? filtered)];
+    const from = list.findIndex((r) => r.id === dragId);
+    const to = list.findIndex((r) => r.id === targetId);
+    if (from < 0 || to < 0) return;
+    const [moved] = list.splice(from, 1);
+    list.splice(to, 0, moved);
+    setOrdered(list);
+    setDragId(null);
+    const changed = list.filter((r, i) => rows.findIndex((o) => o.id === r.id) !== i);
+    const builder = supabase.from(table) as any;
+    void Promise.all(
+      changed.map((r) =>
+        builder
+          .update({ sort_order: list.findIndex((x) => x.id === r.id) + 1 })
+          .eq("id", r.id)
+          .then(({ error }: { error: { message: string } | null }) => {
+            if (error) throw new Error(error.message);
+          }),
+      ),
+    )
+      .then(() => {
+        toast.success("Порядок сохранён");
+        invalidate();
+      })
+      .catch((e: Error) => {
+        setOrdered(null);
+        toast.error(e.message);
+      });
+  };
 
   const openNew = () => {
     const base: Record<string, unknown> = { ...defaults, ...(fixed ? { [fixed.column]: fixed.value } : {}) };
