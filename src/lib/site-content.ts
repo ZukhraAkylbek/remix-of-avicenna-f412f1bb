@@ -76,7 +76,7 @@ export const CONTENT_FIELDS: ContentField[] = [
   { key: "mobilenav.2.label", label: "Пункт 2 — название", group: "Мобильное меню", kind: "text", fallback: "Врачи" },
   { key: "mobilenav.2.href", label: "Пункт 2 — адрес", group: "Мобильное меню", kind: "text", fallback: "/vrachi" },
   { key: "mobilenav.3.label", label: "Пункт 3 — название", group: "Мобильное меню", kind: "text", fallback: "Записаться" },
-  { key: "mobilenav.3.href", label: "Пункт 3 — адрес", group: "Мобильное меню", kind: "text", fallback: "https://avicenna.altegio.me" },
+  { key: "mobilenav.3.href", label: "Пункт 3 — адрес", group: "Мобильное меню", kind: "text", fallback: "https://crm.operator.kg/book?org=avicenna" },
   { key: "mobilenav.4.label", label: "Пункт 4 — название", group: "Мобильное меню", kind: "text", fallback: "Услуги" },
   { key: "mobilenav.4.href", label: "Пункт 4 — адрес", group: "Мобильное меню", kind: "text", fallback: "/uslugi" },
   { key: "mobilenav.5.label", label: "Пункт 5 — название", group: "Мобильное меню", kind: "text", fallback: "Контакты" },
