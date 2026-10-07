@@ -188,7 +188,10 @@ export function SiteFooter() {
 
       <div className="border-border border-t">
         <div className="text-muted-foreground mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-6 text-sm sm:px-6">
-          <span>© {new Date().getFullYear()} Медицинская клиника «Авиценна», Бишкек</span>
+          <div className="flex flex-col gap-1">
+            <span>© {new Date().getFullYear()} Медицинская клиника «Авиценна», Бишкек</span>
+            <span>Лицензия «Авиценна КейДжи» № 3823</span>
+          </div>
           <a href="#faq" className="hover:text-foreground">
             Политика конфиденциальности
           </a>
