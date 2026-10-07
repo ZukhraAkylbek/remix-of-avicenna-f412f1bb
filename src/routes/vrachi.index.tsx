@@ -478,7 +478,9 @@ function DoctorsPage() {
               </div>
             </Reveal>
             <div className="relative mt-6 hidden h-60 overflow-hidden rounded-2xl lg:mt-0 lg:block lg:h-full">
-              <BannerSlider slides={PAGE_BANNERS.vrachi} />
+              <BannerSlider
+                slides={[{ image: heroImage, alt: "Консультация врача в клинике «Авиценна»" }, ...PAGE_BANNERS.vrachi.slice(0, 2)]}
+              />
               <div className="from-about-mint/30 absolute inset-0 bg-gradient-to-r to-transparent" />
               <div className="bg-about-canvas/95 absolute right-0 bottom-0 grid grid-cols-2 gap-6 rounded-tl-2xl p-4 backdrop-blur-sm">
                 <div>
