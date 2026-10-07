@@ -44,6 +44,7 @@ function waHref(title?: string) {
   return `https://wa.me/996779909009?text=${encodeURIComponent(text)}`;
 }
 
+const TITLE = "Чекапы для вашего здоровья | Авиценна";
 const DESCRIPTION =
   "Чекапы в клинике «Авиценна» в Бишкеке: программы обследования для женщин, мужчин и детей, мини-чекапы, персональные и корпоративные решения.";
 
