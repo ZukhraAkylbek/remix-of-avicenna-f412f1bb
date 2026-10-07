@@ -13,6 +13,8 @@ import { CLINIC, absoluteUrl, faqPageJsonLd } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
 import { specialtyImage } from "@/lib/specialty-images";
 import { parseRows, surgeryDirectionQueryOptions } from "@/lib/surgery.queries";
+import { ADVANTAGES } from "./about";
+
 import { DoctorsGrid, SurgeryDoctorsGrid } from "./hirurgiya.index";
 import { ContactButtons } from "@/components/ContactButtons";
 import { CLINIC_DOCTORS } from "@/lib/clinic-doctors";
@@ -395,14 +397,9 @@ function DirectionPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Heading title="Почему пациенты выбирают «Авиценну»" />
             <div className="mt-5">
-              <AdvantagesGrid
-                items={advantages.map((item, index) => ({
-                  icon: ADVANTAGE_ICONS[index % ADVANTAGE_ICONS.length] ?? UserRound,
-                  title: item.title,
-                  text: item.text ?? "",
-                }))}
-              />
+              <AdvantagesGrid items={ADVANTAGES} featured={{ value: "100+", label: "специалистов" }} />
             </div>
+
           </div>
         </section>
 
