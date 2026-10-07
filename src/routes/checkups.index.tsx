@@ -1,6 +1,6 @@
 import { BannerSlider } from "@/components/BannerSlider";
 import { PAGE_BANNERS } from "@/lib/page-banners";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { checkupCardsQueryOptions, parseParagraphs, parseSections } from "@/lib/checkups.queries";
 import type { CheckupCard } from "@/lib/checkups.server";
@@ -83,6 +83,8 @@ function CheckupsPage() {
   const { data: cards } = useSuspenseQuery(checkupCardsQueryOptions());
   const [active, setActive] = useState<CheckupCard | null>(null);
   const [fromMini, setFromMini] = useState(false);
+  const [showAllAnalyses, setShowAllAnalyses] = useState(false);
+  useEffect(() => { setShowAllAnalyses(false); }, [active?.id]);
   const byBadge = (badge: string) => cards.filter((c) => c.badge === badge);
   const openCard = (card: CheckupCard) => { setFromMini(false); setActive(card); };
 
@@ -279,19 +281,33 @@ function CheckupsPage() {
               {parseParagraphs(active.body).map((p, i) => (
                 <p key={i} className="text-about-copy mt-3 text-sm leading-relaxed">{p}</p>
               ))}
-              {parseSections(active.includes).map((section) => (
+              {parseSections(active.includes).map((section) => {
+                const collapsible = section.title === "Анализы" && section.items.length > 12;
+                return (
                 <div key={section.title} className="mt-5">
                   <h4 className="text-about-ink text-base font-extrabold">{section.title} <span className="text-about-teal text-sm font-bold">({section.items.length})</span></h4>
-                  <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-                    {section.items.map((item) => (
-                      <li key={item} className="text-about-copy flex items-start gap-3 text-sm leading-relaxed">
-                        <span className="bg-about-icon text-about-teal mt-0.5 grid size-5 shrink-0 place-items-center rounded-full"><Check className="size-3" /></span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+                  {collapsible && !showAllAnalyses ? (
+                    <button type="button" onClick={() => setShowAllAnalyses(true)} className="border-about-line hover:border-brand-green hover:bg-about-mint mt-3 w-full rounded-xl border px-4 py-2.5 text-sm font-bold text-about-ink transition-colors">
+                      Показать все {section.items.length} анализов
+                    </button>
+                  ) : (
+                    <>
+                    <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+                      {section.items.map((item) => (
+                        <li key={item} className="text-about-copy flex items-start gap-3 text-sm leading-relaxed">
+                          <span className="bg-about-icon text-about-teal mt-0.5 grid size-5 shrink-0 place-items-center rounded-full"><Check className="size-3" /></span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    {collapsible && (
+                      <button type="button" onClick={() => setShowAllAnalyses(false)} className="text-about-teal mt-3 text-sm font-bold underline-offset-4 hover:underline">Свернуть</button>
+                    )}
+                    </>
+                  )}
                 </div>
-              ))}
+                );
+              })}
               <div className="border-about-line mt-6 flex flex-wrap items-center justify-between gap-3 border-t pt-5">
                 <div>
                   <strong className="text-brand-green text-xl">{active.price}</strong>
