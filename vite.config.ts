@@ -16,5 +16,6 @@ export default defineConfig({
   //   по умолчанию "cloudflare" — публикация в Lovable (облако);
   //   "node-server" — свой VPS (команда `bun run build:vps` / Docker, задан в Dockerfile);
   //   "vercel" — уже прописано в vercel.json.
+  vite: { optimizeDeps: { include: ["@radix-ui/react-tabs"] } },
   nitro: { preset: process.env["NITRO_PRESET"] || "cloudflare" },
 });
