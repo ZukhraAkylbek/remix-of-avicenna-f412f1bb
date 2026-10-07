@@ -1,0 +1,14 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        VITE_SUPABASE_URL: ${VITE_SUPABASE_URL}
+        VITE_SUPABASE_PUBLISHABLE_KEY: ${VITE_SUPABASE_PUBLISHABLE_KEY}
+        VITE_SUPABASE_PROJECT_ID: ${VITE_SUPABASE_PROJECT_ID}
+    env_file:
+      - .env
+    ports:
+      # Приложение слушает только localhost — наружу его выпускает Nginx
+      - "127.0.0.1:3000:3000"
+    restart: unless-stopped

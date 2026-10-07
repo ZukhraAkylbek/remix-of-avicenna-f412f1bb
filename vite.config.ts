@@ -12,7 +12,8 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
-  // Pin the Nitro output to Vercel so the app builds the right serverless bundle
-  // when deployed from GitHub/Vercel instead of Lovable's default Cloudflare target.
-  nitro: { preset: "vercel" },
+  // Сборка под целевой хостинг: по умолчанию "node-server" (свой VPS,
+  // `node .output/server/index.mjs`). Для Vercel задайте NITRO_PRESET=vercel
+  // (уже прописано в vercel.json), для Cloudflare — NITRO_PRESET=cloudflare.
+  nitro: { preset: process.env.NITRO_PRESET || "node-server" },
 });

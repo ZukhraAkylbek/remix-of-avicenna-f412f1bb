@@ -1,0 +1,15 @@
+node_modules
+.output
+.nitro
+.wrangler
+.git
+.gitignore
+.lovable
+.workspace
+drizzle
+dist
+*.log
+.env
+.env.local
+tsconfig.tsbuildinfo
+vercel.json
