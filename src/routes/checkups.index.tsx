@@ -34,7 +34,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { absoluteUrl } from "@/lib/clinic";
-import { BOOKING_URL } from "@/lib/site-config";
+const TITLE = "Чекапы — Авиценна";
 import { ContactButtons } from "@/components/ContactButtons";
 
 const TITLE = "Чекапы для вашего здоровья | Авиценна";
