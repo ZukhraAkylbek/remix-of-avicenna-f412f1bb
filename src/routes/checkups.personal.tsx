@@ -67,6 +67,17 @@ function PersonalCheckupPage() {
   const [selected, setSelected] = useState<string[]>([]);
   const [expanded, setExpanded] = useState<string | null>(null);
 
+  const bookingHref = useMemo(() => {
+    const chosen = optionCards.filter((item) => selected.includes(item.slug));
+    const lines = [
+      "Здравствуйте! Хочу записаться на персональный чекап:",
+      `• ${base?.title ?? "Персональный чекап"} — ${formatSom(base ? priceOf(base) : 0)}`,
+      ...chosen.map((item) => `• ${item.title} — ${formatSom(priceOf(item))}`),
+      `Итого: ${formatSom(total)}`,
+    ];
+    return `https://wa.me/996779909009?text=${encodeURIComponent(lines.join("\n"))}`;
+  }, [base, optionCards, selected, total]);
+
   const total = useMemo(
     () =>
       (base ? priceOf(base) : 0) +
