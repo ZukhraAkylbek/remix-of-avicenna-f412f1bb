@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/dialog";
 import { absoluteUrl } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
+import { ContactButtons } from "@/components/ContactButtons";
 
 const TITLE = "Чекапы для вашего здоровья | Авиценна";
 const DESCRIPTION =
@@ -213,6 +214,7 @@ function CheckupsPage() {
                 <Button asChild variant="outline" className="border-about-teal bg-background/80 text-about-ink hover:bg-about-icon">
                   <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Получить консультацию</a>
                 </Button>
+                <ContactButtons />
               </div>
             </div>
           </div>
@@ -335,6 +337,7 @@ function CheckupsPage() {
               <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark">
                 <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer"><CalendarCheck className="size-4" />Оставить заявку</a>
               </Button>
+              <ContactButtons onDark />
               <Button asChild variant="outline" className="border-brand-white/40 text-brand-white bg-transparent hover:bg-transparent hover:text-brand-white">
                 <a href="https://wa.me/996707909001?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%BA%D0%BE%D1%80%D0%BF%D0%BE%D1%80%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B9%20%D1%87%D0%B5%D0%BA%D0%B0%D0%BF." target="_blank" rel="noopener noreferrer">Корпоративный чекап</a>
               </Button>

@@ -17,6 +17,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SiteHeader } from "@/components/SiteHeader";
 import { CLINIC, absoluteUrl, faqPageJsonLd } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
+import { ContactButtons } from "@/components/ContactButtons";
 import { FaqList } from "./hirurgiya.index";
 
 const TITLE = "Стационар в Бишкеке — круглосуточный, с ценами | Авиценна";
@@ -312,6 +313,7 @@ function StatsionarPage() {
                 >
                   Онлайн-запись
                 </a>
+                <ContactButtons />
               </div>
             </div>
           </div>

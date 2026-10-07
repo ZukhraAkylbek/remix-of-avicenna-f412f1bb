@@ -35,6 +35,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { CLINIC, absoluteUrl, faqPageJsonLd } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
+import { ContactButtons } from "@/components/ContactButtons";
 import { CLINIC_DOCTORS, DOCTOR_CATEGORIES, experienceLabel, type ClinicDoctor } from "@/lib/clinic-doctors";
 import teamPhotoAsset from "@/assets/chat/vrachi-team.jpg";
 
@@ -473,6 +474,7 @@ function DoctorsPage() {
                     Записаться на приём
                   </a>
                 </Button>
+                <ContactButtons />
                 <Button
                   asChild
                   variant="outline"
@@ -551,15 +553,7 @@ function DoctorsPage() {
                     Записаться на приём
                   </a>
                 </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="border-about-line text-about-ink bg-about-canvas shadow-none"
-                >
-                  <a href={`tel:${CLINIC.phones[0]}`}>
-                    <Phone className="size-4" aria-hidden="true" /> {CLINIC.phones[0]}
-                  </a>
-                </Button>
+                <ContactButtons />
               </div>
             </div>
             <img

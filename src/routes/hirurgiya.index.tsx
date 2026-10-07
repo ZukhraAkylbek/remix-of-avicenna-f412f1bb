@@ -11,6 +11,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { CLINIC, absoluteUrl, faqPageJsonLd } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
+import { ContactButtons } from "@/components/ContactButtons";
 import { parseRows, surgeryPageQueryOptions } from "@/lib/surgery.queries";
 import { specialtyImage } from "@/lib/specialty-images";
 import { CLINIC_DOCTORS, experienceLabel, type ClinicDoctor } from "@/lib/clinic-doctors";
@@ -313,6 +314,7 @@ function SurgeryPage() {
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2 sm:gap-3">
                   <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark px-3 text-xs shadow-none sm:px-4 sm:text-sm"><a href={hero.primary_url || BOOKING_URL} target="_blank" rel="noopener noreferrer">{hero.primary_label || "Записаться на консультацию"}</a></Button>
+                  <ContactButtons />
                   <Button asChild variant="outline" className="border-about-line text-about-ink bg-about-canvas px-3 text-xs shadow-none sm:px-4 sm:text-sm"><a href="#directions">Выбрать направление</a></Button>
                 </div>
               </Reveal>
@@ -387,7 +389,7 @@ function SurgeryPage() {
         {final && (
           <section className="bg-about-mint py-8 sm:py-10">
             <div className="mx-auto grid max-w-7xl overflow-hidden px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-              <div className="flex flex-col justify-center py-6 lg:pr-10"><h2 className="text-about-ink text-2xl font-extrabold sm:text-3xl">Забота о вашем здоровье</h2><p className="text-about-copy mt-3 max-w-xl text-base leading-relaxed">{final.subtitle}</p><Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark mt-6 w-fit shadow-none"><a href={final.primary_url || BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на консультацию</a></Button></div>
+              <div className="flex flex-col justify-center py-6 lg:pr-10"><h2 className="text-about-ink text-2xl font-extrabold sm:text-3xl">Забота о вашем здоровье</h2><p className="text-about-copy mt-3 max-w-xl text-base leading-relaxed">{final.subtitle}</p><div className="mt-6 flex flex-wrap gap-2 sm:gap-3"><Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark w-fit shadow-none"><a href={final.primary_url || BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на консультацию</a></Button><ContactButtons /></div></div>
               <img src={heroImage} alt="Консультация хирурга" loading="lazy" className="hidden lg:block h-60 w-full rounded-2xl object-cover" />
             </div>
           </section>

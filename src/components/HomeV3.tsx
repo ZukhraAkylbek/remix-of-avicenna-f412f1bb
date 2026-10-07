@@ -18,6 +18,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { CLINIC } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
+import { ContactButtons } from "@/components/ContactButtons";
 import { Link } from "@tanstack/react-router";
 
 export const HOME_HERO_IMAGE = asianFamilyHeroAsset;
@@ -440,14 +441,17 @@ export function HomeV3() {
                 Получите консультацию онлайн от специалистов «Авиценны». Удобно, без очередей и
                 лишнего времени в дороге.
               </p>
+              <div className="mt-6 flex flex-wrap items-center gap-2 sm:gap-3">
               <a
                 href={BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-brand-green text-brand-white hover:bg-brand-green-dark mt-6 inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-[15px] font-extrabold transition-colors shadow-lg"
+                className="bg-brand-green text-brand-white hover:bg-brand-green-dark inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-[15px] font-extrabold transition-colors shadow-lg"
               >
                 Записаться
               </a>
+              <ContactButtons />
+              </div>
             </div>
           </div>
         </section>
