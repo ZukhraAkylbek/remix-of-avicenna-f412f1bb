@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -35,39 +34,17 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const submit = async (mode: "signin" | "signup") => {
+  const submit = async () => {
     setLoading(true);
-    const result =
-      mode === "signin"
-        ? await supabase.auth.signInWithPassword({ email, password })
-        : await supabase.auth.signUp({
-            email,
-            password,
-            options: { emailRedirectTo: window.location.origin },
-          });
+    const login = email.trim();
+    const fullEmail = login.includes("@") ? login : `${login}@avicenna.kg`;
+    const result = await supabase.auth.signInWithPassword({ email: fullEmail, password });
     setLoading(false);
-
     if (result.error) {
-      toast.error(result.error.message);
+      toast.error("Неверный логин или пароль");
       return;
     }
-    if (result.data.session) {
-      navigate({ to: "/admin/hero" });
-    } else {
-      toast.success("Проверьте почту, чтобы подтвердить регистрацию.");
-    }
-  };
-
-  const google = async () => {
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
-      toast.error("Не удалось войти через Google");
-      return;
-    }
-    if (result.redirected) return;
-    navigate({ to: "/admin/hero" });
+    navigate({ to: "/admin" });
   };
 
   return (
@@ -81,13 +58,13 @@ function AuthPage() {
 
         <div className="mt-6 space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">Логин</Label>
             <Input
               id="email"
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              autoComplete="email"
+              autoComplete="username"
             />
           </div>
           <div className="space-y-2">
@@ -103,20 +80,9 @@ function AuthPage() {
           <Button
             className="bg-brand-green text-brand-white w-full hover:brightness-110"
             disabled={loading}
-            onClick={() => submit("signin")}
+            onClick={() => submit()}
           >
             Войти
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full"
-            disabled={loading}
-            onClick={() => submit("signup")}
-          >
-            Зарегистрироваться
-          </Button>
-          <Button variant="ghost" className="w-full" onClick={google}>
-            Войти через Google
           </Button>
         </div>
       </div>

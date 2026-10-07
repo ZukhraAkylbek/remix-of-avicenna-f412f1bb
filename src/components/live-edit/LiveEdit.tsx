@@ -67,11 +67,17 @@ export function LiveEditProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let active = true;
-    void supabase.auth.getSession().then(({ data }) => {
-      if (active) setIsAdmin(Boolean(data.session));
-    });
+    const check = async (userId: string | undefined) => {
+      if (!userId) {
+        if (active) setIsAdmin(false);
+        return;
+      }
+      const { data } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
+      if (active) setIsAdmin(data === true);
+    };
+    void supabase.auth.getSession().then(({ data }) => check(data.session?.user.id));
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      setIsAdmin(Boolean(session));
+      setTimeout(() => void check(session?.user.id), 0);
     });
     return () => {
       active = false;
