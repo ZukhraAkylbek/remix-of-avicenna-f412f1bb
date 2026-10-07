@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
-import { Link, createFileRoute } from "@tanstack/react-router";
-import { CalendarCheck, Check, ShoppingBasket } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { CalendarCheck, Check, ChevronDown, ShoppingBasket } from "lucide-react";
 
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CheckupIcon } from "@/components/checkups/CheckupIcon";
@@ -8,11 +9,8 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { absoluteUrl } from "@/lib/clinic";
-import {
-  formatSom,
-  PERSONAL_BASE_PACKAGE,
-  PERSONAL_CHECKUP_OPTIONS,
-} from "@/lib/checkup-programs";
+import { checkupCardsQueryOptions, parseSections } from "@/lib/checkups.queries";
+import type { CheckupCard } from "@/lib/checkups.server";
 import { BOOKING_URL } from "@/lib/site-config";
 
 const TITLE = "Персональный чекап — Авиценна";
@@ -20,6 +18,7 @@ const DESCRIPTION =
   "Соберите персональную программу обследования: основной пакет и дополнительные направления с автоматическим расчётом стоимости.";
 
 export const Route = createFileRoute("/checkups/personal")({
+  loader: ({ context }) => context.queryClient.ensureQueryData(checkupCardsQueryOptions()),
   head: () => ({
     meta: [
       { title: TITLE },
@@ -31,6 +30,10 @@ export const Route = createFileRoute("/checkups/personal")({
     ],
     links: [{ rel: "canonical", href: absoluteUrl("/checkups/personal") || "/checkups/personal" }],
   }),
+  errorComponent: ({ error }) => (
+    <div role="alert" className="p-6">{String((error as Error)?.message ?? error)}</div>
+  ),
+  notFoundComponent: () => <div className="p-6">Не найдено</div>,
   component: PersonalCheckupPage,
 });
 
@@ -40,16 +43,37 @@ const TONE = {
   common: "border-about-line bg-about-canvas",
 } as const;
 
+/** «39 000 сом» → 39000 */
+function priceOf(card: CheckupCard) {
+  return parseInt((card.price ?? "").replace(/\D/g, ""), 10) || 0;
+}
+
+function audienceOf(card: CheckupCard): "female" | "male" | "common" {
+  return card.icon === "female" ? "female" : card.icon === "male" ? "male" : "common";
+}
+
+function formatSom(value: number) {
+  return `${String(value).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} сом`;
+}
+
 function PersonalCheckupPage() {
+  const { data: cards } = useSuspenseQuery(checkupCardsQueryOptions());
+
+  const base = useMemo(() => cards.find((c) => c.badge === "personal") ?? null, [cards]);
+  const extraCards = useMemo(() => cards.filter((c) => c.badge === "extra"), [cards]);
+  const labCards = useMemo(() => cards.filter((c) => c.badge === "lab"), [cards]);
+  const optionCards = useMemo(() => [...extraCards, ...labCards], [extraCards, labCards]);
+
   const [selected, setSelected] = useState<string[]>([]);
+  const [expanded, setExpanded] = useState<string | null>(null);
+
   const total = useMemo(
     () =>
-      PERSONAL_BASE_PACKAGE.price +
-      PERSONAL_CHECKUP_OPTIONS.filter((item) => selected.includes(item.id)).reduce(
-        (sum, item) => sum + item.price,
-        0,
-      ),
-    [selected],
+      (base ? priceOf(base) : 0) +
+      optionCards
+        .filter((item) => selected.includes(item.slug))
+        .reduce((sum, item) => sum + priceOf(item), 0),
+    [base, optionCards, selected],
   );
 
   const toggle = (id: string, checked: boolean) => {
@@ -57,6 +81,91 @@ function PersonalCheckupPage() {
       checked ? [...current, id] : current.filter((selectedId) => selectedId !== id),
     );
   };
+
+  const renderOptions = (items: CheckupCard[]) => (
+    <div className="mt-4 space-y-3">
+      {items.map((item) => {
+        const checked = selected.includes(item.slug);
+        const open = expanded === item.slug;
+        const sections = parseSections(item.includes);
+        return (
+          <div key={item.slug}>
+            <label
+              className={`${TONE[audienceOf(item)]} flex cursor-pointer items-center gap-3 rounded-2xl border p-4 transition-colors`}
+            >
+              <span className="bg-background text-about-teal grid size-10 shrink-0 place-items-center rounded-full">
+                <CheckupIcon name={item.icon ?? ""} className="size-5" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="text-about-ink block text-sm font-bold sm:text-base">
+                  {item.title}
+                </span>
+                {item.price_note && (
+                  <span className="text-about-copy mt-0.5 block text-xs">{item.price_note}</span>
+                )}
+              </span>
+              <span className="text-about-copy shrink-0 text-xs font-semibold sm:text-sm">
+                +{formatSom(priceOf(item))}
+              </span>
+              <Button
+                type="button"
+                role="checkbox"
+                aria-checked={checked}
+                aria-label={`Добавить ${item.title}`}
+                variant="outline"
+                size="icon"
+                onClick={(event) => {
+                  event.preventDefault();
+                  toggle(item.slug, !checked);
+                }}
+                className={`size-6 shrink-0 rounded-md p-0 shadow-none ${
+                  checked
+                    ? "border-brand-green bg-brand-green text-brand-white hover:bg-brand-green-dark hover:text-brand-white"
+                    : "border-about-teal bg-background text-transparent hover:bg-about-icon"
+                }`}
+              >
+                <Check className="size-4" />
+              </Button>
+            </label>
+            {sections.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setExpanded(open ? null : item.slug)}
+                className="text-about-teal mt-1 inline-flex items-center gap-1 px-1 text-xs font-bold underline-offset-2 hover:underline"
+              >
+                Состав
+                <ChevronDown
+                  className={`size-3 transition-transform ${open ? "rotate-180" : ""}`}
+                />
+              </button>
+            )}
+            {open && (
+              <div className="border-about-line bg-background mt-2 rounded-2xl border p-4">
+                {sections.map((section) => (
+                  <div key={section.title} className={section === sections[0] ? "" : "mt-4"}>
+                    <p className="text-about-ink text-sm font-extrabold">
+                      {section.title}
+                      <span className="text-about-copy ml-2 text-xs font-semibold">
+                        {section.items.length}
+                      </span>
+                    </p>
+                    <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+                      {section.items.map((line) => (
+                        <li key={line} className="text-about-copy flex items-start gap-2 text-sm">
+                          <Check className="text-brand-green mt-0.5 size-4 shrink-0" />
+                          <span>{line}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-about-canvas">
@@ -77,24 +186,29 @@ function PersonalCheckupPage() {
         </section>
 
         <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-12">
-          <div className="border-brand-green bg-about-mint flex items-center justify-between gap-4 rounded-2xl border-2 p-4 sm:p-5">
-            <div className="flex min-w-0 items-center gap-3">
-              <span className="bg-brand-green text-brand-white grid size-11 shrink-0 place-items-center rounded-full">
-                <Check className="size-5" />
-              </span>
-              <div>
-                <h2 className="text-about-ink text-base font-extrabold sm:text-lg">
-                  {PERSONAL_BASE_PACKAGE.title}
-                </h2>
-                <p className="text-about-copy mt-1 text-xs sm:text-sm">
-                  {PERSONAL_BASE_PACKAGE.description}
-                </p>
+          {base && (
+            <div className="border-brand-green bg-about-mint flex items-center justify-between gap-4 rounded-2xl border-2 p-4 sm:p-5">
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="bg-brand-green text-brand-white grid size-11 shrink-0 place-items-center rounded-full">
+                  <Check className="size-5" />
+                </span>
+                <div>
+                  <h2 className="text-about-ink text-base font-extrabold sm:text-lg">
+                    {base.title}
+                  </h2>
+                  <p className="text-about-copy mt-1 text-xs sm:text-sm">
+                    {base.subtitle ?? base.body ?? ""}
+                  </p>
+                  {base.price_note && (
+                    <p className="text-about-copy mt-1 text-xs">{base.price_note}</p>
+                  )}
+                </div>
               </div>
+              <strong className="text-about-ink shrink-0 text-sm sm:text-base">
+                {formatSom(priceOf(base))}
+              </strong>
             </div>
-            <strong className="text-about-ink shrink-0 text-sm sm:text-base">
-              {formatSom(PERSONAL_BASE_PACKAGE.price)}
-            </strong>
-          </div>
+          )}
 
           <div className="mt-8 flex items-end justify-between gap-4">
             <div>
@@ -113,46 +227,19 @@ function PersonalCheckupPage() {
             )}
           </div>
 
-          <div className="mt-6 space-y-3">
-            {PERSONAL_CHECKUP_OPTIONS.map((item) => {
-              const checked = selected.includes(item.id);
-              return (
-                <label
-                  key={item.id}
-                  className={`${TONE[item.audience]} flex cursor-pointer items-center gap-3 rounded-2xl border p-4 transition-colors`}
-                >
-                  <span className="bg-background text-about-teal grid size-10 shrink-0 place-items-center rounded-full">
-                    <CheckupIcon name={item.icon} className="size-5" />
-                  </span>
-                  <span className="text-about-ink min-w-0 flex-1 text-sm font-bold sm:text-base">
-                    {item.title}
-                  </span>
-                  <span className="text-about-copy shrink-0 text-xs font-semibold sm:text-sm">
-                    +{formatSom(item.price)}
-                  </span>
-                  <Button
-                    type="button"
-                    role="checkbox"
-                    aria-checked={checked}
-                    aria-label={`Добавить ${item.title}`}
-                    variant="outline"
-                    size="icon"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      toggle(item.id, !checked);
-                    }}
-                    className={`size-6 shrink-0 rounded-md p-0 shadow-none ${
-                      checked
-                        ? "border-brand-green bg-brand-green text-brand-white hover:bg-brand-green-dark hover:text-brand-white"
-                        : "border-about-teal bg-background text-transparent hover:bg-about-icon"
-                    }`}
-                  >
-                    <Check className="size-4" />
-                  </Button>
-                </label>
-              );
-            })}
-          </div>
+          {extraCards.length > 0 && (
+            <>
+              <h3 className="text-about-ink mt-6 text-lg font-extrabold">Дополнительные пакеты</h3>
+              {renderOptions(extraCards)}
+            </>
+          )}
+
+          {labCards.length > 0 && (
+            <>
+              <h3 className="text-about-ink mt-8 text-lg font-extrabold">Лабораторные пакеты</h3>
+              {renderOptions(labCards)}
+            </>
+          )}
         </section>
       </main>
 
