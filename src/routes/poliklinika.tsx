@@ -26,6 +26,7 @@ import { useState } from "react";
 
 import doctorPatientHeroAsset from "@/assets/chat/doctor-patient-hero.webp";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { AdvantagesGrid } from "@/components/AdvantagesGrid";
 import { Reveal } from "@/components/Reveal";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -200,15 +201,7 @@ function PolyclinicPage() {
         <section className="bg-about-mint py-10 sm:py-12">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <PolyclinicHeading title="Почему пациенты выбирают «Авиценну»" />
-            <div className="mt-7 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
-              {BENEFITS.map(({ icon: Icon, title, text }) => (
-                <article key={title} className="border-about-line bg-about-canvas rounded-2xl border p-4 text-center">
-                  <span className="bg-about-icon text-about-teal mx-auto grid size-10 place-items-center rounded-full"><Icon className="size-5" /></span>
-                  <h3 className="text-about-ink mt-3 text-[13px] font-bold sm:text-sm">{title}</h3>
-                  <p className="text-about-copy mt-1 text-[13px] leading-relaxed">{text}</p>
-                </article>
-              ))}
-            </div>
+            <AdvantagesGrid items={BENEFITS} />
           </div>
         </section>
 

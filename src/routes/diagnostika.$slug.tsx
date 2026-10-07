@@ -12,6 +12,7 @@ import {
   UserRound,
 } from "lucide-react";
 
+import { AdvantagesGrid } from "@/components/AdvantagesGrid";
 import { DiagnosticsIcon } from "@/components/DiagnosticsIcon";
 import { DiagnosticsDocument, diagnosticDocuments } from "@/components/DiagnosticsDocument";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -236,29 +237,13 @@ function DiagnosticsItemPage() {
             <h2 className="text-foreground text-2xl font-extrabold tracking-tight sm:text-[34px]">
               Почему выбирают «Авиценну»
             </h2>
-            <div className="mt-6 grid auto-rows-fr gap-4 sm:mt-8 sm:grid-cols-2 lg:grid-cols-4">
-              {advantages.map((entry, index) => {
-                const Icon = ADVANTAGE_ICONS[index % ADVANTAGE_ICONS.length]!;
-                return (
-                  <div
-                    key={entry.title}
-                    className="border-border bg-card flex h-full flex-col rounded-3xl border p-5 transition-shadow hover:shadow-lg sm:p-6"
-                  >
-                    <span className="bg-primary/10 text-primary grid size-11 place-items-center rounded-2xl">
-                      <Icon className="size-5.5" strokeWidth={2.2} />
-                    </span>
-                    <p className="text-foreground mt-4 text-[17px] leading-tight font-extrabold">
-                      {entry.title}
-                    </p>
-                    {entry.text && (
-                      <p className="text-muted-foreground mt-2 text-[14px] leading-snug font-medium">
-                        {entry.text}
-                      </p>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+            <AdvantagesGrid
+              items={advantages.map((entry, index) => ({
+                icon: ADVANTAGE_ICONS[index % ADVANTAGE_ICONS.length]!,
+                title: entry.title,
+                text: entry.text ?? "",
+              }))}
+            />
           </div>
         </section>
 

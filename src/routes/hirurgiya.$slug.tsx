@@ -3,6 +3,7 @@ import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { ArrowRight, Check, MessageCircle, Plus, ShieldCheck, Sparkles, Stethoscope, UserRound } from "lucide-react";
 import { useState } from "react";
 
+import { AdvantagesGrid } from "@/components/AdvantagesGrid";
 import { Reveal } from "@/components/Reveal";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -307,28 +308,13 @@ function DirectionPage() {
         <section className="bg-about-canvas py-10 sm:py-12">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Heading title="Почему пациенты выбирают хирургию «Авиценны»" />
-            <div className="mt-7 grid grid-cols-2 gap-3 lg:grid-cols-4">
-              {advantages.map((item, index) => {
-                const Icon = ADVANTAGE_ICONS[index % ADVANTAGE_ICONS.length] ?? UserRound;
-                return (
-                  <Reveal key={item.title} delay={index * 35}>
-                    <div className="border-about-line bg-about-canvas h-full rounded-2xl border p-4">
-                      <span className="bg-about-icon text-about-teal grid size-10 place-items-center rounded-full">
-                        <Icon className="size-5" aria-hidden="true" />
-                      </span>
-                      <h3 className="text-about-ink mt-3 text-[13px] font-bold sm:text-base">
-                        {item.title}
-                      </h3>
-                      {item.text && (
-                        <p className="text-about-copy mt-1.5 text-[13px] leading-snug sm:text-sm">
-                          {item.text}
-                        </p>
-                      )}
-                    </div>
-                  </Reveal>
-                );
-              })}
-            </div>
+            <AdvantagesGrid
+              items={advantages.map((item, index) => ({
+                icon: ADVANTAGE_ICONS[index % ADVANTAGE_ICONS.length] ?? UserRound,
+                title: item.title,
+                text: item.text ?? "",
+              }))}
+            />
           </div>
         </section>
 
