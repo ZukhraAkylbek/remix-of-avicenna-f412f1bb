@@ -148,12 +148,6 @@ function FaqList({ items }: { items: { title: string; text?: string }[] }) {
 
 const DOCTORS_PER_PAGE = 6;
 
-const EXPERIENCE_RANGES: Array<{ value: string; label: string; test: (years: number | null) => boolean }> = [
-  { value: "lt5", label: "до 5 лет", test: (y) => y != null && y <= 5 },
-  { value: "5to10", label: "5–10 лет", test: (y) => y != null && y >= 6 && y <= 10 },
-  { value: "10to20", label: "10–20 лет", test: (y) => y != null && y >= 11 && y <= 20 },
-  { value: "gt20", label: "более 20 лет", test: (y) => y != null && y > 20 },
-];
 
 const selectClass =
   "border-about-line bg-about-canvas text-about-ink h-11 cursor-pointer rounded-xl border px-3 text-sm font-semibold outline-none focus:border-about-teal appearance-none bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat pr-9";
@@ -309,18 +303,6 @@ function DoctorsDirectory({ doctors, initialCategory }: { doctors: ClinicDoctor[
           <option value="all">Все клиники</option>
           {branches.map((b) => (
             <option key={b} value={b}>{b}</option>
-          ))}
-        </FilterSelect>
-
-        <FilterSelect
-          aria-label="Стаж"
-          icon={CalendarDays}
-          value={experience}
-          onChange={update(setExperience)}
-        >
-          <option value="all">Любой стаж</option>
-          {EXPERIENCE_RANGES.map((r) => (
-            <option key={r.value} value={r.value}>{r.label}</option>
           ))}
         </FilterSelect>
 
