@@ -63,14 +63,7 @@ function parseBody(body: string | null | undefined) {
 const DEFAULT_SUBTITLE =
   "Современные операции с использованием малоинвазивных технологий. Подходы и материалы помощи взрослым пациентам.";
 
-const DEFAULT_ADVANTAGES = [
-  { title: "Опытные хирурги", text: "Большой практический опыт." },
-  { title: "Современные методы", text: "Традиционные и лапароскопические операции." },
-  { title: "Полная диагностика", text: "Все обследования в одной клинике." },
-  { title: "Комплексное сопровождение", text: "От консультации до восстановления." },
-];
 
-const ADVANTAGE_ICONS = [UserRound, Sparkles, Stethoscope, ShieldCheck];
 
 const DEFAULT_SYMPTOMS = [
   "Боли в животе",
