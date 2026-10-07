@@ -16,10 +16,11 @@ import { BOOKING_URL } from "@/lib/site-config";
 import { ContactButtons } from "@/components/ContactButtons";
 import { parseRows, surgeryPageQueryOptions } from "@/lib/surgery.queries";
 import { specialtyImage } from "@/lib/specialty-images";
-import { CLINIC_DOCTORS, experienceLabel, type ClinicDoctor } from "@/lib/clinic-doctors";
+import { experienceLabel } from "@/lib/clinic-doctors";
+import { clinicDoctorsQueryOptions, useClinicDoctors, photoStyle, type DbClinicDoctor } from "@/lib/clinic-doctors.queries";
+
 
 const SURGERY_CATEGORIES = ["hirurgiya", "onkologiya", "urologiya", "ginekologiya", "travmatologiya"];
-const surgeryDoctors = CLINIC_DOCTORS.filter((d) => SURGERY_CATEGORIES.includes(d.category));
 
 const TITLE = "Хирургия в Бишкеке — операции и стационар | Авиценна";
 const DESCRIPTION =
@@ -109,6 +110,7 @@ const FALLBACK_DIRECTIONS = [
 export const Route = createFileRoute("/hirurgiya/")({
   loader: ({ context }) => {
     void context.queryClient.ensureQueryData(surgeryPageQueryOptions());
+    void context.queryClient.ensureQueryData(clinicDoctorsQueryOptions);
   },
   head: () => ({
     meta: [
@@ -223,7 +225,7 @@ export function DoctorsGrid({
         {doctors.map((doctor) => (
           <article key={doctor.slug} className="border-about-line bg-about-canvas w-[260px] shrink-0 snap-start rounded-2xl border p-4 sm:w-[280px]">
             {doctor.photo_url ? (
-              <img src={doctor.photo_url} alt={doctor.full_name} loading="lazy" className="size-24 rounded-full object-cover" />
+              <img src={doctor.photo_url} alt={doctor.full_name} loading="lazy" style={photoStyle({})} className="size-24 rounded-full object-cover" />
             ) : (
               <span className="bg-about-icon text-about-teal grid size-24 place-items-center rounded-full"><UserRound className="size-10" aria-hidden="true" /></span>
             )}
@@ -240,13 +242,13 @@ export function DoctorsGrid({
   );
 }
 
-export function SurgeryDoctorsGrid({ doctors }: { doctors: ClinicDoctor[] }) {
+export function SurgeryDoctorsGrid({ doctors }: { doctors: DbClinicDoctor[] }) {
   return (
     <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {doctors.slice(0, 6).map((doctor) => (
         <article key={doctor.slug} className="border-about-line bg-about-canvas flex min-w-0 flex-row items-start gap-3 rounded-2xl border p-3 sm:flex-col sm:gap-0 sm:p-4">
           {doctor.photo ? (
-            <img src={doctor.photo} alt={doctor.name} loading="lazy" className="size-20 shrink-0 rounded-full object-cover object-top sm:aspect-[4/3] sm:size-auto sm:w-full sm:rounded-xl" />
+            <img src={doctor.photo} alt={doctor.name} loading="lazy" style={photoStyle(doctor)} className="size-20 shrink-0 rounded-full object-cover sm:aspect-[4/3] sm:size-auto sm:w-full sm:rounded-xl" />
           ) : (
             <span className="bg-about-icon text-about-teal grid size-20 shrink-0 place-items-center rounded-full sm:aspect-[4/3] sm:size-auto sm:w-full sm:rounded-xl"><UserRound className="size-8 sm:size-16" aria-hidden="true" /></span>
           )}
@@ -268,6 +270,7 @@ export function SurgeryDoctorsGrid({ doctors }: { doctors: ClinicDoctor[] }) {
 }
 
 function SurgeryPage() {
+  const surgeryDoctors = useClinicDoctors().filter((d) => SURGERY_CATEGORIES.includes(d.category));
   const { data } = useSuspenseQuery(surgeryPageQueryOptions());
   const section = (key: string): SurgeryContentSection | undefined =>
     data.sections.find((item) => item.key === key) ?? FALLBACK_SECTIONS[key];

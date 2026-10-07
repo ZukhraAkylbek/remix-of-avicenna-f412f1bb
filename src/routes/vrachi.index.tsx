@@ -37,7 +37,8 @@ import { Button } from "@/components/ui/button";
 import { CLINIC, absoluteUrl, faqPageJsonLd } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
 import { ContactButtons } from "@/components/ContactButtons";
-import { CLINIC_DOCTORS, DOCTOR_CATEGORIES, experienceLabel, type ClinicDoctor } from "@/lib/clinic-doctors";
+import { clinicDoctorsQueryOptions, useClinicDoctors, photoStyle, withFallback, type DbClinicDoctor } from "@/lib/clinic-doctors.queries";
+import { DOCTOR_CATEGORIES, experienceLabel, type ClinicDoctor } from "@/lib/clinic-doctors";
 import teamPhotoAsset from "@/assets/chat/vrachi-team.jpg";
 
 const teamPhoto = teamPhotoAsset;
@@ -69,6 +70,9 @@ const FAQ_ITEMS: Array<{ title: string; text?: string }> = [
 export const Route = createFileRoute("/vrachi/")({
   validateSearch: (search: Record<string, unknown>) =>
     typeof search["category"] === "string" ? { category: search["category"] } : {},
+  loader: ({ context }) => {
+    void context.queryClient.ensureQueryData(clinicDoctorsQueryOptions);
+  },
   head: () => ({
     meta: [
       { title: TITLE },
@@ -188,7 +192,7 @@ function FilterSelect({
   );
 }
 
-function DoctorsDirectory({ doctors, initialCategory }: { doctors: ClinicDoctor[]; initialCategory: string | undefined }) {
+function DoctorsDirectory({ doctors, initialCategory }: { doctors: DbClinicDoctor[]; initialCategory: string | undefined }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState(() =>
     initialCategory && DOCTOR_CATEGORIES.some((item) => item.slug === initialCategory)
@@ -362,7 +366,8 @@ function DoctorsDirectory({ doctors, initialCategory }: { doctors: ClinicDoctor[
                   src={doctor.photo}
                   alt={doctor.name}
                   loading="lazy"
-                  className="size-20 shrink-0 rounded-full object-cover object-top sm:aspect-[4/3] sm:size-auto sm:w-full sm:rounded-xl"
+                  style={photoStyle(doctor)}
+                  className="size-20 shrink-0 rounded-full object-cover sm:aspect-[4/3] sm:size-auto sm:w-full sm:rounded-xl"
                 />
               ) : (
                 <span className="bg-about-icon text-about-teal grid size-20 shrink-0 place-items-center rounded-full sm:aspect-[4/3] sm:size-auto sm:w-full sm:rounded-xl">
@@ -409,6 +414,7 @@ function DoctorsDirectory({ doctors, initialCategory }: { doctors: ClinicDoctor[
 }
 
 function DoctorsPage() {
+  const clinicDoctors = useClinicDoctors();
   const search = Route.useSearch();
   const category = "category" in search ? search.category : undefined;
   const heroImage = teamPhoto;
@@ -503,7 +509,7 @@ function DoctorsPage() {
               title="Наши врачи"
               description="Подберите специалиста по направлению и запишитесь на приём онлайн."
             />
-            <DoctorsDirectory doctors={CLINIC_DOCTORS} initialCategory={category} />
+            <DoctorsDirectory doctors={clinicDoctors} initialCategory={category} />
           </div>
         </section>
 
