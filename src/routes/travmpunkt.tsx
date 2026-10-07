@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   AlertTriangle,
@@ -106,6 +107,7 @@ export const Route = createFileRoute("/travmpunkt")({
 });
 
 function TraumaPage() {
+  const [showAllProcedures, setShowAllProcedures] = useState(false);
   return (
     <div className="bg-about-canvas min-h-screen">
       <SiteHeader breadcrumb="Травмпункт 24/7" />
