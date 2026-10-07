@@ -179,7 +179,7 @@ function StatsionarPage() {
             </div>
             <div className="relative hidden lg:block">
               <img
-                src="/assets/about-hero.webp"
+                src="/assets/statsionar-hero.jpg"
                 alt="Стационар клиники Авиценна"
                 loading="eager"
                 className="aspect-[4/3] w-full rounded-2xl border border-about-line object-cover lg:h-[380px]"
