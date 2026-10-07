@@ -344,8 +344,8 @@ function ProgramGroup({
               onClick={() => onSelect(program)}
               className="border-about-line bg-background/85 text-about-ink hover:border-brand-green flex w-full items-center justify-between gap-2 rounded-xl border px-3 py-2.5 text-left text-xs font-bold transition-colors sm:text-sm"
             >
-              <span>{program.subtitle || program.title}</span>
-              <span className="text-about-teal flex shrink-0 items-center gap-1">{program.price}<ChevronRight className="size-4" /></span>
+              <span className="min-w-0 truncate">{program.subtitle || program.title}</span>
+              <span className="text-about-teal flex shrink-0 items-center gap-1"><span className="w-[6rem] text-right tabular-nums">{program.price}</span><ChevronRight className="size-4" /></span>
             </button>
           ))}
         </div>
