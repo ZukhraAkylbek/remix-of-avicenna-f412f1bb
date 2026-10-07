@@ -121,7 +121,7 @@ function CheckupsPage() {
                   <a href="#programs">Выбрать чекап</a>
                 </Button>
                 <Button asChild variant="outline" className="border-about-teal bg-background/80 text-about-ink hover:bg-about-icon">
-                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Получить консультацию</a>
+                  <a href={waHref()} target="_blank" rel="noopener noreferrer">Получить консультацию</a>
                 </Button>
               </div>
             </div>
@@ -243,7 +243,7 @@ function CheckupsPage() {
             </div>
             <div className="flex flex-wrap gap-3 mt-5 shrink-0 lg:mt-0">
               <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark">
-                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer"><CalendarCheck className="size-4" />Оставить заявку</a>
+                <a href={waHref()} target="_blank" rel="noopener noreferrer"><CalendarCheck className="size-4" />Оставить заявку</a>
               </Button>
               <ContactButtons onDark />
               <Button asChild variant="outline" className="border-brand-white/40 text-brand-white bg-transparent hover:bg-transparent hover:text-brand-white">
@@ -320,7 +320,7 @@ function CheckupsPage() {
                   {active.price_note && <p className="text-about-copy mt-1 text-xs">{active.price_note}</p>}
                 </div>
                 <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark">
-                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на чекап</a>
+                  <a href={waHref(active.title)} target="_blank" rel="noopener noreferrer">Записаться на чекап</a>
                 </Button>
               </div>
               {fromMini && (
