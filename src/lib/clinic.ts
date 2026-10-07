@@ -8,7 +8,7 @@ export const CLINIC = {
     "Сеть многопрофильных клиник в Бишкеке: поликлиника, травмпункт 24/7, хирургия, лаборатория, стационар.",
   phones: ["+996779909009"],
   whatsapp: "+996707909001",
-  email: "info@avicenna.kg",
+  email: "call-center@expresslab.kg",
   branches: [
     {
       name: "Авиценна — ул. Бакаева, 106",
