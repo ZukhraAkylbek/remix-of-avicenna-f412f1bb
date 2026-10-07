@@ -193,7 +193,6 @@ function DoctorsDirectory({ doctors, initialCategory }: { doctors: ClinicDoctor[
       : "all",
   );
   const [branch, setBranch] = useState("all");
-  const [experience, setExperience] = useState("all");
   const [sort, setSort] = useState("default");
   const [page, setPage] = useState(0);
 
@@ -215,10 +214,6 @@ function DoctorsDirectory({ doctors, initialCategory }: { doctors: ClinicDoctor[
       }
       if (category !== "all" && doctor.category !== category) return false;
       if (branch !== "all" && doctor.branch !== branch) return false;
-      if (experience !== "all") {
-        const range = EXPERIENCE_RANGES.find((r) => r.value === experience);
-        if (range && !range.test(doctor.experience)) return false;
-      }
       return true;
     });
     if (sort === "exp") {
@@ -227,7 +222,7 @@ function DoctorsDirectory({ doctors, initialCategory }: { doctors: ClinicDoctor[
       result.sort((a, b) => a.name.localeCompare(b.name, "ru"));
     }
     return result;
-  }, [branch, category, doctors, experience, query, sort]);
+  }, [branch, category, doctors, query, sort]);
 
   const pageCount = Math.max(1, Math.ceil(filteredDoctors.length / DOCTORS_PER_PAGE));
   const safePage = Math.min(page, pageCount - 1);
@@ -237,13 +232,12 @@ function DoctorsDirectory({ doctors, initialCategory }: { doctors: ClinicDoctor[
   );
 
   const hasActiveFilters =
-    query.trim() !== "" || category !== "all" || branch !== "all" || experience !== "all" || sort !== "default";
+    query.trim() !== "" || category !== "all" || branch !== "all" || sort !== "default";
 
   const resetAll = () => {
     setQuery("");
     setCategory("all");
     setBranch("all");
-    setExperience("all");
     setSort("default");
     setPage(0);
   };
