@@ -12,8 +12,9 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
-  // Сборка под целевой хостинг: по умолчанию "node-server" (свой VPS,
-  // `node .output/server/index.mjs`). Для Vercel задайте NITRO_PRESET=vercel
-  // (уже прописано в vercel.json), для Cloudflare — NITRO_PRESET=cloudflare.
-  nitro: { preset: process.env["NITRO_PRESET"] || "node-server" },
+  // Целевой хостинг выбирается переменной NITRO_PRESET:
+  //   по умолчанию "cloudflare" — публикация в Lovable (облако);
+  //   "node-server" — свой VPS (команда `bun run build:vps` / Docker, задан в Dockerfile);
+  //   "vercel" — уже прописано в vercel.json.
+  nitro: { preset: process.env["NITRO_PRESET"] || "cloudflare" },
 });

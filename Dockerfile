@@ -15,6 +15,8 @@ ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL \
     VITE_SUPABASE_PUBLISHABLE_KEY=$VITE_SUPABASE_PUBLISHABLE_KEY \
     VITE_SUPABASE_PROJECT_ID=$VITE_SUPABASE_PROJECT_ID
 
+# Сборка под свой сервер (node-server), а не под облако
+ENV NITRO_PRESET=node-server
 RUN bun run build
 
 # ---- Этап 2: запуск ----
