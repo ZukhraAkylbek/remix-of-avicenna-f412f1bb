@@ -7,6 +7,7 @@ import type { CheckupCard } from "@/lib/checkups.server";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   Baby,
+  Building2,
   CalendarCheck,
   Check,
   ChevronDown,
