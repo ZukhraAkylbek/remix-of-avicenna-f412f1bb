@@ -39,7 +39,7 @@ export const Route = createFileRoute("/poliklinika/$slug")({
   },
   component: ClinicDirectionPage,
   errorComponent: ({ error }) => (
-    <div role="alert" className="p-8 text-center">{error.message}</div>
+    <div role="alert" className="p-8 text-center">{error instanceof Error ? error.message : "Ошибка загрузки"}</div>
   ),
   notFoundComponent: () => (
     <div className="p-8 text-center">
