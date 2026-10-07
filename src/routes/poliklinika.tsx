@@ -231,7 +231,7 @@ function PolyclinicPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <PolyclinicHeading title="Когда стоит обратиться к врачу" description="Не откладывайте приём, если симптомы повторяются, усиливаются или мешают привычной жизни." />
             <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
-              {CONSULTATION_REASONS.map((item) => <div key={item} className="border-about-line flex items-center gap-3 rounded-2xl border p-4"><span className="bg-about-icon text-about-teal grid size-9 shrink-0 place-items-center rounded-full"><Check className="size-4" /></span><span className="text-about-ink text-[13px] font-semibold leading-snug sm:text-sm">{item}</span></div>)}
+              {CONSULTATION_REASONS.map((item) => <div key={item} className="border-about-line flex items-center gap-3 rounded-2xl border p-4"><span className="bg-about-icon text-about-teal grid size-9 shrink-0 place-items-center rounded-full"><Check className="size-4" /></span><span className="text-about-ink min-w-0 flex-1 text-[12px] font-semibold leading-snug break-words hyphens-auto sm:text-sm">{item}</span></div>)}
             </div>
           </div>
         </section>
