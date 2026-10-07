@@ -21,6 +21,10 @@ const FALLBACK_SLIDES: HeroSlideWithUrl[] = [
   { id: "f3", image_url: photoXray, title: "Диагностика", subtitle: null },
 ].map((s) => ({
   ...s,
+  eyebrow: null,
+  highlight: null,
+  cta_label: null,
+  cta_href: null,
   sort_order: 0,
   is_active: true,
   displayUrl: s.image_url,
