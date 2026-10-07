@@ -349,10 +349,6 @@ export type Database = {
           bio: string | null
           branch: string | null
           category: string | null
-          photo_position: string | null
-          price: string | null
-          branch: string | null
-          category: string | null
           created_at: string
           education: string | null
           experience_years: number | null
@@ -372,10 +368,6 @@ export type Database = {
           bio?: string | null
           branch?: string | null
           category?: string | null
-          photo_position?: string | null
-          price?: string | null
-          branch?: string | null
-          category?: string | null
           created_at?: string
           education?: string | null
           experience_years?: number | null
@@ -393,10 +385,6 @@ export type Database = {
         }
         Update: {
           bio?: string | null
-          branch?: string | null
-          category?: string | null
-          photo_position?: string | null
-          price?: string | null
           branch?: string | null
           category?: string | null
           created_at?: string
