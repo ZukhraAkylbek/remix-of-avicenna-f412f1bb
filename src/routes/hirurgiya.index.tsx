@@ -315,7 +315,6 @@ function SurgeryPage() {
                 <div className="mt-4 flex flex-wrap gap-2 sm:gap-3">
                   <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark px-3 text-xs shadow-none sm:px-4 sm:text-sm"><a href={hero.primary_url || BOOKING_URL} target="_blank" rel="noopener noreferrer">{hero.primary_label || "Записаться на консультацию"}</a></Button>
                   <ContactButtons only="phone" />
-                  <Button asChild variant="outline" className="border-about-line text-about-ink bg-about-canvas px-3 text-xs shadow-none sm:px-4 sm:text-sm"><a href="#directions">Выбрать направление</a></Button>
                 </div>
               </Reveal>
               <div className="relative mt-6 hidden h-60 overflow-hidden rounded-2xl lg:mt-0 lg:block lg:h-full">
