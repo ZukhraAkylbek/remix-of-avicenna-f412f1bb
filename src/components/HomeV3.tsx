@@ -33,7 +33,7 @@ function Eyebrow({ children }: { children: string }) {
   );
 }
 
-function SpecialtyMarquee() {
+function SpecialtyMarquee({ items }: { items: Array<{ name: string; icon: LucideIcon; href: string }> }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [manual, setManual] = useState(false);
 
@@ -68,10 +68,10 @@ function SpecialtyMarquee() {
           <div className={`${manual ? "" : "marquee-track-quarter"} flex w-max`}>
             {[0, 1, 2, 3].map((copy) => (
               <div key={copy} className="flex shrink-0 gap-3 pr-3" aria-hidden={copy > 0}>
-                {SPECIALTY_PILLS.map((item) => (
-                  <Link
+                {items.map((item) => (
+                  <SmartLink
                     key={`${copy}-${item.name}`}
-                    to={item.href}
+                    href={item.href}
                     className="bg-background border-border hover:border-brand-green group flex h-[112px] w-[190px] shrink-0 flex-col justify-between rounded-2xl border p-4 transition-colors sm:h-[150px] sm:w-[230px] sm:p-5"
                   >
                     <span className="bg-brand-green/10 text-brand-green grid size-11 shrink-0 place-items-center rounded-full transition-transform group-hover:scale-105 sm:size-14">
@@ -80,7 +80,7 @@ function SpecialtyMarquee() {
                     <span className="text-foreground text-base font-extrabold leading-snug sm:text-lg">
                       {item.name}
                     </span>
-                  </Link>
+                  </SmartLink>
                 ))}
               </div>
             ))}
