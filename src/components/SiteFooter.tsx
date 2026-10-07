@@ -1,7 +1,35 @@
 import logo from "@/assets/chat/logo-avicenna-kg.webp";
+import expresslabLogo from "@/assets/partners/expresslab-logo.svg";
+import kokomerenLogo from "@/assets/partners/kokomeren-logo.png";
+import corpusLogo from "@/assets/partners/corpus-logo-cropped.jpg";
+import { Armchair, Microscope, Stethoscope, ArrowUpRight } from "lucide-react";
 import { Editable } from "@/components/live-edit/LiveEdit";
 import { CLINIC } from "@/lib/clinic";
 import { BOOKING_URL } from "@/lib/site-config";
+
+const PARTNERS = [
+  {
+    name: "Экспресс Плюс",
+    icon: Microscope,
+    line: "Лабораторная диагностика",
+    href: "https://expresslab.kg/",
+    logo: expresslabLogo,
+  },
+  {
+    name: "Көкөмерен",
+    icon: Stethoscope,
+    line: "Медтехника и реагенты",
+    href: "https://kokomeren.kg/",
+    logo: kokomerenLogo,
+  },
+  {
+    name: "Corpus",
+    icon: Armchair,
+    line: "Производство мебели",
+    href: undefined,
+    logo: corpusLogo,
+  },
+];
 
 export function SiteFooter() {
   return (
@@ -125,61 +153,38 @@ export function SiteFooter() {
       <div className="bg-brand-green text-brand-white">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
           <p className="text-sm font-semibold tracking-wide uppercase">НАШИ ПАРТНЕРЫ</p>
-          <ul className="mt-4 space-y-3 text-lg">
-            <li>
-              <a
-                href="https://expresslab.kg/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-brand-green-light inline-flex items-center gap-1.5 transition-colors"
-              >
-                Экспресс плюс
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M7 7h10v10" />
-                  <path d="M7 17 17 7" />
-                </svg>
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://kokomeren.kg/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-brand-green-light inline-flex items-center gap-1.5 transition-colors"
-              >
-                Кокомерен — медицинская техника и реагенты
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M7 7h10v10" />
-                  <path d="M7 17 17 7" />
-                </svg>
-              </a>
-            </li>
-            <li>
-              <span>Corpus — производство мебели</span>
-            </li>
-          </ul>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            {PARTNERS.map((p) => {
+              const content = (
+                <>
+                  <div className="bg-brand-white grid size-14 shrink-0 place-items-center rounded-xl p-1.5">
+                    <img src={p.logo} alt={p.name} loading="lazy" className="max-h-full object-contain" />
+                  </div>
+                  <div>
+                    <p className="text-base font-bold">{p.name}</p>
+                    <p className="text-brand-white/80 flex items-center gap-1.5 text-sm">
+                      <p.icon size={16} aria-hidden="true" />
+                      {p.line}
+                    </p>
+                  </div>
+                  {p.href && (
+                    <ArrowUpRight size={16} className="absolute top-2.5 right-2.5" aria-hidden="true" />
+                  )}
+                </>
+              );
+              const cls =
+                "group relative flex items-center gap-3 rounded-xl bg-brand-white/10 p-3 ring-1 ring-brand-white/20 hover:bg-brand-white/15 transition";
+              return p.href ? (
+                <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className={cls}>
+                  {content}
+                </a>
+              ) : (
+                <div key={p.name} className={cls}>
+                  {content}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
 
