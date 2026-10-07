@@ -157,7 +157,6 @@ function PolyclinicPage() {
               <p className="text-about-copy mt-3 max-w-2xl text-[13px] leading-relaxed sm:text-base">Современный многопрофильный медицинский центр, где вы сможете получить консультации врача, пройти диагностику, сдать анализы и начать лечение в одном месте.</p>
               <div className="mt-4 flex flex-wrap gap-2 sm:gap-3">
                 <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark px-3 text-xs shadow-none sm:px-4 sm:text-sm"><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на приём</a></Button>
-                <Button asChild variant="outline" className="border-about-line text-about-ink bg-about-canvas px-3 text-xs shadow-none sm:px-4 sm:text-sm"><a href="#specialists">Узнать больше</a></Button>
               </div>
             </Reveal>
             <div className="relative mt-6 hidden overflow-hidden rounded-2xl lg:mt-0 lg:block lg:h-full">
