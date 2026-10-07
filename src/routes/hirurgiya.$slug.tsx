@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { ArrowRight, Check, Plus, ShieldCheck, Sparkles, Stethoscope, UserRound } from "lucide-react";
+import { ArrowRight, Check, Plus } from "lucide-react";
 import { useState } from "react";
 
 import { AdvantagesGrid } from "@/components/AdvantagesGrid";

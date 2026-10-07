@@ -92,7 +92,7 @@ const PARTNERS = [
   },
 ] satisfies Array<{ title: string; text: string; logo: string; alt: string; href: string; action: string }>;
 
-const ADVANTAGES = [
+export const ADVANTAGES = [
   {
     icon: Stethoscope,
     title: "Более 100 специалистов",
