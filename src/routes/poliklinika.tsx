@@ -184,7 +184,7 @@ function PolyclinicPage() {
                   const Icon = item.icon;
                   return (
                   <Reveal key={item.name} delay={index * 20}>
-                    item.surgery ? (
+                    {item.surgery ? (
                     <Link to="/hirurgiya/$slug" params={{ slug: item.surgery }} className="border-about-line hover:border-about-teal group flex h-full items-center gap-2 rounded-2xl border bg-about-canvas p-3 transition-colors sm:gap-3 sm:p-4">
                       <span className="bg-about-icon text-about-teal grid size-8 shrink-0 place-items-center rounded-full sm:size-10">
                         <Icon className="size-4 sm:size-5" aria-hidden="true" />
