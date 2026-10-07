@@ -14,13 +14,15 @@ export type AdvantageItem = {
 export function AdvantagesGrid({
   items,
   featured,
+  compact,
 }: {
   items: AdvantageItem[];
   featured?: { value: string; label: string };
+  compact?: boolean;
 }) {
   return (
     <div
-      className={`mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-3${featured ? " lg:grid-rows-2" : ""}`}
+      className={`mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-3${featured ? " lg:grid-rows-2" : ""}${compact ? " grid-cols-2 gap-2 sm:gap-3" : ""}`}
     >
       {items.map(({ icon: Icon, title, text, href, external }, index) => {
         const isFeatured = Boolean(featured) && index === 0;
@@ -47,13 +49,17 @@ export function AdvantagesGrid({
             )}
           </article>
         ) : (
-          <article className="border-about-line bg-card group relative flex h-full items-start gap-3 rounded-2xl border p-5 transition hover:border-brand-green hover:shadow-sm">
-            <span className="bg-about-icon text-about-teal grid size-12 shrink-0 place-items-center rounded-full">
-              <Icon className="size-6" strokeWidth={1.6} aria-hidden="true" />
+          <article
+            className={`border-about-line bg-card group relative flex h-full items-start gap-3 rounded-2xl border p-5 transition hover:border-brand-green hover:shadow-sm${compact ? " flex-col gap-2 p-3 sm:flex-row sm:items-start sm:gap-3 sm:p-5" : ""}`}
+          >
+            <span
+              className={`bg-about-icon text-about-teal grid size-12 shrink-0 place-items-center rounded-full${compact ? " size-9 sm:size-12" : ""}`}
+            >
+              <Icon className={compact ? "size-5 sm:size-6" : "size-6"} strokeWidth={1.6} aria-hidden="true" />
             </span>
             <div className="min-w-0 flex-1 pr-6">
-              <h3 className="text-about-ink text-base leading-snug font-bold">{title}</h3>
-              <p className="text-about-copy mt-1 text-sm leading-snug">{text}</p>
+              <h3 className={`text-about-ink text-base leading-snug font-bold${compact ? " text-sm sm:text-base" : ""}`}>{title}</h3>
+              <p className={`text-about-copy mt-1 text-sm leading-snug${compact ? " hidden sm:block" : ""}`}>{text}</p>
             </div>
             {href && (
               <ArrowUpRight
