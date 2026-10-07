@@ -1,4 +1,5 @@
 import { BannerSlider } from "@/components/BannerSlider";
+import { SURGERY_IMAGES } from "@/lib/hq-images";
 import { PAGE_BANNERS } from "@/lib/page-banners";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
@@ -269,7 +270,7 @@ export function DirectionBody({ slug }: { slug: string }) {
 
   const name = data?.title || DIRECTION_TITLES[slug] || "Хирургия";
   const subtitle = data?.subtitle?.trim() || DEFAULT_SUBTITLE;
-  const image = data?.image_url || DIRECTION_IMAGES[slug] || specialtyImage(slug);
+  const image = SURGERY_IMAGES[slug] || data?.image_url || DIRECTION_IMAGES[slug] || specialtyImage(slug);
   const doctors = data?.doctors ?? [];
   const clinicDoctors = doctors.length === 0 ? fallbackDoctors(slug) : [];
   const category = SLUG_CATEGORY[slug];
@@ -428,7 +429,7 @@ function DirectionPage() {
   const { data } = useSuspenseQuery(surgeryDirectionQueryOptions(slug));
   const name = data?.title || DIRECTION_TITLES[slug] || "Хирургия";
   const subtitle = data?.subtitle?.trim() || DEFAULT_SUBTITLE;
-  const image = data?.image_url || DIRECTION_IMAGES[slug] || specialtyImage(slug);
+  const image = SURGERY_IMAGES[slug] || data?.image_url || DIRECTION_IMAGES[slug] || specialtyImage(slug);
   const dbFaq = parseRows(data?.faq);
   const faqItems = dbFaq.length > 0 ? dbFaq : DEFAULT_FAQ;
 
