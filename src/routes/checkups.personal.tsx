@@ -266,7 +266,7 @@ function PersonalCheckupPage() {
             </div>
           </div>
           <Button asChild className="h-11 rounded-xl bg-brand-green px-5 font-bold text-brand-white hover:bg-brand-green-dark">
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+            <a href={bookingHref} target="_blank" rel="noopener noreferrer">
               <CalendarCheck className="size-4" />
               Записаться
             </a>
