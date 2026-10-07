@@ -223,7 +223,7 @@ function CheckupsPage() {
           <div className="mx-auto grid max-w-7xl gap-7 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
             <div>
               <p className="text-about-teal text-xs font-bold uppercase">Общее о чекапах</p>
-              <h2 className="text-about-ink mt-2 text-2xl font-extrabold sm:text-3xl">
+              <h2 className="text-about-ink mt-2 text-2xl font-extrabold sm:text-2xl">
                 Проверить здоровье до появления симптомов
               </h2>
               <p className="text-about-copy mt-4 text-sm leading-relaxed sm:text-base">
@@ -250,7 +250,7 @@ function CheckupsPage() {
           <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
             <div className="max-w-2xl">
               <p className="text-about-teal text-xs font-bold uppercase">Программы</p>
-              <h2 className="text-about-ink mt-2 text-2xl font-extrabold sm:text-3xl">Выберите подходящий чекап</h2>
+              <h2 className="text-about-ink mt-2 text-2xl font-extrabold sm:text-2xl">Выберите подходящий чекап</h2>
             </div>
 
             <div className="mt-6 grid gap-4 lg:grid-cols-12">
@@ -324,7 +324,7 @@ function CheckupsPage() {
 
         <section className="bg-about-mint border-about-line border-y">
           <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
-            <h2 className="text-about-ink text-2xl font-extrabold sm:text-3xl">Часто задаваемые вопросы</h2>
+            <h2 className="text-about-ink text-2xl font-extrabold sm:text-2xl">Часто задаваемые вопросы</h2>
             <div className="mt-6 grid gap-3 lg:grid-cols-2">
               {FAQ.map((item) => (
                 <details key={item.q} className="group border-about-line bg-about-canvas rounded-2xl border p-4">
@@ -342,7 +342,7 @@ function CheckupsPage() {
         <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
           <div className="bg-about-ink text-brand-white rounded-2xl p-6 sm:p-9 lg:flex lg:items-center lg:justify-between lg:gap-8">
             <div>
-              <h2 className="text-2xl font-extrabold sm:text-3xl">Хотите подобрать чекап?</h2>
+              <h2 className="text-2xl font-extrabold sm:text-2xl">Хотите подобрать чекап?</h2>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed opacity-80">Оставьте заявку — администратор поможет выбрать программу и удобное время.</p>
             </div>
             <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark mt-5 shrink-0 lg:mt-0">

@@ -139,7 +139,7 @@ function DiagnosticsPage() {
         {catalog && (
           <section id="catalog" className="border-border border-b">
             <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12 lg:py-16">
-              <h2 className="text-foreground text-3xl font-extrabold tracking-tight sm:text-[42px]">
+              <h2 className="text-foreground text-2xl font-extrabold tracking-tight sm:text-3xl">
                 {catalog.title}
               </h2>
               {catalog.subtitle && (
@@ -240,7 +240,7 @@ function DiagnosticsPage() {
           <section className="border-border border-b">
             <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12 lg:py-16">
               <div className="bg-surface-soft rounded-[2rem] px-6 py-10 sm:px-10 lg:py-14">
-                <h2 className="text-foreground text-3xl font-extrabold tracking-tight sm:text-[38px]">
+                <h2 className="text-foreground text-2xl font-extrabold tracking-tight sm:text-3xl">
                   {advantages.title}
                 </h2>
                 {advantages.subtitle && (
@@ -256,7 +256,7 @@ function DiagnosticsPage() {
         {cta && (
           <section>
             <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
-              <h2 className="text-foreground text-3xl font-extrabold tracking-tight sm:text-[38px]">
+              <h2 className="text-foreground text-2xl font-extrabold tracking-tight sm:text-3xl">
                 {cta.title}
               </h2>
               {cta.subtitle && (
@@ -268,7 +268,7 @@ function DiagnosticsPage() {
                 href={cta.primary_url || BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-accent text-accent-foreground hover:bg-accent/90 mt-7 inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-[16px] font-extrabold transition-colors"
+                className="bg-accent text-accent-foreground hover:bg-accent/90 mt-5 inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-[16px] font-extrabold transition-colors"
               >
                 <CalendarCheck className="size-5" strokeWidth={2.2} />
                 {cta.primary_label ?? "Записаться онлайн"}

@@ -105,7 +105,7 @@ function Shell({ children }: { children: React.ReactNode }) {
 function PageHeading({ title, description }: { title: React.ReactNode; description?: string }) {
   return (
     <div>
-      <h2 className="text-about-ink text-3xl leading-tight font-extrabold sm:text-4xl">{title}</h2>
+      <h2 className="text-about-ink text-2xl leading-tight font-extrabold sm:text-3xl">{title}</h2>
       {description && <p className="text-about-copy mt-3 max-w-2xl text-base">{description}</p>}
     </div>
   );
@@ -525,7 +525,7 @@ function DoctorsPage() {
         </section>
 
         {/* Doctors carousel */}
-        <section id="vrachi" className="bg-about-canvas py-10 sm:py-12">
+        <section id="vrachi" className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <PageHeading
               title="Наши врачи"
@@ -536,10 +536,10 @@ function DoctorsPage() {
         </section>
 
         {/* Benefits */}
-        <section className="bg-about-mint py-10 sm:py-12">
+        <section className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <PageHeading title="Наши возможности" description="Всё для диагностики и лечения в одной клинике." />
-            <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {BENEFITS.map((item, index) => (
                 <Reveal key={item.title} delay={index * 35}>
                   <div className="border-about-line bg-about-canvas flex h-full flex-col items-center rounded-2xl border p-4 text-center">
@@ -556,7 +556,7 @@ function DoctorsPage() {
         </section>
 
         {/* CTA banner */}
-        <section className="bg-about-canvas py-10 sm:py-12">
+        <section className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <div className="border-about-line bg-about-mint relative overflow-hidden rounded-3xl border p-6 sm:p-10">
               <span
@@ -568,7 +568,7 @@ function DoctorsPage() {
                   ?
                 </span>
                 <div className="min-w-0 flex-1">
-                  <h2 className="text-about-ink text-2xl font-extrabold leading-tight sm:text-3xl">
+                  <h2 className="text-about-ink text-2xl font-extrabold leading-tight sm:text-2xl">
                     Не знаете, к какому врачу обратиться?
                   </h2>
                   <p className="text-about-copy mt-2 max-w-lg text-sm leading-relaxed sm:text-base">
@@ -595,20 +595,20 @@ function DoctorsPage() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="bg-about-mint py-10 sm:py-12">
+        <section id="faq" className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <PageHeading title="Часто задаваемые вопросы" />
-            <div className="mt-7">
+            <div className="mt-5">
               <FaqList items={faqItems} />
             </div>
           </div>
         </section>
 
         {/* Final CTA */}
-        <section className="bg-about-mint py-10 sm:py-12">
+        <section className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto grid max-w-7xl overflow-hidden px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div className="flex flex-col justify-center py-6 lg:pr-10">
-              <h2 className="text-about-ink text-3xl font-extrabold sm:text-4xl">Забота о вас и вашей семье</h2>
+              <h2 className="text-about-ink text-2xl font-extrabold sm:text-3xl">Забота о вас и вашей семье</h2>
               <p className="text-about-copy mt-3 max-w-xl text-base leading-relaxed">
                 Запишитесь на приём к специалисту «Авиценны» — врач оценит состояние, ответит на
                 вопросы и предложит понятный план действий.

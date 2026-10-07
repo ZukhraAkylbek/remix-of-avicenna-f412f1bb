@@ -146,7 +146,7 @@ function Shell({ children }: { children: React.ReactNode }) {
 function SurgeryHeading({ title, description }: { title: React.ReactNode; description?: string }) {
   return (
     <div>
-      <h2 className="text-about-ink text-3xl leading-tight font-extrabold sm:text-4xl">{title}</h2>
+      <h2 className="text-about-ink text-2xl leading-tight font-extrabold sm:text-3xl">{title}</h2>
       {description && <p className="text-about-copy mt-3 max-w-2xl text-base">{description}</p>}
     </div>
   );
@@ -326,10 +326,10 @@ function SurgeryPage() {
           </section>
         )}
 
-        <section id="directions" className="bg-about-canvas py-10 sm:py-12">
+        <section id="directions" className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <SurgeryHeading title="Направления хирургии" description={`${Math.max(data.doctors.length, 14)} специалистов оперируют по следующим направлениям:`} />
-            <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {directions.map((direction, index) => (
                 <Reveal key={direction.slug} delay={index * 35}>
                    <Link to="/hirurgiya/$slug" params={{ slug: direction.slug }} className="border-about-line hover:border-about-teal group flex items-center gap-4 rounded-2xl border bg-about-canvas p-4 transition-colors">
@@ -344,10 +344,10 @@ function SurgeryPage() {
         </section>
 
         {stationar && (
-          <section className="bg-about-mint py-10 sm:py-12">
+          <section className="bg-about-mint py-8 sm:py-10">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <SurgeryHeading title={stationar.title} />
-              <div className="mt-7 grid gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+              <div className="mt-5 grid gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
                  {stationar.image_url && <img src={stationar.image_url} alt={stationar.title} loading="lazy" className="h-60 w-full rounded-2xl object-cover" />}
                 <ul className="grid gap-4 sm:grid-cols-2">
                    {parseRows(stationar.body).map((item) => <li key={item.title} className="text-about-ink flex items-center gap-3 text-sm sm:text-base"><span className="bg-about-icon text-about-teal grid size-9 shrink-0 place-items-center rounded-full"><Check className="size-4" /></span>{item.title}</li>)}
@@ -357,13 +357,13 @@ function SurgeryPage() {
           </section>
         )}
 
-        <section className="bg-about-canvas py-10 sm:py-12">
+        <section className="bg-about-canvas py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <SurgeryHeading title={symptoms?.title || "Когда нужна консультация хирурга"} />
-            <div className="mt-7 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
                {consultationItems.map((item) => <div key={item.title} className="border-about-line flex items-center gap-3 rounded-2xl border bg-about-canvas p-4"><span className="bg-about-icon text-about-teal grid size-9 shrink-0 place-items-center rounded-full"><Check className="size-4" /></span><span className="text-about-ink text-sm font-semibold leading-snug">{item.title}</span></div>)}
             </div>
-             <div className="border-about-line mt-7 flex flex-wrap items-center gap-5 rounded-2xl border bg-about-mint p-4">
+             <div className="border-about-line mt-5 flex flex-wrap items-center gap-5 rounded-2xl border bg-about-mint p-4">
                <span className="bg-about-icon text-about-teal grid size-11 shrink-0 place-items-center rounded-full text-xl font-bold">?</span>
                <div className="min-w-0 flex-1"><h2 className="text-about-ink text-lg font-bold">Хотите проконсультироваться?</h2><p className="text-about-copy mt-1 text-sm">Мы поможем подобрать специалиста, доступ 24/7.</p></div>
                <Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark shadow-none"><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться</a></Button>
@@ -371,7 +371,7 @@ function SurgeryPage() {
           </div>
         </section>
 
-        <section id="vrachi" className="bg-about-mint py-10 sm:py-12">
+        <section id="vrachi" className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <SurgeryHeading title="Наши хирурги" description="Опытные специалисты хирургических направлений клиники «Авиценна»." />
             <SurgeryDoctorsGrid doctors={surgeryDoctors} />
@@ -384,13 +384,13 @@ function SurgeryPage() {
         </section>
 
         {faq && faqItems.length > 0 && (
-          <section id="faq" className="bg-about-canvas py-10 sm:py-12"><div className="mx-auto max-w-7xl px-4 sm:px-6"><SurgeryHeading title={faq.title} /><div className="mt-7"><FaqList items={faqItems} /></div></div></section>
+          <section id="faq" className="bg-about-canvas py-8 sm:py-10"><div className="mx-auto max-w-7xl px-4 sm:px-6"><SurgeryHeading title={faq.title} /><div className="mt-5"><FaqList items={faqItems} /></div></div></section>
         )}
 
         {final && (
-          <section className="bg-about-mint py-10 sm:py-12">
+          <section className="bg-about-mint py-8 sm:py-10">
             <div className="mx-auto grid max-w-7xl overflow-hidden px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-              <div className="flex flex-col justify-center py-6 lg:pr-10"><h2 className="text-about-ink text-3xl font-extrabold sm:text-4xl">Забота о вашем здоровье</h2><p className="text-about-copy mt-3 max-w-xl text-base leading-relaxed">{final.subtitle}</p><Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark mt-6 w-fit shadow-none"><a href={final.primary_url || BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на консультацию</a></Button></div>
+              <div className="flex flex-col justify-center py-6 lg:pr-10"><h2 className="text-about-ink text-2xl font-extrabold sm:text-3xl">Забота о вашем здоровье</h2><p className="text-about-copy mt-3 max-w-xl text-base leading-relaxed">{final.subtitle}</p><Button asChild className="bg-brand-green text-brand-white hover:bg-brand-green-dark mt-6 w-fit shadow-none"><a href={final.primary_url || BOOKING_URL} target="_blank" rel="noopener noreferrer">Записаться на консультацию</a></Button></div>
               <img src={heroImage} alt="Консультация хирурга" loading="lazy" className="h-60 w-full rounded-2xl object-cover" />
             </div>
           </section>

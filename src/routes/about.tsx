@@ -177,7 +177,7 @@ function LeafOrnament({ className = "" }: { className?: string }) {
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-about-ink text-3xl leading-tight font-bold sm:text-4xl lg:text-[2.75rem]">
+    <h2 className="text-about-ink text-2xl leading-tight font-bold sm:text-3xl lg:text-[2.75rem]">
       {children}
     </h2>
   );
@@ -222,7 +222,7 @@ function AboutPage() {
           <LeafOrnament className="text-about-ornament absolute bottom-3 left-3 z-10 w-32 opacity-60 sm:left-8 sm:w-40 lg:bottom-8 hidden lg:block" />
         </section>
 
-        <section className="py-10 sm:py-12">
+        <section className="py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <SectionTitle>Как создавалась «Авиценна»</SectionTitle>
             <p className="text-about-copy mt-3 max-w-2xl leading-relaxed">
@@ -252,7 +252,7 @@ function AboutPage() {
           </div>
         </section>
 
-        <section className="bg-about-mint py-10 sm:py-12">
+        <section className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <SectionTitle>Больше, чем сеть клиник</SectionTitle>
             <p className="text-about-copy mt-3 max-w-2xl leading-relaxed">Разные направления работы объединены одной целью — заботой о здоровье людей.</p>
@@ -275,7 +275,7 @@ function AboutPage() {
           </div>
         </section>
 
-        <section className="pb-10 sm:pb-12">
+        <section className="pb-8 sm:pb-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Reveal>
               <article className="border-about-line bg-card overflow-hidden rounded-2xl border lg:grid lg:grid-cols-[0.85fr_1.35fr]">
@@ -293,7 +293,7 @@ function AboutPage() {
                 <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[0.9fr_auto_1.1fr] lg:items-center lg:p-10">
                   <div>
                     <Award className="text-about-teal size-8" strokeWidth={1.5} aria-hidden="true" />
-                    <h2 className="font-display text-about-ink mt-4 text-3xl leading-tight font-extrabold sm:text-4xl">
+                    <h2 className="font-display text-about-ink mt-4 text-2xl leading-tight font-extrabold sm:text-3xl">
                       «Главное — ден соолук!»
                     </h2>
                     <p className="text-about-ink mt-6 text-lg font-bold">
@@ -338,14 +338,14 @@ function AboutPage() {
           </div>
         </section>
 
-        <section className="bg-about-mint py-10 sm:py-12">
+        <section className="bg-about-mint py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <SectionTitle>Наши преимущества</SectionTitle>
             <AdvantagesGrid items={ADVANTAGES} featured={{ value: "100+", label: "специалистов" }} />
           </div>
         </section>
 
-        <section className="py-10 sm:py-12">
+        <section className="py-8 sm:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Reveal>
               <article className="border-about-line bg-card overflow-hidden rounded-2xl border lg:grid lg:grid-cols-[1fr_1.02fr]">
