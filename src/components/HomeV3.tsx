@@ -69,12 +69,12 @@ function SpecialtyMarquee() {
                   <Link
                     key={`${copy}-${item.name}`}
                     to="/napravleniya"
-                    className="bg-background border-border hover:border-brand-green group flex h-[150px] w-[230px] shrink-0 flex-col justify-between rounded-2xl border p-5 transition-colors"
+                    className="bg-background border-border hover:border-brand-green group flex h-[112px] w-[190px] shrink-0 flex-col justify-between rounded-2xl border p-4 transition-colors sm:h-[150px] sm:w-[230px] sm:p-5"
                   >
-                    <span className="bg-brand-green/10 text-brand-green grid size-14 shrink-0 place-items-center rounded-full transition-transform group-hover:scale-105">
-                      <item.icon className="size-7" aria-hidden="true" />
+                    <span className="bg-brand-green/10 text-brand-green grid size-11 shrink-0 place-items-center rounded-full transition-transform group-hover:scale-105 sm:size-14">
+                      <item.icon className="size-6 sm:size-7" aria-hidden="true" />
                     </span>
-                    <span className="text-foreground text-lg font-extrabold leading-snug">
+                    <span className="text-foreground text-base font-extrabold leading-snug sm:text-lg">
                       {item.name}
                     </span>
                   </Link>
@@ -269,7 +269,7 @@ function OfferCard({
       to={item.href as "/"}
       className={`${item.tone} group border-border/40 flex shrink-0 flex-col overflow-hidden rounded-3xl border transition-all hover:-translate-y-1 hover:shadow-lg ${className ?? ""}`}
     >
-      <div className="relative h-[190px] w-full shrink-0 overflow-hidden">
+      <div className="relative h-[150px] w-full shrink-0 overflow-hidden sm:h-[190px]">
         <img
           src={item.image}
           alt={item.title}
@@ -314,17 +314,17 @@ export function HomeV3() {
             <HeroSlider />
 
             {/* Быстрый маршрут — сетка 3×3 справа */}
-            <div className="grid auto-rows-fr grid-cols-2 gap-3 sm:grid-cols-3">
+            <div className="grid auto-rows-fr grid-cols-3 gap-2 sm:grid-cols-3 sm:gap-3">
               {ROUTE_CARDS.map((card) => (
                 <Link
                   key={card.title}
                   to={card.href as "/"}
-                  className={`${card.tone} card-lift border-border/40 hover:border-brand-green group flex min-h-[104px] flex-col justify-between rounded-2xl border p-4 transition-all`}
+                  className={`${card.tone} card-lift border-border/40 hover:border-brand-green group flex min-h-[76px] flex-col justify-between rounded-2xl border p-3 transition-all sm:min-h-[104px] sm:p-4`}
                 >
-                  <p className="text-foreground text-[14px] leading-snug font-extrabold">
+                  <p className="text-foreground text-[13px] leading-snug font-extrabold sm:text-[14px]">
                     {card.title}
                   </p>
-                  <span className="bg-brand-green text-brand-white ml-auto flex size-7 shrink-0 items-center justify-center rounded-full transition-transform group-hover:translate-x-0.5">
+                  <span className="bg-brand-green text-brand-white ml-auto flex size-6 shrink-0 items-center justify-center rounded-full transition-transform group-hover:translate-x-0.5 sm:size-7">
                     <ArrowRight className="size-3.5" />
                   </span>
                 </Link>
@@ -383,18 +383,18 @@ export function HomeV3() {
             </div>
           </div>
           <Reveal delay={160}>
-            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
+            <div className="mt-6 grid grid-cols-3 gap-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
               {CLINIC_STATS.map((stat) => (
                 <div
                   key={stat.label}
-                  className="bg-surface-soft border-border flex flex-col items-center gap-2 rounded-2xl border p-4 text-center sm:p-5"
+                  className="bg-surface-soft border-border flex flex-col items-center gap-2 rounded-2xl border p-3 text-center sm:p-5"
                 >
-                  <stat.icon className="text-brand-green size-6 sm:size-7" />
+                  <stat.icon className="text-brand-green size-5 sm:size-7" />
                   <div>
-                    <p className="text-foreground text-2xl font-extrabold sm:text-3xl">
+                    <p className="text-foreground text-xl font-extrabold sm:text-3xl">
                       <CountUp value={stat.value} />
                     </p>
-                    <p className="text-muted-foreground mt-1 text-xs leading-snug sm:text-sm">
+                    <p className="text-muted-foreground mt-1 text-[11px] leading-snug sm:text-sm">
                       {stat.label}
                     </p>
                   </div>

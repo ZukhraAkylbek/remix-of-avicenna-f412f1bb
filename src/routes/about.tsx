@@ -259,11 +259,11 @@ function AboutPage() {
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {PARTNERS.map(({ title, text, logo, alt, href, action }, index) => (
                 <Reveal key={title} delay={index * 35} className="h-full">
-                  <a href={href || undefined} target={href ? "_blank" : undefined} rel={href ? "noopener noreferrer" : undefined} aria-label={`${title} — ${action}`} className="border-about-line bg-card group flex h-full flex-col rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-about-teal hover:shadow-sm">
-                    <div className="bg-card flex h-20 items-center justify-center">
-                      <img src={logo} alt={alt} loading="lazy" className="max-h-full max-w-[220px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]" />
+                  <a href={href || undefined} target={href ? "_blank" : undefined} rel={href ? "noopener noreferrer" : undefined} aria-label={`${title} — ${action}`} className="border-about-line bg-card group flex h-full flex-row items-center gap-4 rounded-2xl border p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-about-teal hover:shadow-sm sm:flex-col sm:items-stretch sm:gap-0 sm:p-6">
+                    <div className="bg-card flex h-14 w-20 shrink-0 items-center justify-center sm:h-20 sm:w-auto">
+                      <img src={logo} alt={alt} loading="lazy" className="max-h-full max-w-full w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03] sm:max-w-[220px]" />
                     </div>
-                    <div className="mt-4 flex flex-1 flex-col border-t border-about-line pt-4">
+                    <div className="flex flex-1 flex-col pt-0 sm:mt-4 sm:border-t sm:border-about-line sm:pt-4">
                       <h3 className="text-about-ink text-base font-bold">{title}</h3>
                       <p className="text-about-copy mt-1.5 flex-1 text-sm leading-relaxed">{text}</p>
                       <span className="text-about-teal mt-4 inline-flex items-center gap-1 text-sm font-semibold">{action}<ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" /></span>
@@ -279,7 +279,7 @@ function AboutPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Reveal>
               <article className="border-about-line bg-card overflow-hidden rounded-2xl border lg:grid lg:grid-cols-[0.85fr_1.35fr]">
-                <div className="bg-about-mint min-h-64 overflow-hidden rounded-b-[48%] lg:min-h-[380px] lg:rounded-r-[48%] lg:rounded-b-none">
+                <div className="bg-about-mint min-h-52 overflow-hidden rounded-b-[48%] sm:min-h-64 lg:min-h-[380px] lg:rounded-r-[48%] lg:rounded-b-none">
                   <img
                     src={founderPortrait}
                     alt="Керималиева Жыпар Абдыказиевна — основательница сети клиник «Авиценна»"
