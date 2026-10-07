@@ -215,10 +215,9 @@ const CLINIC_STATS = [
   { value: "146", label: "видов УЗИ", icon: Waves },
 ];
 
-const OFFER_CARDS = [
+const OFFER_CARDS: OfferItem[] = [
   {
     tag: "Акция",
-    tagTone: "bg-brand-red",
     title: "Сомнография",
     description: "Консультация + диагностика на сомнографе со скидкой",
     price: "3 700 с",
@@ -229,7 +228,6 @@ const OFFER_CARDS = [
   },
   {
     tag: "Спецпредложение",
-    tagTone: "bg-brand-green",
     title: "Счастливые часы",
     description: "Пройдите чекап утром и получите дополнительную скидку 10%",
     href: "/checkups",
@@ -238,7 +236,6 @@ const OFFER_CARDS = [
   },
   {
     tag: "Новость",
-    tagTone: "bg-foreground/60",
     title: "Услуги на дому",
     description: "Врач, анализы и процедуры без выезда в клинику",
     href: "/uslugi/analizy",
@@ -247,7 +244,6 @@ const OFFER_CARDS = [
   },
   {
     tag: "Спецпредложение",
-    tagTone: "bg-brand-green",
     title: "Бесплатная консультация хирурга",
     description: "Разбор анализов и плана операции без оплаты приёма",
     href: "/hirurgiya",
